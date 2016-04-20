@@ -35,6 +35,10 @@ public class Video {
         super();
     }
 
+    public Video(String videoUrl, List<String> thumbnails) {
+        this("Unknown", "", null, thumbnails, videoUrl);
+    }
+
     public Video(String title, String description, User owner, List<String> thumbnails, String videoUrl) {
         super();
         this.title = title;
