@@ -1,33 +1,16 @@
-<div class="videoWrap">test</div>
 <div class="title">
 	<h3>{{video.title}}</h3>
 	<ul>
-		<li><h4>By:</h4></li>
-		<li><a href="#">{{video.owner.name}}</a></li>
+		<li><h4>By: {{video.owner.name}}</h4></li>
 	</ul>
 </div>
 <div class="video-inner">
 	<video ng-src="{{video.videoUrl}}"
-				ng-attr-poster="{{video.thumbnails[0]}}" controls="controls"></video>
-</div>
-<div class="viwes">
-	<div class="view-links">
-		<ul>
-			<li><h4>Share on:</h4></li>
-			<li><a href="#"><img src="../images/f1.png" title="facebook" /></a></li>
-			<li><a href="#"><img src="../images/t1.png" title="Twitter" /></a></li>
-			<li><a href="#"><img src="../images/s1.png" title="Google+" /></a></li>
-		</ul>
-	</div>
+		ng-attr-poster="{{video.thumbnails[0]}}" controls="controls"></video>
 </div>
 <div class="clear"></div>
 <div class="video-details">
 	<ul>
-		<li><span>{{video.description}}</span></li>
-	</ul>
-	<ul class="other-links">
-		<li><a href="#">youtube.com/videos-tube</a></li>
-		<li><a href="#">facebook.com/videos-tube</a></li>
-		<li><a href="#">Twitter.com/videos-tube</a></li>
+		<li><span>Description: {{video.description}}</span></li>
 	</ul>
 </div>

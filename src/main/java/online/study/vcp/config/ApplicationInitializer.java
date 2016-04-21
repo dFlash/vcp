@@ -16,41 +16,42 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
 /**
+ * Servlet application initializer that uses instead of web.xml
  * 
- * @author devstudy
- * @see http://devstudy.net
+ * @author DMaliavin
+ * @since 0.0.1
  */
 public class ApplicationInitializer implements WebApplicationInitializer {
 
-	@Override
-	public void onStartup(ServletContext container) throws ServletException {
-		WebApplicationContext ctx = createWebApplicationContext(container);
+    @Override
+    public void onStartup(ServletContext container) throws ServletException {
+        WebApplicationContext ctx = createWebApplicationContext(container);
 
-		container.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
-		container.addListener(new ContextLoaderListener(ctx));
+        container.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
+        container.addListener(new ContextLoaderListener(ctx));
 
-		registerFilters(container);
-		registerDispatcherServlet(container, ctx);
-	}
-	
-	private WebApplicationContext createWebApplicationContext(ServletContext container) {
-		AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-		ctx.scan("online.study.vcp.config");
-		ctx.setServletContext(container);
-		ctx.refresh();
-		return ctx;
-	}
+        registerFilters(container);
+        registerDispatcherServlet(container, ctx);
+    }
 
-	private void registerFilters(ServletContext container) {
-		FilterRegistration.Dynamic fr = container.addFilter("encodingFilter", new CharacterEncodingFilter());
-		fr.setInitParameter("encoding", "UTF-8");
-		fr.setInitParameter("forceEncoding", "true");
-		fr.addMappingForUrlPatterns(null, true, "/*");
-	}
+    private WebApplicationContext createWebApplicationContext(ServletContext container) {
+        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+        ctx.scan("online.study.vcp.config");
+        ctx.setServletContext(container);
+        ctx.refresh();
+        return ctx;
+    }
 
-	private void registerDispatcherServlet(ServletContext container, WebApplicationContext ctx) {
-		ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
-		servlet.setLoadOnStartup(1);
-		servlet.addMapping("/");
-	}
+    private void registerFilters(ServletContext container) {
+        FilterRegistration.Dynamic fr = container.addFilter("encodingFilter", new CharacterEncodingFilter());
+        fr.setInitParameter("encoding", "UTF-8");
+        fr.setInitParameter("forceEncoding", "true");
+        fr.addMappingForUrlPatterns(null, true, "/*");
+    }
+
+    private void registerDispatcherServlet(ServletContext container, WebApplicationContext ctx) {
+        ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
+        servlet.setLoadOnStartup(1);
+        servlet.addMapping("/");
+    }
 }

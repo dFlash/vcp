@@ -10,6 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
+ * Configuration for services
  * 
  * @author DMaliavin
  * @since 0.0.1

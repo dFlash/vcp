@@ -5,9 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -25,31 +24,56 @@ import org.springframework.stereotype.Service;
 import online.study.vcp.exception.ApplicationException;
 import online.study.vcp.service.ThumbnailService;
 
+/**
+ * Service which creates thumbnails for existing video
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Service
 public class FileStorageThumbnailService implements ThumbnailService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageThumbnailService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageThumbnailService.class);
 
-    @Value("${media.dir}")
-    private String mediaDir;
+	@Value("${media.dir}")
+	private String mediaDir;
 
-    @Override
-    public List<String> createThumbnails(Path videoFilePath) {
-        try {
-            List<String> thumbnails = new ArrayList<String>();
-            FrameGrab grab = new FrameGrab(new FileChannelWrapper(FileChannel.open(videoFilePath)));
-            for (int i = 0; i < 1; i++) {
-                Picture nativeFrame = grab.seekToSecondPrecise(new Random().nextInt(25)).getNativeFrame();
-                if (nativeFrame != null) {
-                    BufferedImage img = AWTUtil.toBufferedImage(nativeFrame);
-                    String uid = UUID.randomUUID() + ".jpg";
-                    ImageIO.write(img, "jpg", new File(mediaDir + "/thumbnails", uid));
-                    thumbnails.add("/media/thumbnails/" + uid);
-                }
-            }
-            LOGGER.info("Created {} thumbnails for video {}", thumbnails.size(), videoFilePath.getFileName());
-            return thumbnails;
-        } catch (IOException | JCodecException e) {
-            throw new ApplicationException("create thumbnails failed: " + e.getMessage(), e);
-        }
-    }
+	@Override
+	public List<String> createThumbnails(Path videoFilePath) {
+		try {
+			return createThumbnailsInternal(videoFilePath);
+		} catch (IOException | JCodecException e) {
+			throw new ApplicationException("create thumbnails failed: " + e.getMessage(), e);
+		}
+	}
+	
+	private List<String> createThumbnailsInternal(Path videoFilePath) throws IOException, JCodecException {
+		String thumbnail = createThumbnail(videoFilePath);
+		List<String> thumbnails = Collections.singletonList(thumbnail);
+		LOGGER.info("Created {} thumbnails for video {}", thumbnails.size(), videoFilePath.getFileName());
+		return thumbnails;
+	}
+
+	private String createThumbnail(Path videoFilePath) throws IOException, JCodecException {
+		Picture nativeFrame = getVideoFrameBySecondPrecise(videoFilePath, 10);
+		if (nativeFrame == null) {
+			throw new ApplicationException("Can't create thumbnail for file: " + videoFilePath.getFileName());
+		}
+		String uniquieThumbnailFileName = generateUniquieThumbnailFileName();
+		savePictureToDisk(nativeFrame, uniquieThumbnailFileName);
+		return "/media/thumbnails/" + uniquieThumbnailFileName;
+	}
+
+	private Picture getVideoFrameBySecondPrecise(Path videoFilePath, double secondPrecise) throws IOException, JCodecException {
+		FrameGrab grab = new FrameGrab(new FileChannelWrapper(FileChannel.open(videoFilePath)));
+		return grab.seekToSecondPrecise(secondPrecise).getNativeFrame();
+	}
+
+	private void savePictureToDisk(Picture nativeFrame, String uniquieThumbnailFileName) throws IOException {
+		BufferedImage img = AWTUtil.toBufferedImage(nativeFrame);
+		ImageIO.write(img, "jpg", new File(mediaDir + "/thumbnails", uniquieThumbnailFileName));
+	}
+
+	private String generateUniquieThumbnailFileName() {
+		return UUID.randomUUID() + ".jpg";
+	}
 }

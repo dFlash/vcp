@@ -9,6 +9,12 @@ import online.study.vcp.domain.Video;
 import online.study.vcp.repository.storage.VideoRepository;
 import online.study.vcp.service.CommonService;
 
+/**
+ * Common service
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Service
 public class CommonServiceImpl implements CommonService {
 

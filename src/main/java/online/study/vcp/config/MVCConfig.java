@@ -11,12 +11,18 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**
+ * Configuration web support
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Configuration
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @ComponentScan({ "online.study.vcp.controller" })
 public class MVCConfig extends WebMvcConfigurerAdapter {
-    
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
@@ -24,7 +30,7 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/favicon.ico").addResourceLocations("/favicon.ico");
         registry.addResourceHandler("/index.html").addResourceLocations("/index.html");
     }
-    
+
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
         messageConverters.add(new MappingJackson2HttpMessageConverter());

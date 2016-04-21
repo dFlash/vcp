@@ -30,6 +30,12 @@ import online.study.vcp.domain.Video;
 import online.study.vcp.exception.ApplicationException;
 import online.study.vcp.service.VideoService;
 
+/**
+ * Service which creates test data in DB if it is necessary
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Service
 public class CreateTestDataService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateTestDataService.class);
@@ -50,30 +56,36 @@ public class CreateTestDataService {
 
     @PostConstruct
     public void createTestDataIfNecessary() {
-        String reason = "mongo.recreate.db=true";
-        boolean createTestData = mondoRecreateDb;
-        if (!createTestData) {
-            if (!mongoTemplate.collectionExists(Company.class)) {
-                createTestData = true;
-                reason = "Collection company not found";
-            } else if (!mongoTemplate.collectionExists(User.class)) {
-                createTestData = true;
-                reason = "Collection user not found";
-            } else if (!mongoTemplate.collectionExists(Video.class)) {
-                createTestData = true;
-                reason = "Collection video not found";
-            }
-        }
+        boolean createTestData = needCreateTestData();
         if (createTestData) {
-            LOGGER.info("Detected create test data command: " + reason);
             createTestData();
         } else {
             LOGGER.info("Mongo db exists");
         }
     }
 
+    private boolean needCreateTestData() {
+        boolean createTestData = mondoRecreateDb;
+
+        if (!createTestData) {
+            if (!mongoTemplate.collectionExists(Company.class)) {
+                createTestData = true;
+                LOGGER.info("Collection company not found");
+            } else if (!mongoTemplate.collectionExists(User.class)) {
+                createTestData = true;
+                LOGGER.info("Collection user not found");
+            } else if (!mongoTemplate.collectionExists(Video.class)) {
+                createTestData = true;
+                LOGGER.info("Collection video not found");
+            }
+        }
+        return createTestData;
+    }
+
     private void createTestData() {
+
         clearMediaSubFolders();
+
         clearCollections();
 
         List<Company> companies = buildCompanies();
@@ -113,7 +125,6 @@ public class CreateTestDataService {
     }
 
     private List<User> buildUsers(List<Company> companies) {
-        // http://uifaces.com/
         List<User> users = Arrays.asList(
                 new User("Tim", "Roberts", "tim", "tim@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
                         "https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg"),

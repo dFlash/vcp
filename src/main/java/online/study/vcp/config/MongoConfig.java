@@ -10,6 +10,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 import com.mongodb.MongoClient;
 
+/**
+ * Configuration for connection to mongo db
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Configuration
 @EnableMongoRepositories("online.study.vcp.repository.storage")
 public class MongoConfig {
@@ -20,12 +26,12 @@ public class MongoConfig {
     @Value("${mongo.port}")
     private int mongoPort;
 
-    public @Bean MongoClient mongo() throws UnknownHostException {
+    public @Bean MongoClient mongoClient() throws UnknownHostException {
         return new MongoClient("localhost", mongoPort);
     }
 
     public @Bean MongoTemplate mongoTemplate(@Value("${mongo.db}") String mongoDb) throws Exception {
-        MongoTemplate mongoTemplate = new MongoTemplate(mongo(), mongoDb);
+        MongoTemplate mongoTemplate = new MongoTemplate(mongoClient(), mongoDb);
         return mongoTemplate;
     }
 

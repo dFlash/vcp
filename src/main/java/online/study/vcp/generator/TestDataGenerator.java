@@ -32,6 +32,7 @@ import online.study.vcp.domain.Company;
 import online.study.vcp.domain.User;
 import online.study.vcp.domain.Video;
 
+@Deprecated
 public class TestDataGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestDataGenerator.class);
     private static final String[] VIDEO_LINKS = {
@@ -92,7 +93,6 @@ public class TestDataGenerator {
     }
 
     private static List<User> buildUsers(List<Company> companies) {
-        // http://uifaces.com/
         return Arrays.asList(
                 new User("Tim", "Roberts", "tim", "tim@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
                         "https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg"),

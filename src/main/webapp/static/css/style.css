@@ -424,7 +424,7 @@ body {
 .title h3, .title h4 {
 	font-size: 1.2em;
 	font-family: 'Ropa Sans', sans-serif;
-	padding: 10px 0px 6px 0px;
+	padding: 10px 50% 6px 50%;
 	color: rgb(155, 155, 155);
 }
 
@@ -528,7 +528,7 @@ body {
 }
 
 .video-details ul {
-	padding: 10px 0px;
+	padding: 10px 10px 6px 10px;
 }
 
 .video-details p a {
@@ -596,8 +596,8 @@ body {
 }
 
 .video-inner {
-	position: relative;
-	width: 97.3%;
+	width: 100%;
+	padding: 15px 60% 10px 40%;
 }
 /*---categories----*/
 /*----sidebar----*/

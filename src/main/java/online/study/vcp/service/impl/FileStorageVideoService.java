@@ -18,28 +18,46 @@ import online.study.vcp.exception.ApplicationException;
 import online.study.vcp.service.ThumbnailService;
 import online.study.vcp.service.VideoService;
 
+/**
+ * Service which processes video
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Service
 public class FileStorageVideoService implements VideoService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageVideoService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageVideoService.class);
 
-    @Autowired
-    private ThumbnailService thumbnailService;
+	@Autowired
+	private ThumbnailService thumbnailService;
 
-    @Value("${media.dir}")
-    private String mediaDir;
+	@Value("${media.dir}")
+	private String mediaDir;
 
-    @Override
-    public Video processVideo(MultipartFile videoFile) {
-        try {
-            String uid = UUID.randomUUID() + ".mp4";
-            Path videoFilePath = Paths.get(mediaDir + "/video/" + uid);
-            videoFile.transferTo(videoFilePath.toFile());
-            List<String> thumbnails = thumbnailService.createThumbnails(videoFilePath);
-            LOGGER.info("new video successful uploaded: {}", videoFilePath.getFileName());
-            return new Video("/media/video/" + uid, thumbnails);
-        } catch (IOException e) {
-            throw new ApplicationException("save video failed: " + e.getMessage(), e);
-        }
-    }
+	@Override
+	public Video processVideo(MultipartFile videoFile) {
+		try {
+			return processVideoInternal(videoFile);
+		} catch (IOException e) {
+			throw new ApplicationException("save video failed: " + e.getMessage(), e);
+		}
+	}
+	
+	private Video processVideoInternal(MultipartFile multipartVideoFile) throws IOException {
+		String uniqueVideoFileName = generateUniquieVideoFileName();
+		Path videoFilePath = saveMultipartFile(multipartVideoFile, uniqueVideoFileName);
+		List<String> thumbnails = thumbnailService.createThumbnails(videoFilePath);
+		LOGGER.info("new video successful uploaded: {}", videoFilePath.getFileName());
+		return new Video("/media/video/"+uniqueVideoFileName, thumbnails);
+	}
+	
+	private Path saveMultipartFile(MultipartFile multipartVideoFile, String uniqueVideoFileName) throws IOException {
+		Path videoFilePath = Paths.get(mediaDir+"/video/"+uniqueVideoFileName);
+		multipartVideoFile.transferTo(videoFilePath.toFile());
+		return videoFilePath;
+	}
 
+	private String generateUniquieVideoFileName() {
+		return UUID.randomUUID()+".mp4";
+	}
 }
