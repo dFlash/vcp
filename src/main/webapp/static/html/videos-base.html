@@ -1,0 +1,26 @@
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6 col-md-4" ng-repeat="video in videosPage.content">
+			<div class="thumbnail">
+				<div class="embed-responsive embed-responsive-16by9">
+					<img ng-src="{{video.thumbnails[0]}}"></img>
+				</div>
+				<div class="caption">
+					<div class="media">
+						<div class="media-left">
+							<img class="media-object small-avatar thumbnail" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" ng-src="{{video.owner.avatar}}" alt="avatar">
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">{{video.owner.name}}</h4>
+							<p>{{video.description}}</p>
+						</div>
+					</div>
+					<hr/>
+					<p class="text-center">
+						<a ng-href="#/video/{{video.id}}" class="btn btn-primary" role="button">Preview</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

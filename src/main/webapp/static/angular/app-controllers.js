@@ -2,20 +2,20 @@ angular.module('app-controllers', ['ngRoute'])
 .config(function($routeProvider){
     $routeProvider.when('/videos', {
         templateUrl: 'static/html/videos.html', 
-        controller:'videoController' 
+        controller:'videoListController' 
     });
     $routeProvider.when('/video/:videoId', {
         templateUrl: 'static/html/video.html', 
-        controller:'currVideoController' 
+        controller:'videoController' 
     });
     $routeProvider.otherwise({redirectTo:'videos'});
 })
-.controller('videoController', ['$scope', 'videoService', function($scope, videoService){
-	$scope.videosPage = videoService.listAll();
+.controller('videoListController', ['$scope', 'videoListService', function($scope, videoListService){
+	$scope.videosPage = videoListService.listAll();
 	}
 ])
-.controller('currVideoController', ['$scope', '$routeParams', function($scope, $routeParams){
-	$scope.products = productService.getProducts();
-	$scope.currVideo = allVideos.content[$routeParams.videoId];
-}
+.controller('videoController', ['$scope', 'videoService', '$routeParams',
+    function($scope, videoService, $routeParams){
+		$scope.video = videoService.getVideo($routeParams.videoId);
+	}
 ]);

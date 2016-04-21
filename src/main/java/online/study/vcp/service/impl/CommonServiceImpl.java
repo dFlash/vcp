@@ -20,4 +20,9 @@ public class CommonServiceImpl implements CommonService {
         return videoRepository.findAll(pageable);
     }
 
+    @Override
+    public Video getVideo(String id) {
+        return videoRepository.findOne(id);
+    }
+
 }
