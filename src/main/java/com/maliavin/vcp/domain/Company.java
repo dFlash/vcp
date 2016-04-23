@@ -1,4 +1,4 @@
-package online.study.vcp.domain;
+package com.maliavin.vcp.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -16,15 +16,15 @@ public class Company {
     @Id
     private String id;
 
-    @Indexed(unique = true, name = "company_name")
+    @Indexed(unique = true, name = "name")
     private String name;
 
     private String address;
 
-    @Indexed(unique = true, name = "company_contactEmail")
+    @Indexed(unique = true, name = "contactEmail")
     private String contactEmail;
 
-    @Indexed(unique = true, name = "company_phone")
+    @Indexed(unique = true, name = "phone")
     private String phone;
 
     public Company() {

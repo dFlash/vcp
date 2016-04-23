@@ -1,6 +1,4 @@
-package online.study.vcp.domain;
-
-import java.util.List;
+package com.maliavin.vcp.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -26,7 +24,7 @@ public class Video {
     @DBRef(lazy = true)
     private User owner;
 
-    private List<String> thumbnails;
+    private String thumbnail;
 
     @Field("video-url")
     private String videoUrl;
@@ -35,16 +33,16 @@ public class Video {
         super();
     }
 
-    public Video(String videoUrl, List<String> thumbnails) {
-        this("Unknown", "", null, thumbnails, videoUrl);
+    public Video(String videoUrl, String thumbnail) {
+        this("Unknown", "", null, thumbnail, videoUrl);
     }
 
-    public Video(String title, String description, User owner, List<String> thumbnails, String videoUrl) {
+    public Video(String title, String description, User owner, String thumbnail, String videoUrl) {
         super();
         this.title = title;
         this.description = description;
         this.owner = owner;
-        this.thumbnails = thumbnails;
+        this.thumbnail = thumbnail;
         this.videoUrl = videoUrl;
     }
 
@@ -80,12 +78,12 @@ public class Video {
         this.owner = owner;
     }
 
-    public List<String> getThumbnails() {
-        return thumbnails;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setThumbnails(List<String> thumbnails) {
-        this.thumbnails = thumbnails;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getVideoUrl() {
@@ -99,7 +97,7 @@ public class Video {
     @Override
     public String toString() {
         return "Video [id=" + id + ", title=" + title + ", description=" + description + ", owner=" + owner
-                + ", thumbnails=" + thumbnails + ", videoUrl=" + videoUrl + "]";
+                + ", thumbnail=" + thumbnail + ", videoUrl=" + videoUrl + "]";
     }
 
 }

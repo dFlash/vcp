@@ -1,4 +1,4 @@
-package online.study.vcp.service.impl;
+package com.maliavin.vcp.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,11 +24,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import online.study.vcp.domain.Company;
-import online.study.vcp.domain.User;
-import online.study.vcp.domain.Video;
-import online.study.vcp.exception.ApplicationException;
-import online.study.vcp.service.VideoService;
+import com.maliavin.vcp.domain.Company;
+import com.maliavin.vcp.domain.User;
+import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.exception.ApplicationException;
+import com.maliavin.vcp.service.VideoService;
 
 /**
  * Service which creates test data in DB if it is necessary
@@ -127,11 +127,11 @@ public class CreateTestDataService {
     private List<User> buildUsers(List<Company> companies) {
         List<User> users = Arrays.asList(
                 new User("Tim", "Roberts", "tim", "tim@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg"),
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg", "User"),
                 new User("Max", "Pane", "max", "max@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/emirik/128.jpg"),
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/emirik/128.jpg", "User"),
                 new User("Robert", "Dann", "rob", "robert@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/andyvitale/128.jpg"));
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/andyvitale/128.jpg", "User"));
         for (User user : users) {
             mongoTemplate.insert(user);
         }

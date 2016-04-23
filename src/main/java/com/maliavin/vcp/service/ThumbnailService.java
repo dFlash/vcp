@@ -1,7 +1,6 @@
-package online.study.vcp.service;
+package com.maliavin.vcp.service;
 
 import java.nio.file.Path;
-import java.util.List;
 
 /**
  * Thumbnail service interface
@@ -11,5 +10,5 @@ import java.util.List;
  */
 public interface ThumbnailService {
 
-    List<String> createThumbnails(Path videoFilePath);
+    String createThumbnail(Path videoFilePath);
 }

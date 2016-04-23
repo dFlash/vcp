@@ -1,9 +1,9 @@
-package online.study.vcp.service;
+package com.maliavin.vcp.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import online.study.vcp.domain.Video;
+import com.maliavin.vcp.domain.Video;
 
 /**
  * Common service interface
@@ -15,7 +15,7 @@ public interface CommonService {
 
     Page<Video> listAllVideos(Pageable pageable);
 
-    long getVideosCount();
+    long getPagesCount(int elementsPerPage);
 
     Video getVideo(String id);
 

@@ -1,4 +1,4 @@
-package online.study.vcp.domain;
+package com.maliavin.vcp.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -21,10 +21,10 @@ public class User {
 
     private String surname;
 
-    @Indexed(unique = true, name = "user_login")
+    @Indexed(unique = true, name = "login")
     private String login;
 
-    @Indexed(unique = true, name = "user_email")
+    @Indexed(unique = true, name = "email")
     private String email;
 
     @DBRef(lazy = true)
@@ -32,11 +32,13 @@ public class User {
 
     private String avatar;
 
+    private String role;
+
     public User() {
         super();
     }
 
-    public User(String name, String surname, String login, String email, Company company, String avatar) {
+    public User(String name, String surname, String login, String email, Company company, String avatar, String role) {
         super();
         this.name = name;
         this.surname = surname;
@@ -44,6 +46,7 @@ public class User {
         this.email = email;
         this.userCompany = company;
         this.avatar = avatar;
+        this.role = role;
     }
 
     public String getId() {
@@ -102,10 +105,18 @@ public class User {
         this.avatar = avatar;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", name=" + name + ", surname=" + surname + ", login=" + login + ", email=" + email
-                + ", company=" + userCompany + ", avatar=" + avatar + "]";
+                + ", company=" + userCompany + ", avatar=" + avatar + ", role=" + role + "]";
     }
 
 }

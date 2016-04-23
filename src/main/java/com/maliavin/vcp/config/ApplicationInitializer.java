@@ -1,4 +1,4 @@
-package online.study.vcp.config;
+package com.maliavin.vcp.config;
 
 import java.util.EnumSet;
 
@@ -36,7 +36,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
     private WebApplicationContext createWebApplicationContext(ServletContext container) {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-        ctx.scan("online.study.vcp.config");
+        ctx.scan("com.maliavin.vcp.config");
         ctx.setServletContext(container);
         ctx.refresh();
         return ctx;

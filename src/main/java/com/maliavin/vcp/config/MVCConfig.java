@@ -1,4 +1,4 @@
-package online.study.vcp.config;
+package com.maliavin.vcp.config;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @EnableWebMvc
 @EnableSpringDataWebSupport
-@ComponentScan({ "online.study.vcp.controller" })
+@ComponentScan({ "com.maliavin.vcp.controller" })
 public class MVCConfig extends WebMvcConfigurerAdapter {
 
     @Override

@@ -1,13 +1,13 @@
-package online.study.vcp.service.impl;
+package com.maliavin.vcp.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import online.study.vcp.domain.Video;
-import online.study.vcp.repository.storage.VideoRepository;
-import online.study.vcp.service.CommonService;
+import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.repository.storage.VideoRepository;
+import com.maliavin.vcp.service.CommonService;
 
 /**
  * Common service
@@ -27,8 +27,10 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    public long getVideosCount() {
-        return videoRepository.count();
+    public long getPagesCount(int elementsPerPage) {
+        long videosCount = videoRepository.count();
+        long pagesCount = (long) Math.ceil(videosCount / elementsPerPage);
+        return pagesCount;
     }
 
     @Override

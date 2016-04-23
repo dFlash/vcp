@@ -1,4 +1,4 @@
-package online.study.vcp.config;
+package com.maliavin.vcp.config;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import org.springframework.core.io.Resource;
  * @since 0.0.1
  */
 @Configuration
-@ComponentScan({ "online.study.vcp.service.impl" })
+@ComponentScan({ "com.maliavin.vcp.service.impl" })
 public class ServiceConfig {
 
     @Bean

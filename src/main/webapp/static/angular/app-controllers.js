@@ -10,10 +10,10 @@ angular.module('app-controllers', ['ngRoute'])
     });
     $routeProvider.otherwise({redirectTo:'videos/0'});
 })
-.controller('videoListController', ['$scope', 'videoListService', '$routeParams', function($scope, videoListService, $routeParams){
-	$scope.pagesCount = videoListService.getPagesCount();
+.controller('videoListController', ['$scope', 'videoService', '$routeParams', function($scope, videoService, $routeParams){
+	$scope.pagesCount = videoService.getPagesCount();
 	$scope.currentPage = $routeParams.pageNum;
-	$scope.videosPage = videoListService.listAll($scope.currentPage);
+	$scope.videosPage = videoService.listAll($scope.currentPage);
 	
 	$scope.range = function(min, max, step) {
 		step = step || 1;

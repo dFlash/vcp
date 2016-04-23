@@ -1,4 +1,4 @@
-package online.study.vcp.exception;
+package com.maliavin.vcp.exception;
 
 /**
  * Custom application exception

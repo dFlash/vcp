@@ -1,9 +1,8 @@
-package online.study.vcp.service.impl;
+package com.maliavin.vcp.service.impl;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -13,10 +12,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import online.study.vcp.domain.Video;
-import online.study.vcp.exception.ApplicationException;
-import online.study.vcp.service.ThumbnailService;
-import online.study.vcp.service.VideoService;
+import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.exception.ApplicationException;
+import com.maliavin.vcp.service.ThumbnailService;
+import com.maliavin.vcp.service.VideoService;
 
 /**
  * Service which processes video
@@ -46,9 +45,9 @@ public class FileStorageVideoService implements VideoService {
 	private Video processVideoInternal(MultipartFile multipartVideoFile) throws IOException {
 		String uniqueVideoFileName = generateUniquieVideoFileName();
 		Path videoFilePath = saveMultipartFile(multipartVideoFile, uniqueVideoFileName);
-		List<String> thumbnails = thumbnailService.createThumbnails(videoFilePath);
+		String thumbnail = thumbnailService.createThumbnail(videoFilePath);
 		LOGGER.info("new video successful uploaded: {}", videoFilePath.getFileName());
-		return new Video("/media/video/"+uniqueVideoFileName, thumbnails);
+		return new Video("/media/video/"+uniqueVideoFileName, thumbnail);
 	}
 	
 	private Path saveMultipartFile(MultipartFile multipartVideoFile, String uniqueVideoFileName) throws IOException {

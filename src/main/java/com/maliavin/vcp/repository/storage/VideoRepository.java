@@ -1,8 +1,8 @@
-package online.study.vcp.repository.storage;
+package com.maliavin.vcp.repository.storage;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import online.study.vcp.domain.Video;
+import com.maliavin.vcp.domain.Video;
 /**
  * DAO for entity Video 
  * 

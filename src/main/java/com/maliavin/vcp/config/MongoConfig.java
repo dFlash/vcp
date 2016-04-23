@@ -1,4 +1,4 @@
-package online.study.vcp.config;
+package com.maliavin.vcp.config;
 
 import java.net.UnknownHostException;
 
@@ -17,7 +17,7 @@ import com.mongodb.MongoClient;
  * @since 0.0.1
  */
 @Configuration
-@EnableMongoRepositories("online.study.vcp.repository.storage")
+@EnableMongoRepositories("com.maliavin.vcp.repository.storage")
 public class MongoConfig {
 
     @Value("${mongo.host}")

@@ -1,8 +1,8 @@
-package online.study.vcp.service;
+package com.maliavin.vcp.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import online.study.vcp.domain.Video;
+import com.maliavin.vcp.domain.Video;
 
 /**
  * Video service interface

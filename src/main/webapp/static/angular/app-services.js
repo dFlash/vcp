@@ -1,5 +1,5 @@
 angular.module('app-services', ['ngResource'])
-.service("videoListService", ['$resource', function($resource) {
+.service("videoService", ['$resource', function($resource) {
 	return {
 		listAll : function (pageNum){
 			var url = '/videos/' + pageNum;
@@ -8,13 +8,9 @@ angular.module('app-services', ['ngResource'])
 		getPagesCount: function()
 		{
 			return $resource('/pagesCount').get();
-		}
-	}
-}])
-.service("videoService", ['$resource', function($resource) {
-	return {
+		},
 		getVideo : function (videoId){
-			var url = '/video?id='+videoId;
+			var url = '/video/'+videoId;
 			return $resource(url).get();
 		}
 	}
