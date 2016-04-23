@@ -27,6 +27,11 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
+    public long getVideosCount() {
+        return videoRepository.count();
+    }
+
+    @Override
     public Video getVideo(String id) {
         return videoRepository.findOne(id);
     }

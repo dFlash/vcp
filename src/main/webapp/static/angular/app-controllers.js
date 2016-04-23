@@ -1,6 +1,6 @@
 angular.module('app-controllers', ['ngRoute'])
 .config(function($routeProvider){
-    $routeProvider.when('/videos', {
+    $routeProvider.when('/videos/:pageNum', {
         templateUrl: 'static/html/videos.html', 
         controller:'videoListController' 
     });
@@ -8,10 +8,21 @@ angular.module('app-controllers', ['ngRoute'])
         templateUrl: 'static/html/video.html', 
         controller:'videoController' 
     });
-    $routeProvider.otherwise({redirectTo:'videos'});
+    $routeProvider.otherwise({redirectTo:'videos/0'});
 })
-.controller('videoListController', ['$scope', 'videoListService', function($scope, videoListService){
-	$scope.videosPage = videoListService.listAll();
+.controller('videoListController', ['$scope', 'videoListService', '$routeParams', function($scope, videoListService, $routeParams){
+	$scope.pagesCount = videoListService.getPagesCount();
+	$scope.currentPage = $routeParams.pageNum;
+	$scope.videosPage = videoListService.listAll($scope.currentPage);
+	
+	$scope.range = function(min, max, step) {
+		step = step || 1;
+		var input = [];
+		for (var i = min; i <= max; i += step) {
+			input.push(i);
+		}
+	 	return input;
+	};
 	}
 ])
 .controller('videoController', ['$scope', 'videoService', '$routeParams',
