@@ -11,7 +11,6 @@ angular.module('app-controllers', ['ngRoute'])
     $routeProvider.otherwise({redirectTo:'videos/0'});
 })
 .controller('videoListController', ['$scope', 'videoService', '$routeParams', function($scope, videoService, $routeParams){
-	$scope.pagesCount = videoService.getPagesCount();
 	$scope.currentPage = $routeParams.pageNum;
 	$scope.videosPage = videoService.listAll($scope.currentPage);
 	

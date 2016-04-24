@@ -15,8 +15,6 @@ public interface CommonService {
 
     Page<Video> listAllVideos(Pageable pageable);
 
-    long getPagesCount(int elementsPerPage);
-
     Video getVideo(String id);
 
 }

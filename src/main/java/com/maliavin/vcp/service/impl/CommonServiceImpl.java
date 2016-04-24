@@ -27,13 +27,6 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    public long getPagesCount(int elementsPerPage) {
-        long videosCount = videoRepository.count();
-        long pagesCount = (long) Math.ceil(videosCount / elementsPerPage);
-        return pagesCount;
-    }
-
-    @Override
     public Video getVideo(String id) {
         return videoRepository.findOne(id);
     }
