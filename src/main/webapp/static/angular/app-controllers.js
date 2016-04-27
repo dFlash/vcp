@@ -1,4 +1,4 @@
-angular.module('app-controllers', ['ngRoute'])
+angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 .config(function($routeProvider){
     $routeProvider.when('/videos/:pageNum', {
         templateUrl: 'static/html/videos.html', 
@@ -7,6 +7,10 @@ angular.module('app-controllers', ['ngRoute'])
     $routeProvider.when('/video/:videoId', {
         templateUrl: 'static/html/video.html', 
         controller:'videoController' 
+    });
+    $routeProvider.when('/upload', {
+        templateUrl: 'static/html/upload.html', 
+        controller:'videoUploadController' 
     });
     $routeProvider.otherwise({redirectTo:'videos/0'});
 })
@@ -28,4 +32,25 @@ angular.module('app-controllers', ['ngRoute'])
     function($scope, videoService, $routeParams){
 		$scope.video = videoService.getVideo($routeParams.videoId);
 	}
-]);
+])
+.controller('videoUploadController', ['$scope', '$http', function ($scope, $http) {
+    $scope.uploadVideo = function() {
+    	console.log($scope.title);
+    	console.log($scope.description);
+    	$scope.response = {};
+    	var uploadForm = new FormData();
+    	uploadForm.append('title', $scope.title);
+    	uploadForm.append('description', $scope.description);
+    	uploadForm.append('file', $scope.videoFile);
+    	$http.post('/upload', uploadForm, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(response){
+        	$scope.response = response;
+        })
+        .error(function(){
+        });
+        }
+
+    }]);

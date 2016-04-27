@@ -1,8 +1,10 @@
 package com.maliavin.vcp.service;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Path;
 
-import com.maliavin.vcp.domain.Video;
+import javax.annotation.Nonnull;
+
+import com.maliavin.vcp.exception.CantProcessMediaContentException;
 
 /**
  * Video service interface
@@ -12,5 +14,6 @@ import com.maliavin.vcp.domain.Video;
  */
 public interface VideoService {
 
-    Video processVideo(MultipartFile videoFile);
+    @Nonnull
+    String saveVideo(@Nonnull Path tempFilePath) throws CantProcessMediaContentException;
 }

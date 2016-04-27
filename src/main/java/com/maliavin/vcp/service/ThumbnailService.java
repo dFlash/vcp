@@ -2,6 +2,10 @@ package com.maliavin.vcp.service;
 
 import java.nio.file.Path;
 
+import javax.annotation.Nonnull;
+
+import com.maliavin.vcp.exception.CantProcessMediaContentException;
+
 /**
  * Thumbnail service interface
  * 
@@ -10,5 +14,6 @@ import java.nio.file.Path;
  */
 public interface ThumbnailService {
 
-    String createThumbnail(Path videoFilePath);
+    @Nonnull
+    byte[] createThumbnail(@Nonnull Path videoFilePath) throws CantProcessMediaContentException;
 }

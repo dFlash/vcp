@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -16,7 +17,8 @@ import org.springframework.core.io.Resource;
  * @since 0.0.1
  */
 @Configuration
-@ComponentScan({ "com.maliavin.vcp.service.impl" })
+@ComponentScan({ "com.maliavin.vcp.service.impl", "com.maliavin.vcp.component"})
+@EnableAspectJAutoProxy
 public class ServiceConfig {
 
     @Bean

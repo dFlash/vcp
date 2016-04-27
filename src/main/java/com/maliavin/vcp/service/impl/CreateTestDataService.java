@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +29,8 @@ import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.exception.ApplicationException;
+import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.service.UserService;
 import com.maliavin.vcp.service.VideoService;
 
 /**
@@ -46,7 +49,7 @@ public class CreateTestDataService {
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    private VideoService videoService;
+    private UserService userService;
 
     @Value("${media.dir}")
     private String mediaDir;
@@ -144,8 +147,10 @@ public class CreateTestDataService {
         List<Video> videos = new ArrayList<Video>();
         int index = 1;
         for (String videoLink : videoLinks) {
-            Video video = videoService.processVideo(new URLMultipartFile(videoLink));
-            video.setOwner(users.get(RANDOM.nextInt(users.size())));
+            User user = users.get(RANDOM.nextInt(users.size()));
+            Video video = userService.uploadVideo(user,
+                    new UploadForm("Video" + index, null, new URLMultipartFile(videoLink)));
+            video.setOwner(user);
             videos.add(video);
             LOGGER.info("Video {} processed", index++);
         }
@@ -214,7 +219,7 @@ public class CreateTestDataService {
         @Override
         public void transferTo(File dest) throws IOException, IllegalStateException {
             try (InputStream in = new URL(url).openStream()) {
-                Files.copy(in, Paths.get(dest.getAbsolutePath()));
+                Files.copy(in, Paths.get(dest.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
             }
         }
     }
