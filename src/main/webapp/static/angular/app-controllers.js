@@ -33,24 +33,23 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 		$scope.video = videoService.getVideo($routeParams.videoId);
 	}
 ])
-.controller('videoUploadController', ['$scope', '$http', function ($scope, $http) {
+.controller('videoUploadController', ['$scope', 'videoService', '$location', function ($scope, videoService, $location) {
     $scope.uploadVideo = function() {
-    	console.log($scope.title);
-    	console.log($scope.description);
-    	$scope.response = {};
     	var uploadForm = new FormData();
     	uploadForm.append('title', $scope.title);
     	uploadForm.append('description', $scope.description);
     	uploadForm.append('file', $scope.videoFile);
-    	$http.post('/upload', uploadForm, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        })
-        .success(function(response){
-        	$scope.response = response;
-        })
-        .error(function(){
-        });
-        }
+    	var service = videoService.uploadVideo();
+    	service.upload({}, uploadForm, 
+    		function(response) {
+				alert("Upload completed successfully");
+				var url = '/video/' + response.id;
+				$location.path(url);
+			},
+			function() {
+				alert("Upload error");
+			}
+		)
+     }
 
     }]);

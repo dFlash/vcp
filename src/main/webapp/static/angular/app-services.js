@@ -8,6 +8,13 @@ angular.module('app-services', ['ngResource'])
 		getVideo : function (videoId){
 			var url = '/video/'+videoId;
 			return $resource(url).get();
+		},
+		uploadVideo : function (){
+			return $resource('/upload', {}, {upload: {
+				method: 'POST',
+	            transformRequest: angular.identity,
+	            headers: {'Content-Type': undefined}
+	        }});
 		}
 	}
 }]);
