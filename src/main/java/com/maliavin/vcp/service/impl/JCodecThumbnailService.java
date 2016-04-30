@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -31,7 +32,8 @@ public class JCodecThumbnailService implements ThumbnailService {
     }
 
     private byte[] createThumbnailInternal(Path videoFilePath) throws IOException, JCodecException {
-        Picture nativeFrame = getVideoFrameBySecondPrecise(videoFilePath, 0);
+        Random random = new Random();
+        Picture nativeFrame = getVideoFrameBySecondPrecise(videoFilePath, random.nextInt(15));
         if (nativeFrame == null) {
             throw new CantProcessMediaContentException(
                     "First video frame not found for video file: " + videoFilePath.getFileName());

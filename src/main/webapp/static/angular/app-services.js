@@ -15,6 +15,10 @@ angular.module('app-services', ['ngResource'])
 	            transformRequest: angular.identity,
 	            headers: {'Content-Type': undefined}
 	        }});
+		},
+		userListAll : function (pageNum){
+			var url = '/user-video/all?page=' + pageNum;
+			return $resource(url).get();
 		}
 	}
 }]);

@@ -1,6 +1,6 @@
 angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 .config(function($routeProvider){
-    $routeProvider.when('/videos/:pageNum', {
+    $routeProvider.when('/videos', {
         templateUrl: 'static/html/videos.html', 
         controller:'videoListController' 
     });
@@ -12,10 +12,20 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
         templateUrl: 'static/html/upload.html', 
         controller:'videoUploadController' 
     });
-    $routeProvider.otherwise({redirectTo:'videos/0'});
+    $routeProvider.when('/user-videos', {
+        templateUrl: 'static/html/videos.html', 
+        controller:'userVideoListController' 
+    });
+    $routeProvider.otherwise({redirectTo:'/videos'});
 })
-.controller('videoListController', ['$scope', 'videoService', '$routeParams', function($scope, videoService, $routeParams){
-	$scope.currentPage = $routeParams.pageNum;
+.controller('videoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
+	if ($location.search().page == null) {
+		$scope.currentPage = 0;
+	}
+	else {
+		$scope.currentPage = $location.search().page;
+	}
+	$scope.path = $location.path();
 	$scope.videosPage = videoService.listAll($scope.currentPage);
 	
 	$scope.range = function(min, max, step) {
@@ -52,4 +62,19 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 		)
      }
 
-    }]);
+    }])
+.controller('userVideoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
+	$scope.currentPage = $location.search().page;
+	$scope.videosPage = videoService.userListAll($scope.currentPage);
+	$scope.path = $location.path();
+	
+	$scope.range = function(min, max, step) {
+		step = step || 1;
+		var input = [];
+		for (var i = min; i <= max; i += step) {
+			input.push(i);
+		}
+	 	return input;
+	};
+	}
+]);

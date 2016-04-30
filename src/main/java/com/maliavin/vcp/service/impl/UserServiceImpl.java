@@ -3,6 +3,8 @@ package com.maliavin.vcp.service.impl;
 import java.nio.file.Path;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.maliavin.vcp.component.UploadVideoTempStorage;
@@ -44,5 +46,10 @@ public class UserServiceImpl implements UserService {
         Video video = new Video(title, description, currentUser, thumbnailImageUrl, videoUrl);
         videoRepository.save(video);
         return video;
+    }
+
+    @Override
+    public Page<Video> listAllVideosByUser(User owner, Pageable pageable) {
+        return videoRepository.findByOwner(owner, pageable);
     }
 }
