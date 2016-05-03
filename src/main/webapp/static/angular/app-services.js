@@ -19,6 +19,14 @@ angular.module('app-services', ['ngResource'])
 		userListAll : function (pageNum){
 			var url = '/user-video/all?page=' + pageNum;
 			return $resource(url).get();
+		},
+		listBySearchQuery : function(pageNum, query) {
+			return $resource('/videos/search?query=:queryParam&page=:pageParam',{queryParam:query, pageParam:pageNum}).get(
+					function(response){
+						var a = response;
+						console.log(a);
+					}
+			);
 		}
 	}
 }]);

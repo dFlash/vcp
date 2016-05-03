@@ -44,10 +44,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="search-left">
 						<p>All Video Form VideoPortal</p>
 					</div>
-					<div class="search-right">
-						<form>
-							<input type="text"><input type="submit" value="" />
-						</form>
+					<div class="search-right" ng-controller="searchController">
+						<input type="text" id="searchQuery" ng-model="query" ng-keypress="onEnter($event)">
+						<input type="submit" value="" ng-click="find()" />
 					</div>
 					<div class="clear"> </div>
 				</div>

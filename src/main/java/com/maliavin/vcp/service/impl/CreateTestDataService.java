@@ -31,7 +31,6 @@ import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.exception.ApplicationException;
 import com.maliavin.vcp.form.UploadForm;
 import com.maliavin.vcp.service.UserService;
-import com.maliavin.vcp.service.VideoService;
 
 /**
  * Service which creates test data in DB if it is necessary
@@ -111,9 +110,9 @@ public class CreateTestDataService {
     }
 
     private void clearCollections() {
-        mongoTemplate.remove(new Query(), Company.class);
-        mongoTemplate.remove(new Query(), User.class);
         mongoTemplate.remove(new Query(), Video.class);
+        mongoTemplate.remove(new Query(), User.class);
+        mongoTemplate.remove(new Query(), Company.class);
     }
 
     private List<Company> buildCompanies() {
@@ -150,11 +149,9 @@ public class CreateTestDataService {
             User user = users.get(RANDOM.nextInt(users.size()));
             Video video = userService.uploadVideo(user,
                     new UploadForm("Video" + index, null, new URLMultipartFile(videoLink)));
-            video.setOwner(user);
             videos.add(video);
             LOGGER.info("Video {} processed", index++);
         }
-        mongoTemplate.insert(videos, Video.class);
         LOGGER.info("Created {} video files", videos.size());
     }
 

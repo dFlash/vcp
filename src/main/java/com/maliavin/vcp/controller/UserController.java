@@ -19,6 +19,8 @@ import com.maliavin.vcp.service.UserService;
 @RestController("/my-account")
 public class UserController {
 
+    private static final int ELEMENT_PER_PAGE = 9;
+
     @Autowired
     private UserService userService;
 
@@ -29,7 +31,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user-video/all", method = RequestMethod.GET)
-    public @ResponseBody Page<Video> listAllVideosByUser(@PageableDefault(size = 9) Pageable pageable) {
+    public @ResponseBody Page<Video> listAllVideosByUser(@PageableDefault(size = ELEMENT_PER_PAGE) Pageable pageable) {
         User currentAccount = SecurityUtils.getCurrentUser();
         return userService.listAllVideosByUser(currentAccount, pageable);
     }

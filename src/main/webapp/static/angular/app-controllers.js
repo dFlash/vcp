@@ -16,6 +16,10 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
         templateUrl: 'static/html/videos.html', 
         controller:'userVideoListController' 
     });
+    $routeProvider.when('/videos/search', {
+        templateUrl: 'static/html/videos.html', 
+        controller:'searchResultController' 
+    });
     $routeProvider.otherwise({redirectTo:'/videos'});
 })
 .controller('videoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
@@ -25,7 +29,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	else {
 		$scope.currentPage = $location.search().page;
 	}
-	$scope.path = $location.path();
+	$scope.path = $location.path() + "?";
 	$scope.videosPage = videoService.listAll($scope.currentPage);
 	
 	$scope.range = function(min, max, step) {
@@ -66,7 +70,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 .controller('userVideoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
 	$scope.currentPage = $location.search().page;
 	$scope.videosPage = videoService.userListAll($scope.currentPage);
-	$scope.path = $location.path();
+	$scope.path = $location.path() + "?";
 	
 	$scope.range = function(min, max, step) {
 		step = step || 1;
@@ -76,5 +80,35 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 		}
 	 	return input;
 	};
+}])
+.controller('searchController', ['$scope', '$location', function($scope, $location){
+	$scope.query = '';
+	$scope.find = function (){
+		if($scope.query.trim() != '') {
+			$location.path('/videos/search').search({query: $scope.query, page:0});
+			$scope.query = '';
+		} else{
+			$location.path('/videos')
+		}
+	};
+	$scope.onEnter = function(keyEvent) {
+		if (keyEvent.which === 13) {
+			$scope.find();
+		}
 	}
-]);
+}])
+.controller('searchResultController', ['$scope', '$location', 'videoService', function($scope, $location, videoService){
+	$scope.currentPage = $location.search().page;
+	var query = $location.search().query;
+	$scope.videosPage = videoService.listBySearchQuery($scope.currentPage, query);
+	$scope.path = $location.path() + "?" + "query=" + query + "&";
+	
+	$scope.range = function(min, max, step) {
+		step = step || 1;
+		var input = [];
+		for (var i = min; i <= max; i += step) {
+			input.push(i);
+		}
+	 	return input;
+	};
+}]);

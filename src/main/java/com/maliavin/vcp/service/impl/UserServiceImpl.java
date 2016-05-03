@@ -11,6 +11,7 @@ import com.maliavin.vcp.component.UploadVideoTempStorage;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.repository.search.VideoSearchRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.ImageService;
 import com.maliavin.vcp.service.ThumbnailService;
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private VideoRepository videoRepository;
+    
+    @Autowired
+    private VideoSearchRepository videoSearchRepository;
 
     @Autowired
     private UploadVideoTempStorage uploadVideoTempStorage;
@@ -45,6 +49,7 @@ public class UserServiceImpl implements UserService {
         String description = form.getDescription();
         Video video = new Video(title, description, currentUser, thumbnailImageUrl, videoUrl);
         videoRepository.save(video);
+        videoSearchRepository.save(video);
         return video;
     }
 

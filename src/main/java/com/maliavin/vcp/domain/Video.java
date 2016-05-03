@@ -2,7 +2,6 @@ package com.maliavin.vcp.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
@@ -11,7 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
  * @author DMaliavin
  * @since 0.0.1
  */
-@Document
+@org.springframework.data.mongodb.core.mapping.Document
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "video")
 public class Video {
 
     @Id

@@ -1,5 +1,7 @@
 package com.maliavin.vcp.service;
 
+import javax.annotation.Nonnull;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,8 +15,10 @@ import com.maliavin.vcp.domain.Video;
  */
 public interface CommonService {
 
-    Page<Video> listAllVideos(Pageable pageable);
+    @Nonnull Page<Video> listAllVideos(@Nonnull Pageable pageable);
 
-    Video getVideo(String id);
+    @Nonnull Video getVideo(String id);
+    
+    @Nonnull Page<Video> listVideosBySearchQuery(@Nonnull String query, @Nonnull Pageable pageable);
 
 }

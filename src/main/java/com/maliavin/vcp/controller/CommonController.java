@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +38,13 @@ public class CommonController {
     public @ResponseBody Video getVideo(@PathVariable String videoId) {
         Video video = commonService.getVideo(videoId);
         return video;
+    }
+
+    @RequestMapping(value = "/videos/search", method = RequestMethod.GET)
+    public @ResponseBody Page<Video> findVideos(@RequestParam("query") String query,
+            @PageableDefault(size = ELEMENT_PER_PAGE) Pageable pageable) {
+        Page<Video> videos = commonService.listVideosBySearchQuery(query, pageable);
+        return videos;
     }
 
 }
