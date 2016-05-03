@@ -10,6 +10,12 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
+/**
+ * Configuration for connection to elasticsearch storage.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Configuration
 @EnableElasticsearchRepositories("com.maliavin.vcp.repository.search")
 public class ElasticSearchConfig {

@@ -16,7 +16,7 @@ import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.CommonService;
 
 /**
- * Common service
+ * Common service for all users.
  * 
  * @author DMaliavin
  * @since 0.0.1
