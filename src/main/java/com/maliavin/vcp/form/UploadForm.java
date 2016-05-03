@@ -2,6 +2,12 @@ package com.maliavin.vcp.form;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Stores required data for uploading video.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 public class UploadForm {
     private String title;
     private String description;

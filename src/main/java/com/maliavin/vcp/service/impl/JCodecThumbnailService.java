@@ -19,6 +19,12 @@ import org.springframework.stereotype.Service;
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
 import com.maliavin.vcp.service.ThumbnailService;
 
+/**
+ * Service which creates thumbnails using JCodec library.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Service
 public class JCodecThumbnailService implements ThumbnailService {
 

@@ -13,38 +13,43 @@ import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.repository.search.VideoSearchRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 
+/**
+ * Service for creating elasticsearch indexes after saving test data.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Service
 public class ElasticSearchIndexingService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ElasticSearchIndexingService.class);
-	
-	@Value("${index.all.during.startup}")
-	private boolean indexAllDuringStartup;
-	
-	@Autowired
-	private ElasticsearchOperations elasticsearchOperations;
-	
-	@Autowired
-	private VideoRepository videoRepository;
-	
-	@Autowired
-	private VideoSearchRepository videoSearchRepository;
-	
-	@PostConstruct
-	private void postConstruct(){
-		if(indexAllDuringStartup) {
-			LOGGER.info("Detected indexAllDuringStartup command");
-			LOGGER.info("Clear old index");
-			elasticsearchOperations.deleteIndex(Video.class);
-			LOGGER.info("Start indexing for videos");
-			for(Video v : videoRepository.findAll()){
-				videoSearchRepository.save(v);
-				LOGGER.info("Successful indexed video: "+v.getVideoUrl());
-			}
-			LOGGER.info("Finish indexing of videos");
-		}
-		else{
-			LOGGER.info("indexAllDuringStartup is disabled");
-		}
-	}
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElasticSearchIndexingService.class);
+
+    @Value("${index.all.during.startup}")
+    private boolean indexAllDuringStartup;
+
+    @Autowired
+    private ElasticsearchOperations elasticsearchOperations;
+
+    @Autowired
+    private VideoRepository videoRepository;
+
+    @Autowired
+    private VideoSearchRepository videoSearchRepository;
+
+    @PostConstruct
+    private void postConstruct() {
+        if (indexAllDuringStartup) {
+            LOGGER.info("Detected indexAllDuringStartup command");
+            LOGGER.info("Clear old index");
+            elasticsearchOperations.deleteIndex(Video.class);
+            LOGGER.info("Start indexing for videos");
+            for (Video v : videoRepository.findAll()) {
+                videoSearchRepository.save(v);
+                LOGGER.info("Successful indexed video: " + v.getVideoUrl());
+            }
+            LOGGER.info("Finish indexing of videos");
+        } else {
+            LOGGER.info("indexAllDuringStartup is disabled");
+        }
+    }
 
 }

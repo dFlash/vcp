@@ -18,6 +18,12 @@ import com.maliavin.vcp.service.ThumbnailService;
 import com.maliavin.vcp.service.UserService;
 import com.maliavin.vcp.service.VideoService;
 
+/**
+ * Service for registered users.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

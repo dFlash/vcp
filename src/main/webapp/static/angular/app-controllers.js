@@ -31,15 +31,6 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	}
 	$scope.path = $location.path() + "?";
 	$scope.videosPage = videoService.listAll($scope.currentPage);
-	
-	$scope.range = function(min, max, step) {
-		step = step || 1;
-		var input = [];
-		for (var i = min; i <= max; i += step) {
-			input.push(i);
-		}
-	 	return input;
-	};
 	}
 ])
 .controller('videoController', ['$scope', 'videoService', '$routeParams',
@@ -72,14 +63,6 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	$scope.videosPage = videoService.userListAll($scope.currentPage);
 	$scope.path = $location.path() + "?";
 	
-	$scope.range = function(min, max, step) {
-		step = step || 1;
-		var input = [];
-		for (var i = min; i <= max; i += step) {
-			input.push(i);
-		}
-	 	return input;
-	};
 }])
 .controller('searchController', ['$scope', '$location', function($scope, $location){
 	$scope.query = '';
@@ -102,13 +85,4 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	var query = $location.search().query;
 	$scope.videosPage = videoService.listBySearchQuery($scope.currentPage, query);
 	$scope.path = $location.path() + "?" + "query=" + query + "&";
-	
-	$scope.range = function(min, max, step) {
-		step = step || 1;
-		var input = [];
-		for (var i = min; i <= max; i += step) {
-			input.push(i);
-		}
-	 	return input;
-	};
 }]);

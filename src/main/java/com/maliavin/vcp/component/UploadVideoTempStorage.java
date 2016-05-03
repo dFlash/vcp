@@ -14,6 +14,12 @@ import org.springframework.stereotype.Component;
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
 import com.maliavin.vcp.form.UploadForm;
 
+/**
+ * Aspect for temporary saving video file on file system.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Aspect
 @Component
 public class UploadVideoTempStorage {

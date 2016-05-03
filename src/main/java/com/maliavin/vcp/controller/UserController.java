@@ -16,7 +16,14 @@ import com.maliavin.vcp.form.UploadForm;
 import com.maliavin.vcp.security.SecurityUtils;
 import com.maliavin.vcp.service.UserService;
 
-@RestController("/my-account")
+/**
+ * Controller for registered users operations.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
+@RestController
+@RequestMapping("/my-account")
 public class UserController {
 
     private static final int ELEMENT_PER_PAGE = 9;

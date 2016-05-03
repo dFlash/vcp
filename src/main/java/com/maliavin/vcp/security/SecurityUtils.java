@@ -3,6 +3,12 @@ package com.maliavin.vcp.security;
 import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
 
+/**
+ * Util class for security operations.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 public class SecurityUtils {
 
     public static User getCurrentUser() {
