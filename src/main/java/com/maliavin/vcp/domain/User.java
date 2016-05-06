@@ -1,5 +1,7 @@
 package com.maliavin.vcp.domain;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -12,7 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @since 0.0.1
  */
 @Document
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 8651792031916300819L;
 
     @Id
     private String id;
@@ -34,11 +38,14 @@ public class User {
 
     private String role;
 
+    private String password;
+
     public User() {
         super();
     }
 
-    public User(String name, String surname, String login, String email, Company company, String avatar, String role) {
+    public User(String name, String surname, String login, String email, Company company, String avatar, String role,
+            String password) {
         super();
         this.name = name;
         this.surname = surname;
@@ -47,6 +54,7 @@ public class User {
         this.userCompany = company;
         this.avatar = avatar;
         this.role = role;
+        this.password = password;
     }
 
     public String getId() {
@@ -111,6 +119,14 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

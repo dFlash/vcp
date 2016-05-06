@@ -21,11 +21,18 @@ angular.module('app-services', ['ngResource'])
 			return $resource(url).get();
 		},
 		listBySearchQuery : function(pageNum, query) {
-			return $resource('/videos/search?query=:queryParam&page=:pageParam',{queryParam:query, pageParam:pageNum}).get(
-					function(response){
-						var a = response;
-					}
-			);
+			return $resource('/videos/search?query=:queryParam&page=:pageParam',{queryParam:query, pageParam:pageNum}).get();
 		}
 	}
+}])
+.service("loginService", ['$http', function($http) {
+	return {
+		login : function(config, success) {
+			$http.post("/login", null, config).success(success);
+		},
+		logout : function(success) {
+			$http.get("/logout").success(success);
+		}
+	}
+	
 }]);

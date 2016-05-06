@@ -129,11 +129,11 @@ public class CreateTestDataService {
     private List<User> buildUsers(List<Company> companies) {
         List<User> users = Arrays.asList(
                 new User("Tim", "Roberts", "tim", "tim@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg", "User"),
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg", "User", "123"),
                 new User("Max", "Pane", "max", "max@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/emirik/128.jpg", "User"),
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/emirik/128.jpg", "User", "124"),
                 new User("Robert", "Dann", "rob", "robert@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/andyvitale/128.jpg", "User"));
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/andyvitale/128.jpg", "User", "125"));
         for (User user : users) {
             mongoTemplate.insert(user);
         }

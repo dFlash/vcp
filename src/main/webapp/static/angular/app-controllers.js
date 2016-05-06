@@ -20,8 +20,34 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
         templateUrl: 'static/html/videos.html', 
         controller:'searchResultController' 
     });
+    $routeProvider.when('/login', {
+        templateUrl: 'static/html/login.html', 
+        controller:'loginController' 
+    });
+    $routeProvider.when('/logout', {
+    	templateUrl: 'static/html/login.html',
+        controller:'logoutController' 
+    });
     $routeProvider.otherwise({redirectTo:'/videos'});
 })
+.factory('authHttpResponseInterceptor',['$q', '$location', function($q, $location){
+    return {
+        responseError: function(rejection) {
+            if (rejection.status === 401) {
+                alert("Unauthorized");
+                $location.path('/login');
+            }
+            if (rejection.status === 400) {
+                alert("Wrong login or password");
+                $location.path('/login');
+            }
+            return $q.reject(rejection);
+        }
+    }
+}])
+.config(['$httpProvider',function($httpProvider) {
+    $httpProvider.interceptors.push('authHttpResponseInterceptor');
+}])
 .controller('videoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
 	if ($location.search().page == null) {
 		$scope.currentPage = 0;
@@ -85,4 +111,24 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	var query = $location.search().query;
 	$scope.videosPage = videoService.listBySearchQuery($scope.currentPage, query);
 	$scope.path = $location.path() + "?" + "query=" + query + "&";
+}])
+.controller('loginController', ['$scope', 'loginService', '$location', function($scope, loginService, $location){
+	$scope.login = function() {
+	  var config = {
+	          params: {
+	            name: $scope.name,
+	            password : $scope.password
+	          }
+	  };
+	  var success = function() {
+		  $location.path("/user-videos");
+	  }
+	  loginService.login(config, success);
+	}
+}])
+.controller('logoutController', ['$scope', 'loginService', '$location', function($scope, loginService, $location){
+	  var success = function() {
+		  $location.path("/videos");
+	  }
+	  loginService.logout(success);
 }]);
