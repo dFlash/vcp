@@ -31,7 +31,7 @@ angular.module('app-services', ['ngResource'])
 			$http.post("/login", null, config).success(success);
 		},
 		logout : function(success) {
-			$http.get("/logout").success(success);
+			$http.post("/logout").success(success);
 		}
 	}
 	

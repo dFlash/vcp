@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 import com.maliavin.vcp.Constants;
 import com.maliavin.vcp.security.RestAuthenticationFailureHandler;
@@ -32,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .antMatchers("/my-account/**").hasAuthority(Constants.Role.USER.name())
         .antMatchers("/admin/**").hasAuthority(Constants.Role.ADMIN.name())
-        .anyRequest().permitAll();
+        .anyRequest().permitAll().and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
 
         http.formLogin()
         .successHandler(new RestAuthenticationSuccessHandler())
@@ -49,7 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
         http.rememberMe().rememberMeParameter("rememberMe").rememberMeCookieName("rememberMe")
                 .tokenRepository(persistentTokenRepository);
-        http.csrf().disable();
+/*        http.csrf().disable();*/
+        http.csrf().csrfTokenRepository(csrfTokenRepository());
     }
 
     @Bean
@@ -61,4 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(authentificationService).passwordEncoder(passwordEncoder());
     }
+    
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
+      }
 }
