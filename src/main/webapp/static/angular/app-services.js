@@ -35,4 +35,13 @@ angular.module('app-services', ['ngResource'])
 		}
 	}
 	
+}])
+.service("adminService", ['$resource', function($resource) {
+	return {
+		listAccounts : function (pageNum){
+			var url = '/admin/accounts?page=' + pageNum;
+			return $resource(url).get();
+		}
+	}
+	
 }]);

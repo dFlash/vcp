@@ -28,6 +28,13 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
     	templateUrl: 'static/html/login.html',
         controller:'logoutController' 
     });
+    $routeProvider.when('/403', {
+    	templateUrl: 'static/html/403.html'
+    });
+    $routeProvider.when('/admin/accounts', {
+    	templateUrl: 'static/html/accounts.html',
+        controller:'accountsController' 
+    });
     $routeProvider.otherwise({redirectTo:'/videos'});
 })
 .factory('authHttpResponseInterceptor',['$q', '$location', function($q, $location){
@@ -40,6 +47,9 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
             if (rejection.status === 400) {
                 alert("Wrong login or password");
                 $location.path('/login');
+            }
+            if (rejection.status === 403) {
+                $location.path('/403');
             }
             return $q.reject(rejection);
         }
@@ -82,7 +92,6 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 			}
 		)
      }
-
     }])
 .controller('userVideoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
 	$scope.currentPage = $location.search().page;
@@ -117,11 +126,12 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	  var config = {
 	          params: {
 	            name: $scope.name,
-	            password : $scope.password
+	            password : $scope.password,
+	            rememberMe: $scope.rememberMe
 	          }
 	  };
 	  var success = function() {
-		  $location.path("/user-videos");
+		  $location.path("/videos");
 	  }
 	  loginService.login(config, success);
 	}
@@ -131,4 +141,14 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 		  $location.path("/videos");
 	  }
 	  loginService.logout(success);
+}])
+.controller('accountsController', ['$scope', 'adminService', '$location', function($scope, adminService, $location){
+	if ($location.search().page == null) {
+		$scope.currentPage = 0;
+	}
+	else {
+		$scope.currentPage = $location.search().page;
+	}
+	$scope.path = $location.path() + "?";
+	$scope.accountsPage = adminService.listAccounts($scope.currentPage);
 }]);

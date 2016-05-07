@@ -1,0 +1,17 @@
+<h2>Accounts</h2>
+<div>
+	<div ng-repeat="account in accountsPage.content">
+		{{account.name}}, {{account.surname}}
+		<img ng-src="{{account.avatar}}"></img>
+		<div class="clear"></div>
+	</div>
+
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>
+<ul class="dc_pagination dc_paginationA dc_paginationA03">
+	<li ng-repeat="ind in [] | range:accountsPage.totalPages">
+		<a href="#{{path}}page={{ind}}" ng-class="{ current: $index == currentPage }">{{ind+1}}</a>
+	</li>
+</ul>
+<div class="clear"></div>
