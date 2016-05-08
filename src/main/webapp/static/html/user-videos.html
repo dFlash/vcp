@@ -1,0 +1,31 @@
+
+<div class="box">
+	<div class="grid" ng-repeat="video in videosPage.content">
+		<h3>{{video.title}}</h3>
+		<a ng-href="#/video/{{video.id}}" role="button"><img ng-src="{{video.thumbnail}}"></img></a>
+		<div class="grid-info">
+
+			<div class="video-watch">
+				<a ng-href="#/edit-video/{{video.id}}" class="btn btn-default"
+					role="button">Edit</a>
+				<a ng-href="#/delete-video/{{video.id}}" class="btn btn-default"
+					role="button">Delete</a>
+				<a ng-href="#/video/{{video.id}}" class="btn btn-default"
+					role="button">Preview</a>
+			</div>
+			<div class="clear"></div>
+			<div class="lables">
+				<p>User:{{video.owner.name}}</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>
+<ul class="dc_pagination dc_paginationA dc_paginationA03">
+	<li ng-repeat="ind in [] | range:videosPage.totalPages">
+		<a href="#{{path}}page={{ind}}" ng-class="{ current: $index == currentPage }">{{ind+1}}</a>
+	</li>
+</ul>
+<div class="clear"></div>

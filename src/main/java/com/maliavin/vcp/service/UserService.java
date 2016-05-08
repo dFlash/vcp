@@ -20,5 +20,11 @@ public interface UserService {
     @Nonnull
     Video uploadVideo(@Nonnull User currentUser, @Nonnull UploadForm form);
 
-    Page<Video> listAllVideosByUser(User owner, Pageable pageable);
+    Page<Video> listAllVideosByUser(@Nonnull User owner, Pageable pageable);
+
+    Video getVideo(String id);
+
+    void updateVideo(@Nonnull Video video);
+
+    void deleteVideo(String id);
 }

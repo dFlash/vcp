@@ -1,0 +1,28 @@
+<form name="uploadForm">
+	<fieldset>
+		<div class="container" >
+				<div style="padding-top:1%;">
+					<input type="text" name="title" ng-model="video.title" required class="form-control">
+					<span class="label label-warning" ng-show="uploadForm.title.$error.required">Required</span>
+				</div>
+				<div style="padding-top:2%;">
+					<input type="text" name="description" ng-model="video.description" class="form-control">
+				</div>
+				<div style="padding-top:2%;">
+					<input type="file" ngf-select ng-model="thumbnail" name="file"
+							accept="image/*" ngf-max-size="4MB" gf-model-invalid="errorFile">
+					<span class="label label-warning" ng-show="uploadForm.file.$error.maxSize">File too large 
+						{{errorFile.size / 1000000|number:1}}MB: max 4M</span>
+				</div>
+				<div style="padding-top:2%;">
+				<button class="btn btn-default navbar-btn" 
+					ng-click="uploadThumbnail(thumbnail)" ng-disabled="!(!!thumbnail)">Upload new thumbnail</button>
+				</div>
+				<img ng-src="{{video.thumbnail}}"></img>
+								<div style="padding-top:2%;">
+				<button class="btn btn-default navbar-btn" 
+					ng-click="updateVideo()" ng-disabled="!uploadForm.$valid">Update</button>
+				</div>
+		</div>
+	</fieldset>
+</form>

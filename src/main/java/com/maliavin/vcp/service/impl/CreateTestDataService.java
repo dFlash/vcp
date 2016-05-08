@@ -129,11 +129,13 @@ public class CreateTestDataService {
     private List<User> buildUsers(List<Company> companies) {
         List<User> users = Arrays.asList(
                 new User("Tim", "Roberts", "tim", "tim@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg", "User", "123"),
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg", "User", "$2a$10$uUGLVw.OTwXVRuwxdSN7TuKfHot8i5nMWSMSsEBAKTOiGFjXr53La"),
                 new User("Max", "Pane", "max", "max@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/emirik/128.jpg", "User", "124"),
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/emirik/128.jpg", "User", "$2a$10$uUGLVw.OTwXVRuwxdSN7TuKfHot8i5nMWSMSsEBAKTOiGFjXr53La"),
                 new User("Robert", "Dann", "rob", "robert@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                        "https://s3.amazonaws.com/uifaces/faces/twitter/andyvitale/128.jpg", "User", "125"));
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/andyvitale/128.jpg", "User", "$2a$10$uUGLVw.OTwXVRuwxdSN7TuKfHot8i5nMWSMSsEBAKTOiGFjXr53La"),
+                new User("Admin", "Admin", "admin", "admin@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/andyvitale/128.jpg", "Admin", "$2a$10$QMlM1WTQdVw.F4Sp2jf6kOWt9RUeSgHAhOVT8ThXiaqOMs.idVIVa"));
         for (User user : users) {
             mongoTemplate.insert(user);
         }

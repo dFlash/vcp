@@ -13,7 +13,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
         controller:'videoUploadController' 
     });
     $routeProvider.when('/user-videos', {
-        templateUrl: 'static/html/videos.html', 
+        templateUrl: 'static/html/user-videos.html', 
         controller:'userVideoListController' 
     });
     $routeProvider.when('/videos/search', {
@@ -34,6 +34,14 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
     $routeProvider.when('/admin/accounts', {
     	templateUrl: 'static/html/accounts.html',
         controller:'accountsController' 
+    });
+    $routeProvider.when('/edit-video/:videoId', {
+    	templateUrl: 'static/html/edit-video.html',
+        controller:'editVideoController' 
+    });
+    $routeProvider.when('/delete-video/:videoId', {
+    	templateUrl: 'static/html/user-videos.html',
+        controller:'deleteVideoController' 
     });
     $routeProvider.otherwise({redirectTo:'/videos'});
 })
@@ -94,7 +102,12 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
      }
     }])
 .controller('userVideoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
-	$scope.currentPage = $location.search().page;
+	if ($location.search().page == null) {
+		$scope.currentPage = 0;
+	}
+	else {
+		$scope.currentPage = $location.search().page;
+	}
 	$scope.videosPage = videoService.userListAll($scope.currentPage);
 	$scope.path = $location.path() + "?";
 	
@@ -151,4 +164,47 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	}
 	$scope.path = $location.path() + "?";
 	$scope.accountsPage = adminService.listAccounts($scope.currentPage);
-}]);
+}])
+.controller('editVideoController', ['$scope', 'videoService', '$routeParams', '$location',
+    function($scope, videoService, $routeParams, $location){
+		$scope.video = videoService.getVideo($routeParams.videoId);
+		
+		$scope.uploadThumbnail = function() {
+			var uploadForm = new FormData();
+			uploadForm.append('file', $scope.thumbnail);
+			var service = videoService.uploadThumbnail();
+			service.upload({}, uploadForm, 
+		    		function(response) {
+						alert("Upload completed successfully");
+						$scope.video.thumbnail = response.thumbnailUrl;
+					},
+					function() {
+						alert("Upload error");
+					}
+				)
+		};
+		
+		$scope.updateVideo = function(){
+			var service = videoService.updateVideo($scope.video.id);
+			service.update({}, $scope.video, 
+			function(response) {
+				alert("Upload completed successfully");
+				$location.path('/user-videos');
+			},
+			function() {
+				alert("Upload error");
+			})
+		};
+}
+])
+.controller('deleteVideoController', ['videoService', '$routeParams', '$location',
+    function(videoService, $routeParams, $location){
+	videoService.deleteVideo($routeParams.videoId, function(){
+		alert('Deleted successfully');
+		$location.path('/user-videos');
+	},
+	function() {
+		alert("Error");
+	})
+}
+]);

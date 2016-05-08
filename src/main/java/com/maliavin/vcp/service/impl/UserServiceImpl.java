@@ -63,4 +63,19 @@ public class UserServiceImpl implements UserService {
     public Page<Video> listAllVideosByUser(User owner, Pageable pageable) {
         return videoRepository.findByOwner(owner, pageable);
     }
+
+    @Override
+    public Video getVideo(String id) {
+        return videoRepository.findOne(id);
+    }
+
+    @Override
+    public void updateVideo(Video video) {
+        videoRepository.save(video);
+    }
+
+    @Override
+    public void deleteVideo(String id) {
+        videoRepository.delete(id);
+    }
 }
