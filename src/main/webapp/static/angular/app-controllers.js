@@ -164,6 +164,101 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	}
 	$scope.path = $location.path() + "?";
 	$scope.accountsPage = adminService.listAccounts($scope.currentPage);
+	
+	//
+	$scope.isNewUser = true;
+	$scope.currentUser = {};
+	$scope.companies = adminService.listCompanies();
+	$scope.currentUser.company = {};
+	
+	$scope.roles = ['User', 'Admin'];
+	$scope.currentUser.role = $scope.roles[0];
+	
+	$scope.currentUser.name = '';
+	$scope.currentUser.surname = '';
+	$scope.currentUser.login = '';
+	$scope.currentUser.email = '';
+	$scope.currentUser.avatar = '';
+	$scope.currentUser.password = '';
+	
+	$scope.editUser = function(id) {
+		for (i=0; i < $scope.accountsPage.content.length; i++)
+		{
+			if ($scope.accountsPage.content[i].id == id)
+			{
+				$scope.currentUser = $scope.accountsPage.content[i];
+				$scope.isNewUser = false;
+				break;
+			}
+		}
+	};
+	$scope.reset = function() {
+		//
+		$scope.isNewUser = true;
+		$scope.currentUser = {};
+		$scope.companies = adminService.listCompanies();
+		$scope.currentUser.company = {};
+		
+		$scope.roles = ['User', 'Admin'];
+		$scope.currentUser.role = $scope.roles[0];
+		
+		$scope.currentUser.name = '';
+		$scope.currentUser.surname = '';
+		$scope.currentUser.login = '';
+		$scope.currentUser.email = '';
+		$scope.currentUser.avatar = '';
+		$scope.currentUser.password = '';
+	};
+	
+	$scope.uploadAvatar = function() {
+		var uploadForm = new FormData();
+		uploadForm.append('file', $scope.avatar);
+		var service = adminService.uploadAvatar();
+		service.upload({}, uploadForm, 
+	    		function(response) {
+					alert("Upload completed successfully");
+					$scope.currentUser.avatar = response.avatarUrl;
+				},
+				function() {
+					alert("Upload error");
+				}
+			);
+	};
+	
+	$scope.addUser = function () {
+		var service = adminService.addUser();
+		service.add({}, $scope.currentUser, 
+	    		function(response) {
+			alert("User added successfully");
+			$location.path('/admin/accounts');
+		},
+		function() {
+			alert("User was not added");
+		}
+	);
+	};
+	
+	$scope.saveUser = function() {
+		var service = adminService.updateUser($scope.currentUser.id);
+		service.update({}, $scope.currentUser, 
+		function(response) {
+			alert("User saved successfully");
+			$location.path('/admin/accounts');
+		},
+		function() {
+			alert("User was not saved");
+		})
+	};
+	
+	$scope.deleteUser = function(id){
+		adminService.deleteUser(id, function() {
+			alert("Deleted successfully");
+			$location.path('/admin/accounts');
+		},
+		function() {
+			alert("User was not deleted");
+		})
+	}
 }])
 .controller('editVideoController', ['$scope', 'videoService', '$routeParams', '$location',
     function($scope, videoService, $routeParams, $location){

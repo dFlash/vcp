@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -22,6 +21,12 @@ import com.maliavin.vcp.security.RestAuthenticationFailureHandler;
 import com.maliavin.vcp.security.RestAuthenticationSuccessHandler;
 import com.maliavin.vcp.service.impl.AuthentificationService;
 
+/**
+ * Security configuration
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 

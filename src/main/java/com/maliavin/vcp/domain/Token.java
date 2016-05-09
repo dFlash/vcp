@@ -9,6 +9,12 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 
+/**
+ * Describes token model, which stores for Remember-me in DB.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 @Document
 @CompoundIndexes({
         @CompoundIndex(name = "i_username", def = "{'username': 1}"),

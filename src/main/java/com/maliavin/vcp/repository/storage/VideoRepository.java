@@ -16,4 +16,6 @@ import com.maliavin.vcp.domain.Video;
 public interface VideoRepository extends PagingAndSortingRepository<Video, String> {
 
     Page<Video> findByOwner(User owner, Pageable pageable);
+
+    Long deleteByOwnerId(String ownerId);
 }

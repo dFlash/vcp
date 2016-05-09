@@ -3,19 +3,19 @@ package com.maliavin.vcp.form;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Stores required data for uploading thumbnail.
+ * Stores required data for uploading avatar.
  * 
  * @author DMaliavin
  * @since 0.0.1
  */
-public class ThumbnailForm {
+public class AvatarForm {
     private MultipartFile file;
 
-    public ThumbnailForm() {
+    public AvatarForm() {
         super();
     }
 
-    public ThumbnailForm(MultipartFile file) {
+    public AvatarForm(MultipartFile file) {
         super();
         this.file = file;
     }

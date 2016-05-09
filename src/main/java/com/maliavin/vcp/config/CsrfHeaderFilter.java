@@ -12,6 +12,12 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
+/**
+ * Filter which works with CSRF cookies.
+ * 
+ * @author DMaliavin
+ * @since 0.0.1
+ */
 public class CsrfHeaderFilter extends OncePerRequestFilter {
 
     @Override
