@@ -67,4 +67,9 @@ public class AdminServiceImpl implements AdminService {
         userRepository.delete(id);
     }
 
+    @Override
+    public Page<Company> listCompanies(Pageable pageable) {
+        return companyRepository.findAll(pageable);
+    }
+
 }

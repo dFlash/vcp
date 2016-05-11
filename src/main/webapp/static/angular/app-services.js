@@ -61,7 +61,7 @@ angular.module('app-services', ['ngResource'])
 			return $resource(url).get();
 		},
 		listCompanies : function (){
-			var url = '/admin/companies';
+			var url = '/admin/companies/all';
 			return $resource(url).get();
 		},
 		uploadAvatar : function (){

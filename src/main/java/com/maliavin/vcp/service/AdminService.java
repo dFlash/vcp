@@ -30,4 +30,7 @@ public interface AdminService {
 
     void deleteUser(String id);
 
+    @Nonnull
+    Page<Company> listCompanies(@Nonnull Pageable pageable);
+
 }

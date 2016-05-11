@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
 import com.maliavin.vcp.form.AvatarForm;
@@ -48,8 +49,8 @@ public class AdminController {
         return users;
     }
 
-    @RequestMapping(value = "/companies", method = RequestMethod.GET)
-    public @ResponseBody CompanyForm getCompanies() {
+    @RequestMapping(value = "/companies/all", method = RequestMethod.GET)
+    public @ResponseBody CompanyForm getAllCompanies() {
         return new CompanyForm(adminService.listCompanies());
     }
 
@@ -95,6 +96,12 @@ public class AdminController {
     @RequestMapping(value = "/accounts/{id}", method = RequestMethod.DELETE)
     public void deleteVideo(@PathVariable("id") String id) {
         adminService.deleteUser(id);
+    }
+
+    @RequestMapping(value = "/companies", method = RequestMethod.GET)
+    public @ResponseBody Page<Company> getCompanies(@PageableDefault(size = ELEMENT_PER_PAGE) Pageable pageable) {
+        Page<Company> companies = adminService.listCompanies(pageable);
+        return companies;
     }
 
 }
