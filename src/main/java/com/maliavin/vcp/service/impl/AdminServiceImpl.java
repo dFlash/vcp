@@ -1,5 +1,7 @@
 package com.maliavin.vcp.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,6 +72,30 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Page<Company> listCompanies(Pageable pageable) {
         return companyRepository.findAll(pageable);
+    }
+
+    @Override
+    public void addCompany(Company company) {
+        companyRepository.save(company);
+    }
+
+    @Override
+    public void deleteCompany(String id) {
+        List<User> removedUsers = userRepository.removeByUserCompanyId(id);
+        for (User user : removedUsers){
+            videoRepository.deleteByOwnerId(user.getId());
+        }
+        companyRepository.delete(id);
+    }
+
+    @Override
+    public Company getCompany(String id) {
+        return companyRepository.findOne(id);
+    }
+
+    @Override
+    public void saveCompany(Company company) {
+        companyRepository.save(company);
     }
 
 }

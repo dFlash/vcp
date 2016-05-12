@@ -5,7 +5,7 @@ angular.module('app-admin-controllers', ['ngRoute'])
         controller:'companiesController' 
     });
 })
-.controller('companiesController', ['$scope', 'companiesService', '$location', function($scope, companiesService, $location){
+.controller('companiesController', ['$scope', 'companiesService', '$location', '$route', function($scope, companiesService, $location, $route){
 	if ($location.search().page == null) {
 		$scope.currentPage = 0;
 	}
@@ -46,16 +46,31 @@ angular.module('app-admin-controllers', ['ngRoute'])
 		$scope.currentCompany.phone = '';
 	};
 	
-	$scope.addUser = function () {
-		console.log('add')
+	$scope.addCompany = function () {
+		companiesService.addCompany($scope.currentCompany, function() {
+			alert('Company was added');
+			$route.reload();
+		}, function() {
+			alert('Company was not added');
+		})
 	};
 	
-	$scope.saveUser = function() {
-		console.log('save')
+	$scope.saveCompany = function() {
+		companiesService.updateCompany($scope.currentCompany.id, $scope.currentCompany, function() {
+			alert('Company was updated');
+			$route.reload();
+		}, function() {
+			alert('Company was not updated');
+		})
 	};
 	
-	$scope.deleteUser = function(id){
-		console.log('delete')
+	$scope.deleteCompany = function(id){
+		companiesService.deleteCompany(id, function() {
+			alert('Company was deleted');
+			$route.reload();
+		}, function() {
+			alert('Company was not deleted');
+		})
 	};
 }
 ]);

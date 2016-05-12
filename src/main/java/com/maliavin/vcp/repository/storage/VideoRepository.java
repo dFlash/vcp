@@ -18,4 +18,6 @@ public interface VideoRepository extends PagingAndSortingRepository<Video, Strin
     Page<Video> findByOwner(User owner, Pageable pageable);
 
     Long deleteByOwnerId(String ownerId);
+
+    Long deleteByOwnerUserCompanyId(String ownerUserCompanyId);
 }

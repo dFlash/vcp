@@ -1,5 +1,7 @@
 package com.maliavin.vcp.repository.storage;
 
+import java.util.List;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.maliavin.vcp.domain.User;
@@ -13,4 +15,6 @@ import com.maliavin.vcp.domain.User;
 public interface UserRepository extends PagingAndSortingRepository<User, String> {
 
     User findByName(String name);
+
+    List<User> removeByUserCompanyId(String userCompanyId);
 }

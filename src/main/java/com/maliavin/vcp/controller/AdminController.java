@@ -76,7 +76,7 @@ public class AdminController {
         }
         adminService.addUser(user);
     }
-    
+
     @RequestMapping(value = "/accounts/{id}", method = RequestMethod.PUT)
     public void updateAccount(@PathVariable("id") String id, @RequestBody User user){
         User currentUser = adminService.gerUser(id);
@@ -102,6 +102,33 @@ public class AdminController {
     public @ResponseBody Page<Company> getCompanies(@PageableDefault(size = ELEMENT_PER_PAGE) Pageable pageable) {
         Page<Company> companies = adminService.listCompanies(pageable);
         return companies;
+    }
+
+    @RequestMapping(value = "/companies", method = RequestMethod.POST)
+    public void addCompany(@RequestBody Company company) {
+        if (company == null) {
+            throw new ApplicationContextException("Error in adding company - company is empty");
+        }
+        adminService.addCompany(company);
+    }
+
+    @RequestMapping(value = "/companies/{id}", method = RequestMethod.DELETE)
+    public void deleteCompany(@PathVariable("id") String id) {
+        adminService.deleteCompany(id);
+    }
+    
+    @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
+    public void updateCompany(@PathVariable("id") String id, @RequestBody Company company){
+        Company currentCompany = adminService.getCompany(id);
+        if (currentCompany == null) {
+            throw new ApplicationContextException("Error in adding company - company is empty");
+        }
+        currentCompany.setAddress(company.getAddress());
+        currentCompany.setContactEmail(company.getContactEmail());
+        currentCompany.setName(company.getName());
+        currentCompany.setPhone(company.getPhone());
+        adminService.saveCompany(currentCompany);
+        
     }
 
 }

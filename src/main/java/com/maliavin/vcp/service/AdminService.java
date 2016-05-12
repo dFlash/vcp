@@ -26,11 +26,19 @@ public interface AdminService {
 
     void saveUser(@Nonnull User user);
 
-    User gerUser(String userId);
+    User gerUser(@Nonnull String userId);
 
-    void deleteUser(String id);
+    void deleteUser(@Nonnull String id);
 
     @Nonnull
     Page<Company> listCompanies(@Nonnull Pageable pageable);
+
+    void addCompany(@Nonnull Company company);
+
+    void deleteCompany(@Nonnull String id);
+    
+    Company getCompany(String id);
+    
+    void saveCompany(Company company);
 
 }
