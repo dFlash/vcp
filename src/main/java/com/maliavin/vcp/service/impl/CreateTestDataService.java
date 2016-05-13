@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,9 @@ public class CreateTestDataService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ElasticsearchOperations elasticsearchOperations;
 
     @Value("${media.dir}")
     private String mediaDir;
@@ -144,6 +148,7 @@ public class CreateTestDataService {
     }
 
     private void buildVideos(List<User> users) {
+        elasticsearchOperations.deleteIndex(Video.class);
         List<String> videoLinks = getVideoLinks();
         List<Video> videos = new ArrayList<Video>();
         int index = 1;
