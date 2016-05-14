@@ -31,8 +31,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<li><a ng-href="#/videos/?page=0">Home</a><p>All available videos</p></li>
 					<li><a ng-href="#/upload">Upload</a><p>For registered users</p></li>
 					<li><a ng-href="#/user-videos?page=0">My videos</a><p>For registered users</p></li>
-					<li><a ng-href="#/login">Sign in</a><p>For registered users</p></li>
-					<li><a ng-href="#/logout">Logout</a><p>For registered users</p></li>
+					<li ng-show="!principal.auth"><a ng-href="#/login">Sign in</a><p>For registered users</p></li>
+					<li ng-show="principal.auth"><a ng-href="#/logout">Logout</a><p>For registered users</p></li>
 					<li><a ng-href="#/admin/accounts?page=0">Accounts</a><p>For registered admins</p></li>
 					<li><a ng-href="#/admin/companies?page=0">Companies</a><p>For registered admins</p></li>
 				</ul>

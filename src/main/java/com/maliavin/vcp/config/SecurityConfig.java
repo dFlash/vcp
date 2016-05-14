@@ -11,12 +11,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 import com.maliavin.vcp.Constants;
+import com.maliavin.vcp.security.AddPrincipalHeadersFilter;
 import com.maliavin.vcp.security.RestAuthenticationFailureHandler;
 import com.maliavin.vcp.security.RestAuthenticationSuccessHandler;
 import com.maliavin.vcp.service.impl.AuthentificationService;
@@ -41,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .antMatchers("/my-account/**").hasAuthority(Constants.Role.USER.name())
         .antMatchers("/admin/**").hasAuthority(Constants.Role.ADMIN.name())
-        .anyRequest().permitAll().and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
+        .anyRequest().permitAll().and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+        .addFilterAfter(new AddPrincipalHeadersFilter(), LogoutFilter.class);;
 
         http.formLogin()
         .successHandler(new RestAuthenticationSuccessHandler())

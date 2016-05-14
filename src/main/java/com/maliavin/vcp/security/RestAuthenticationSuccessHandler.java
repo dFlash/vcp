@@ -16,5 +16,6 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
         response.setStatus(HttpStatus.OK.value());
+        SecurityUtils.addPrincipalHeaders(response);
     }
 }

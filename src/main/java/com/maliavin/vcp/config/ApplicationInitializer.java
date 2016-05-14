@@ -32,7 +32,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         container.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
         container.addListener(new ContextLoaderListener(ctx));
 
-        registerFilters(container);
+        registerFilters(container, ctx);
         registerDispatcherServlet(container, ctx);
     }
 
@@ -44,7 +44,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         return ctx;
     }
 
-    private void registerFilters(ServletContext container) {
+    private void registerFilters(ServletContext container, WebApplicationContext ctx) {
         registerFilter(container, new CharacterEncodingFilter("UTF-8", true));
         registerFilter(container, new RequestContextFilter());
         registerFilter(container, new DelegatingFilterProxy("springSecurityFilterChain"), "springSecurityFilterChain");
