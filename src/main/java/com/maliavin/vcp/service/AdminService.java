@@ -1,5 +1,7 @@
 package com.maliavin.vcp.service;
 
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 
 import org.springframework.data.domain.Page;
@@ -7,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
+import com.maliavin.vcp.form.AvatarForm;
 
 /**
  * Admin service interface which specify operations for administrators.
@@ -24,7 +27,7 @@ public interface AdminService {
 
     void addUser(@Nonnull User user);
 
-    void saveUser(@Nonnull User user);
+    void saveUser(@Nonnull String id, @Nonnull User user);
 
     User gerUser(@Nonnull String userId);
 
@@ -39,6 +42,8 @@ public interface AdminService {
     
     Company getCompany(String id);
     
-    void saveCompany(Company company);
+    void saveCompany(@Nonnull String id, Company company);
+
+    Map<String, String> uploadAvatar(AvatarForm avatarForm);
 
 }

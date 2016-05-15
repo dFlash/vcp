@@ -19,6 +19,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 import com.maliavin.vcp.Constants;
 import com.maliavin.vcp.security.AddPrincipalHeadersFilter;
+import com.maliavin.vcp.security.CsrfHeaderFilter;
 import com.maliavin.vcp.security.RestAuthenticationFailureHandler;
 import com.maliavin.vcp.security.RestAuthenticationSuccessHandler;
 import com.maliavin.vcp.service.impl.AuthentificationService;

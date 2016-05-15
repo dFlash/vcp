@@ -24,8 +24,6 @@ public class SecurityUtils {
         Object principal = authentication.getPrincipal();
         if (principal instanceof CurrentUser) {
             return ((CurrentUser) principal).getUser();
-        } else if (principal instanceof CurrentAdmin) {
-            return ((CurrentAdmin) principal).getUser();
         } else {
             return null;
         }

@@ -25,48 +25,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
     });
     $routeProvider.otherwise({redirectTo:'/videos'});
 })
-.factory('authHttpResponseInterceptor',['$q', '$location', '$rootScope', function($q, $location, $rootScope){
-    return {
-        responseError: function(rejection) {
-            if (rejection.status === 401) {
-                alert("Unauthorized");
-                $location.path('/login');
-            }
-            if (rejection.status === 400) {
-                alert("Wrong login or password");
-                $location.path('/login');
-            }
-            if (rejection.status === 403) {
-                $location.path('/403');
-            }
-            return $q.reject(rejection);
-        },
-        response: function(response) {
-        	
-        	var name = response.headers('PrincipalName');
-        	var role = response.headers('PrincipalRole');
-        	console.log(response.headers('PrincipalName'))
-        	console.log(response.headers('PrincipalRole'))
-        	if(name != undefined && role != undefined) {
-        		$rootScope.principal = {
-                	auth : true,
-        			name : name,
-                	role : role
-                };
-        	} else{
-        		$rootScope.principal = {
-        			auth : false,
-        			name : '',
-                	role : 'anonym'
-                };
-        	}
-            return response;
-        }
-    }
-}])
-.config(['$httpProvider',function($httpProvider) {
-    $httpProvider.interceptors.push('authHttpResponseInterceptor');
-}])
+
 .controller('videoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
 	if ($location.search().page == null) {
 		$scope.currentPage = 0;
@@ -105,7 +64,8 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	$scope.videosPage = videoService.listBySearchQuery($scope.currentPage, query);
 	$scope.path = $location.path() + "?" + "query=" + query + "&";
 }])
-.controller('loginController', ['$scope', 'loginService', '$location', function($scope, loginService, $location){
+.controller('loginController', ['$scope', 'loginService', '$location', '$rootScope', 'Roles',
+                                function($scope, loginService, $location, $rootScope, Roles){
 	$scope.login = function() {
 	  var config = {
 	          params: {
@@ -115,7 +75,14 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	          }
 	  };
 	  var success = function() {
-		  $location.path("/videos");
+		  if ($rootScope.principal.role==Roles.user) {
+			  $location.path("/user-videos");
+		  } else if ($rootScope.principal.role==Roles.admin) {
+			  $location.path("/admin/accounts");
+		  } else {
+			  $location.path("/videos");
+		  }
+		  
 	  }
 	  loginService.login(config, success);
 	}
@@ -125,4 +92,8 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 		  $location.path("/videos");
 	  }
 	  loginService.logout(success);
+}])
+.controller('menuController', ['$scope', 'Roles', function($scope, Roles){
+	  $scope.admin = Roles.admin;
+	  $scope.user = Roles.user;
 }]);

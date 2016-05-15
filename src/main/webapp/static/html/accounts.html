@@ -1,88 +1,93 @@
 <div class="container">
-<h2>Accounts</h2>
-<form name="userForm">
-<div class="form-group">
-<label>Name</label>
-<input type="text" class="form-control" ng-model="currentUser.name" required name="name">
-<span class="label label-warning" ng-show="userForm.name.$error.required">Required</span>
-</div>
-<div class="form-group">
-<label>Surname</label>
-<input type="text" class="form-control" ng-model="currentUser.surname">
-</div>
-<div class="form-group">
-<label>Login</label>
-<input type="text" class="form-control" ng-model="currentUser.login">
-</div>
-<div class="form-group">
-<label>Password</label>
-<input type="text" class="form-control" ng-model="currentUser.password" ng-readonly="!isNewUser" required name="password">
-<span class="label label-warning" ng-show="userForm.password.$error.required">Required</span>
-</div>
-<div class="form-group">
-<label>Email</label>
-<input type="text" class="form-control" ng-model="currentUser.email">
-</div>
-<div class="form-group">
-<label>Avatar</label>
-	<input type="file" ngf-select name="file"
-		accept="image/*" ng-model="avatar">
-		<button class="btn btn-primary" ng-click="uploadAvatar()" ng-disabled="!(!!avatar)" ng-click="uploadAvatar()">Upload new avatar</button>
- 		<img ng-src="{{currentUser.avatar}}"></img> 
-</div>
-<div class="form-group">
-<label>Role</label>
-<select class="form-control" ng-options="role for role in roles" ng-model="currentUser.role">
-</select>
-</div>
-<div class="form-group">
-<label>Company</label>
-<select class="form-control" ng-options="company as company.name for company in companies.content" ng-model="currentUser.company">
-</select>
-</div>
-<div class="form-group">
-<button class="btn btn-primary" ng-show="isNewUser" ng-click="addUser()" ng-disabled="!userForm.$valid" >Add</button>
-<button class="btn btn-primary" ng-show="!isNewUser" ng-click="saveUser()" ng-disabled="!userForm.$valid" >Save</button>
-<button class="btn btn-primary" ng-click="reset()">Reset</button>
-</div>
-</form>
-<table class="table table-bordered">
-<thead>
-<tr class="well">
-<th><strong>#</strong></th>
-<th><strong>Name</strong></th>
-<th><strong>Surname</strong></th>
-<th><strong>Login</strong></strong></th>
-<th><strong>Email</strong></th>
-<th><strong>Avatar</strong></th>
-<th><strong>Role</strong></th>
-<th><strong>Company</strong></th>
-<th><strong>Actions</strong></th>
+	<h2>Accounts</h2>
+	<form name="userForm">
+		<div class="form-group">
+			<label>Name</label> <input type="text" class="form-control"
+				ng-model="currentUser.name" required name="name"> <span
+				class="label label-warning" ng-show="userForm.name.$error.required">Required</span>
+		</div>
+		<div class="form-group">
+			<label>Surname</label> <input type="text" class="form-control"
+				ng-model="currentUser.surname">
+		</div>
+		<div class="form-group">
+			<label>Login</label> <input type="text" class="form-control"
+				ng-model="currentUser.login">
+		</div>
+		<div class="form-group">
+			<label>Password</label> <input type="text" class="form-control"
+				ng-model="currentUser.password" ng-readonly="!isNewUser" required
+				name="password"> <span class="label label-warning"
+				ng-show="userForm.password.$error.required">Required</span>
+		</div>
+		<div class="form-group">
+			<label>Email</label> <input type="text" class="form-control"
+				ng-model="currentUser.email">
+		</div>
+		<div class="form-group">
+			<label>Avatar</label> <input type="file" ngf-select name="file"
+				accept="image/*" ng-model="avatar">
+			<button class="btn btn-primary" ng-click="uploadAvatar()"
+				ng-disabled="!(!!avatar)" ng-click="uploadAvatar()">Upload
+				new avatar</button>
+			<img ng-src="{{currentUser.avatar}}"></img>
+		</div>
+		<div class="form-group">
+			<label>Role</label> <select class="form-control"
+				ng-options="role for role in roles" ng-model="currentUser.role">
+			</select>
+		</div>
+		<div class="form-group">
+			<label>Company</label> <select class="form-control"
+				ng-options="company as company.name for company in companies.content"
+				ng-model="currentUser.company">
+			</select>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary" ng-show="isNewUser"
+				ng-click="addUser()" ng-disabled="!userForm.$valid">Add</button>
+			<button class="btn btn-primary" ng-show="!isNewUser"
+				ng-click="saveUser()" ng-disabled="!userForm.$valid">Save</button>
+			<button class="btn btn-primary" ng-click="reset()">Reset</button>
+		</div>
+	</form>
+	<table class="table table-bordered">
+		<thead>
+			<tr class="well">
+				<th><strong>#</strong></th>
+				<th><strong>Name</strong></th>
+				<th><strong>Surname</strong></th>
+				<th><strong>Login</strong></strong></th>
+				<th><strong>Email</strong></th>
+				<th><strong>Avatar</strong></th>
+				<th><strong>Role</strong></th>
+				<th><strong>Company</strong></th>
+				<th><strong>Actions</strong></th>
 
-</tr>
-</thead>
-<tbody>
-<tr ng-repeat="account in accountsPage.content">
-<td>{{$index + 1}}</td>
-<td>{{account.name}}</td>
-<td>{{account.surname}}</td>
-<td>{{account.login}}</td>
-<td>{{account.email}}</td>
-<td><img ng-src="{{account.avatar}}"></img></td>
-<td>{{account.role}}</td>
-<td>{{account.company.name}}</td>
-<td>
-<button class="btn btn-success" ng-click="editUser(account.id)">Edit</button>
-<button class="btn btn-danger" ng-click="deleteUser(account.id)">Delete</button>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="clear"></div>
-<ul class="dc_pagination dc_paginationA dc_paginationA03">
-	<li ng-repeat="ind in [] | range:accountsPage.totalPages">
-		<a href="#{{path}}page={{ind}}" ng-class="{ current: $index == currentPage }">{{ind+1}}</a>
-	</li>
-</ul>
-<div class="clear"></div>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="account in accountsPage.content">
+				<td>{{$index + 1}}</td>
+				<td>{{account.name}}</td>
+				<td>{{account.surname}}</td>
+				<td>{{account.login}}</td>
+				<td>{{account.email}}</td>
+				<td><img ng-src="{{account.avatar}}"></img></td>
+				<td>{{account.role}}</td>
+				<td>{{account.company.name}}</td>
+				<td>
+					<button class="btn btn-success" ng-click="editUser(account.id)">Edit</button>
+					<button class="btn btn-danger" ng-click="deleteUser(account.id)">Delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="clear"></div>
+	<ul class="dc_pagination dc_paginationA dc_paginationA03">
+		<li ng-repeat="ind in [] | range:accountsPage.totalPages"><a
+			href="#{{path}}page={{ind}}"
+			ng-class="{ current: $index == currentPage }">{{ind+1}}</a></li>
+	</ul>
+	<div class="clear"></div>
 </div>

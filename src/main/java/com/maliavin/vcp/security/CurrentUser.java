@@ -17,6 +17,8 @@ public final class CurrentUser implements UserDetails {
 
     private static final long serialVersionUID = 4474011966837013929L;
 
+    private static final String ROLE_USER = "User";
+
     private final User user;
 
     public CurrentUser(@Nonnull User account) {
@@ -31,7 +33,11 @@ public final class CurrentUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(Constants.Role.USER.name()));
+        if (user.getRole().equalsIgnoreCase(ROLE_USER)) {
+            return Collections.singleton(new SimpleGrantedAuthority(Constants.Role.USER.name()));
+        } else {
+            return Collections.singleton(new SimpleGrantedAuthority(Constants.Role.ADMIN.name()));
+        }
     }
 
     @Override

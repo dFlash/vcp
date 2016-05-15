@@ -1,11 +1,8 @@
 package com.maliavin.vcp.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -19,11 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maliavin.vcp.domain.Video;
-import com.maliavin.vcp.exception.CantProcessMediaContentException;
 import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UploadForm;
 import com.maliavin.vcp.security.CurrentUser;
-import com.maliavin.vcp.service.ImageService;
 import com.maliavin.vcp.service.UserService;
 
 /**
@@ -41,9 +36,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ImageService imageService;
-
     @RequestMapping(value = "/videos", method = RequestMethod.POST)
     public @ResponseBody Video uploadVideo(@AuthenticationPrincipal CurrentUser currentUser,
             @ModelAttribute UploadForm uploadForm) {
@@ -58,26 +50,13 @@ public class UserController {
 
     @RequestMapping(value = "/thumbnail", method = RequestMethod.POST)
     public @ResponseBody Map<String, String> uploadThumbnail(@ModelAttribute ThumbnailForm thumbnailForm){
-        String thumbnailUrl = null;
-        try {
-            thumbnailUrl = imageService.saveImageData(thumbnailForm.getFile().getBytes());
-        } catch (CantProcessMediaContentException e) {
-            throw new ApplicationContextException("Could not upload thumbnail");
-        } catch (IOException e) {
-            throw new ApplicationContextException("Could not upload thumbnail");
-        }
-        Map<String, String> map = new HashMap<>();
-        map.put("thumbnailUrl", thumbnailUrl);
+        Map<String, String> map = userService.uploadThumbnail(thumbnailForm);
         return map;
     }
 
     @RequestMapping(value = "/videos/{id}", method = RequestMethod.PUT)
     public void updateVideo(@PathVariable("id") String id, @RequestBody Video video){
-        Video currentVideo = userService.getVideo(id);
-        currentVideo.setThumbnail(video.getThumbnail());
-        currentVideo.setTitle(video.getTitle());
-        currentVideo.setDescription(video.getDescription());
-        userService.updateVideo(currentVideo);
+        userService.updateVideo(id, video);
     }
     
     @RequestMapping(value = "/videos/{id}", method = RequestMethod.DELETE)

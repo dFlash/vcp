@@ -19,15 +19,17 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	$scope.path = $location.path() + "?";
 	$scope.companiesPage = adminService.listCompanies($scope.currentPage);
 	
-	//
-	$scope.isNewCompany = true;
-	$scope.currentCompany = {};
-	
-	$scope.currentCompany.name = '';
-	$scope.currentCompany.address = '';
-	$scope.currentCompany.contactEmail = '';
-	$scope.currentCompany.phone = '';
-	
+	$scope.reset = function() {
+		$scope.isNewCompany = true;
+		$scope.currentCompany = {};
+		
+		$scope.currentCompany.name = '';
+		$scope.currentCompany.address = '';
+		$scope.currentCompany.contactEmail = '';
+		$scope.currentCompany.phone = '';
+	};
+	$scope.reset();
+
 	$scope.editCompany = function(id) {
 		for (i=0; i < $scope.companiesPage.content.length; i++)
 		{
@@ -38,16 +40,6 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 				break;
 			}
 		}
-	};
-	$scope.reset = function() {
-		//
-		$scope.isNewCompany = true;
-		$scope.currentCompany = {};
-		
-		$scope.currentCompany.name = '';
-		$scope.currentCompany.address = '';
-		$scope.currentCompany.contactEmail = '';
-		$scope.currentCompany.phone = '';
 	};
 	
 	$scope.addCompany = function () {
@@ -88,32 +80,6 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	$scope.path = $location.path() + "?";
 	$scope.accountsPage = adminService.listAccounts($scope.currentPage);
 	
-	$scope.isNewUser = true;
-	$scope.currentUser = {};
-	$scope.companies = adminService.listAllCompanies();
-	$scope.currentUser.company = {};
-	
-	$scope.roles = ['User', 'Admin'];
-	$scope.currentUser.role = $scope.roles[0];
-	
-	$scope.currentUser.name = '';
-	$scope.currentUser.surname = '';
-	$scope.currentUser.login = '';
-	$scope.currentUser.email = '';
-	$scope.currentUser.avatar = '';
-	$scope.currentUser.password = '';
-	
-	$scope.editUser = function(id) {
-		for (i=0; i < $scope.accountsPage.content.length; i++)
-		{
-			if ($scope.accountsPage.content[i].id == id)
-			{
-				$scope.currentUser = $scope.accountsPage.content[i];
-				$scope.isNewUser = false;
-				break;
-			}
-		}
-	};
 	$scope.reset = function() {
 		$scope.isNewUser = true;
 		$scope.currentUser = {};
@@ -129,6 +95,19 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 		$scope.currentUser.email = '';
 		$scope.currentUser.avatar = '';
 		$scope.currentUser.password = '';
+	};
+	$scope.reset();
+	
+	$scope.editUser = function(id) {
+		for (i=0; i < $scope.accountsPage.content.length; i++)
+		{
+			if ($scope.accountsPage.content[i].id == id)
+			{
+				$scope.currentUser = $scope.accountsPage.content[i];
+				$scope.isNewUser = false;
+				break;
+			}
+		}
 	};
 	
 	$scope.uploadAvatar = function() {

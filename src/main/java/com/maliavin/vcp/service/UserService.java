@@ -1,5 +1,7 @@
 package com.maliavin.vcp.service;
 
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 
 import org.springframework.data.domain.Page;
@@ -7,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UploadForm;
 
 /**
@@ -24,7 +27,9 @@ public interface UserService {
 
     Video getVideo(String id);
 
-    void updateVideo(@Nonnull Video video);
+    void updateVideo(@Nonnull String id, @Nonnull Video video);
 
     void deleteVideo(String id);
+
+    Map<String, String> uploadThumbnail(ThumbnailForm thumbnailForm);
 }

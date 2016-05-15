@@ -1,8 +1,12 @@
 package com.maliavin.vcp.service.impl;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,10 +14,13 @@ import org.springframework.stereotype.Service;
 
 import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
+import com.maliavin.vcp.exception.CantProcessMediaContentException;
+import com.maliavin.vcp.form.AvatarForm;
 import com.maliavin.vcp.repository.storage.CompanyRepository;
 import com.maliavin.vcp.repository.storage.UserRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.AdminService;
+import com.maliavin.vcp.service.ImageService;
 
 /**
  * Service for administrators.
@@ -36,6 +43,9 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ImageService imageService;
+
     @Override
     public Page<User> getAccounts(Pageable pageable) {
         return userRepository.findAll(pageable);
@@ -54,8 +64,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void saveUser(User user) {
-        userRepository.save(user);
+    public void saveUser(String id, User user) {
+        User currentUser = gerUser(id);
+        if (currentUser == null){
+            throw new ApplicationContextException("User does not exist");
+        }
+        currentUser.setAvatar(user.getAvatar());
+        currentUser.setCompany(user.getCompany());
+        currentUser.setEmail(user.getEmail());
+        currentUser.setLogin(user.getLogin());
+        currentUser.setName(user.getName());
+        currentUser.setRole(user.getRole());
+        currentUser.setSurname(user.getSurname());
+        userRepository.save(currentUser);
     }
 
     @Override
@@ -94,8 +115,31 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void saveCompany(Company company) {
-        companyRepository.save(company);
+    public void saveCompany(String id, Company company) {
+        Company currentCompany = getCompany(id);
+        if (currentCompany == null) {
+            throw new ApplicationContextException("Error in saving company - company is empty");
+        }
+        currentCompany.setAddress(company.getAddress());
+        currentCompany.setContactEmail(company.getContactEmail());
+        currentCompany.setName(company.getName());
+        currentCompany.setPhone(company.getPhone());
+        companyRepository.save(currentCompany);
+    }
+
+    @Override
+    public Map<String, String> uploadAvatar(AvatarForm avatarForm) {
+        String avatarUrl = null;
+        try {
+            avatarUrl = imageService.saveImageData(avatarForm.getFile().getBytes());
+        } catch (CantProcessMediaContentException e) {
+            throw new ApplicationContextException("Error in upload avatar");
+        } catch (IOException e) {
+            throw new ApplicationContextException("Error in upload avatar");
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("avatarUrl", avatarUrl);
+        return map;
     }
 
 }
