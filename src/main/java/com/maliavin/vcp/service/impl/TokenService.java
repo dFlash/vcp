@@ -25,7 +25,9 @@ public class TokenService implements PersistentTokenRepository {
     @Override
     public void updateToken(String series, String value, Date lastUsed) {
         Token token = repository.findBySeries(series);
-        repository.save(new Token(token.getId(), token.getUsername(), series, value, lastUsed));
+        if (token != null) {
+            repository.save(new Token(token.getId(), token.getUsername(), series, value, lastUsed));
+        }
     }
 
     @Override
@@ -36,6 +38,8 @@ public class TokenService implements PersistentTokenRepository {
     @Override
     public void removeUserTokens(String username) {
         Token token = repository.findByUsername(username);
-        repository.save(token);
+        if (token != null) {
+            repository.delete(token);
+        }
     }
 }
