@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.form.ChangePasswordForm;
+import com.maliavin.vcp.form.UsernameForm;
 import com.maliavin.vcp.service.CommonService;
 
 /**
@@ -45,6 +49,16 @@ public class CommonController {
             @PageableDefault(size = ELEMENT_PER_PAGE) Pageable pageable) {
         Page<Video> videos = commonService.listVideosBySearchQuery(query, pageable);
         return videos;
+    }
+    
+    @RequestMapping(value = "/send-mail", method = RequestMethod.POST)
+    public void sendEmail(@RequestBody UsernameForm usernameForm) {
+        commonService.sendMail(usernameForm);
+    }
+    
+    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordForm changePasswordForm) {
+        return commonService.changePassword(changePasswordForm);
     }
 
 }

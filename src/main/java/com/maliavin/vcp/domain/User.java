@@ -40,6 +40,8 @@ public class User implements Serializable {
 
     private String password;
 
+    private String hash;
+
     public User() {
         super();
     }
@@ -127,6 +129,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 
     @Override

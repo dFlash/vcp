@@ -14,14 +14,26 @@ angular.module('app-services', ['ngResource'])
 		}
 	}
 }])
-.service("loginService", ['$http', function($http) {
+.service("loginService", ['$http', '$resource', function($http, $resource) {
 	return {
 		login : function(config, success) {
 			$http.post("/login", null, config).success(success);
 		},
 		logout : function(success) {
 			$http.post("/logout").success(success);
+		},
+		sendMail : function(postData, success, error) {
+			var url = '/send-mail';
+			$resource(url).save({},postData, success, error);
 		}
 	}
 	
+}])
+.service("changePasswordService", ['$resource', function($resource) {
+	return {
+		sendNewPassword : function (postData, success, error){
+			var url = '/change-password';
+			$resource(url).save({},postData, success, error);
+		}
+	}
 }]);

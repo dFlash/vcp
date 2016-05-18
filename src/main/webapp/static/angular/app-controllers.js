@@ -85,6 +85,16 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 		  
 	  }
 	  loginService.login(config, success);
+	};
+	
+	$scope.sendHash = function() {
+		var postData = {username: $scope.name};
+		loginService.sendMail(postData,
+				function() {
+					alert('Check your email');
+				}, function(){
+					alert('Server error')
+				});
 	}
 }])
 .controller('logoutController', ['$scope', 'loginService', '$location', function($scope, loginService, $location){
@@ -96,4 +106,37 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 .controller('menuController', ['$scope', 'Roles', function($scope, Roles){
 	  $scope.admin = Roles.admin;
 	  $scope.user = Roles.user;
+}])
+.controller("changePasswordController", ['$scope', 'changePasswordService', '$location', '$route',
+                                         function($scope, changePasswordService, $location, $route){
+	$scope.changePwd = function(){
+		var success = function() {
+		  alert("Password changed successfully");
+		  $location.path("/login");
+	  };
+	  
+	  var error = function() {
+		  alert("Password was not changed");
+		  $route.reload();
+	  };
+	  
+	  var getParameterByName = function(name, url) {
+		    name = name.replace(/[\[\]]/g, "\\$&");
+		    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		        results = regex.exec(url);
+		    if (!results) return null;
+		    if (!results[2]) return '';
+		    return decodeURIComponent(results[2].replace(/\+/g, " "));
+		};
+		
+		var userId = getParameterByName('id',$location.absUrl());
+	  
+	  var postData = {
+			  newPassword : $scope.newPassword,
+	  		  repeatPassword : $scope.repeatPassword,
+	  		  userId: userId
+	  };
+
+	  changePasswordService.sendNewPassword(postData, success, error);
+	}
 }]);

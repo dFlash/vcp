@@ -17,4 +17,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, String>
     User findByName(String name);
 
     List<User> removeByUserCompanyId(String userCompanyId);
+
+    User findByIdAndHash(String id, String hash);
 }
