@@ -1,17 +1,16 @@
 package com.maliavin.vcp.service.impl;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.maliavin.vcp.component.UploadVideoTempStorage;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
@@ -20,9 +19,8 @@ import com.maliavin.vcp.form.UploadForm;
 import com.maliavin.vcp.repository.search.VideoSearchRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.ImageService;
-import com.maliavin.vcp.service.ThumbnailService;
 import com.maliavin.vcp.service.UserService;
-import com.maliavin.vcp.service.VideoService;
+import com.maliavin.vcp.service.VideoProcessorService;
 
 /**
  * Service for registered users.
@@ -34,10 +32,8 @@ import com.maliavin.vcp.service.VideoService;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private VideoService videoService;
-
-    @Autowired
-    private ThumbnailService thumbnailService;
+    @Qualifier("asyncVideoProcessorService")
+    private VideoProcessorService videoProcessorService;
 
     @Autowired
     private ImageService imageService;
@@ -48,18 +44,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private VideoSearchRepository videoSearchRepository;
 
-    @Autowired
-    private UploadVideoTempStorage uploadVideoTempStorage;
-
     @Override
     public Video uploadVideo(User currentUser, UploadForm form) {
-        Path tempUploadedVideoPath = uploadVideoTempStorage.getTempUploadedVideoPath();
-        String videoUrl = videoService.saveVideo(tempUploadedVideoPath);
-        byte[] thumbnailImageData = thumbnailService.createThumbnail(tempUploadedVideoPath);
-        String thumbnailImageUrl = imageService.saveImageData(thumbnailImageData);
-        String title = form.getTitle();
-        String description = form.getDescription();
-        Video video = new Video(title, description, currentUser, thumbnailImageUrl, videoUrl);
+        Video video = videoProcessorService.processVideo(form, currentUser);
         videoRepository.save(video);
         videoSearchRepository.save(video);
         return video;

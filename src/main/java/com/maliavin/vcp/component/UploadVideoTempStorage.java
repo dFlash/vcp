@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -24,32 +25,29 @@ import com.maliavin.vcp.form.UploadForm;
 @Component
 public class UploadVideoTempStorage {
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadVideoTempStorage.class);
-    private final ThreadLocal<Path> tempUploadedVideoPathStorage = new ThreadLocal<>();
+    private Path tempUploadedVideoPathStorage;
 
     public Path getTempUploadedVideoPath() {
-        return tempUploadedVideoPathStorage.get();
+        return tempUploadedVideoPathStorage;
     }
 
-    @Around("execution(* com.maliavin.vcp.service.impl.UserServiceImpl.uploadVideo(..))")
-    public Object advice(ProceedingJoinPoint pjp) throws Throwable {
-        UploadForm form = (UploadForm) pjp.getArgs()[1];
-        Path tempUploadedVideoPath = null;
+    @Before("execution(* com.maliavin.vcp.service.impl.AsyncVideoProcessorService.processVideo(..))")
+    public void advice(JoinPoint jp) throws Throwable {
+        UploadForm form = (UploadForm) jp.getArgs()[0];
         try {
-            tempUploadedVideoPath = Files.createTempFile("upload", ".video");
-            form.getFile().transferTo(tempUploadedVideoPath.toFile());
-            tempUploadedVideoPathStorage.set(tempUploadedVideoPath);
-            return pjp.proceed();
-        } catch (IOException e) {
+            tempUploadedVideoPathStorage = Files.createTempFile("upload", ".video");
+            form.getFile().transferTo(tempUploadedVideoPathStorage.toFile());
+        } catch (IOException | IllegalArgumentException e) {
             throw new CantProcessMediaContentException("Can't save video content to temp file: " + e.getMessage(), e);
-        } finally {
-            tempUploadedVideoPathStorage.remove();
-            if (tempUploadedVideoPath != null) {
-                try {
-                    Files.deleteIfExists(tempUploadedVideoPath);
-                } catch (IOException e) {
-                    LOGGER.warn("Can't remove temp file: " + tempUploadedVideoPath, e);
-                }
-            }
+        }
+    }
+    
+    @After("execution(* com.maliavin.vcp.service.impl.SimpleVideoProcessorService.processVideo(..))")
+    public void afterVideoProcessing() {
+        try {
+            Files.deleteIfExists(tempUploadedVideoPathStorage);
+        } catch (IOException e) {
+            LOGGER.warn("Can't remove temp file: " + tempUploadedVideoPathStorage, e);
         }
     }
 }
