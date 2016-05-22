@@ -37,8 +37,8 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	$scope.videosPage = videoService.listAll($scope.currentPage);
 	}
 ])
-.controller('videoController', ['$scope', 'videoService', '$routeParams',
-    function($scope, videoService, $routeParams){
+.controller('videoController', ['$scope', 'videoService', '$routeParams', '$route',
+    function($scope, videoService, $routeParams, $route){
 		$scope.video = videoService.getVideo($routeParams.videoId);
 	}
 ])

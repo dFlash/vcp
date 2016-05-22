@@ -70,7 +70,8 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	};
 }
 ])
-.controller('accountsController', ['$scope', 'adminService', '$location', '$route', function($scope, adminService, $location, $route){
+.controller('accountsController', ['$scope', 'adminService', '$location', '$route', 'DefaultAvatar',
+                                   function($scope, adminService, $location, $route, DefaultAvatar){
 	if ($location.search().page == null) {
 		$scope.currentPage = 0;
 	}
@@ -93,7 +94,7 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 		$scope.currentUser.surname = '';
 		$scope.currentUser.login = '';
 		$scope.currentUser.email = '';
-		$scope.currentUser.avatar = '';
+		$scope.currentUser.avatar = DefaultAvatar;
 		$scope.currentUser.password = '';
 	};
 	$scope.reset();
@@ -111,18 +112,18 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	};
 	
 	$scope.uploadAvatar = function() {
-		var uploadForm = new FormData();
-		uploadForm.append('file', $scope.avatar);
-		var service = adminService.uploadAvatar();
-		service.upload({}, uploadForm, 
-	    		function(response) {
-					alert("Upload completed successfully");
-					$scope.currentUser.avatar = response.avatarUrl;
-				},
-				function(response) {
-					alert("Upload error");
-				}
+		if ($scope.currentUser.email){
+			var postData = {email: $scope.currentUser.email};
+			var service = adminService.uploadAvatar();
+			service.upload({}, postData, 
+					function(response) {
+						$scope.currentUser.avatar = response.avatarUrl;
+					},
+					function(response) {
+						alert("Upload avatar error");
+					}
 			);
+		}
 	};
 	
 	$scope.addUser = function () {

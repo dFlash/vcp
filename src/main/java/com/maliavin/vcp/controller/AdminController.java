@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationContextException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +47,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/avatar", method = RequestMethod.POST)
-    public @ResponseBody Map<String, String> uploadAvatar(@ModelAttribute AvatarForm avatarForm) {
+    public @ResponseBody Map<String, String> uploadAvatar(@RequestBody AvatarForm avatarForm) {
         Map<String, String> map = adminService.uploadAvatar(avatarForm);
         return map;
     }

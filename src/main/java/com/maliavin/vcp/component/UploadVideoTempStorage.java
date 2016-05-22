@@ -1,5 +1,6 @@
 package com.maliavin.vcp.component;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,6 +27,12 @@ import com.maliavin.vcp.form.UploadForm;
 public class UploadVideoTempStorage {
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadVideoTempStorage.class);
     private Path tempUploadedVideoPathStorage;
+    
+    private String tempThumbnail;
+
+    public void setTempThumbnail(String tempThumbnail) {
+        this.tempThumbnail = tempThumbnail;
+    }
 
     public Path getTempUploadedVideoPath() {
         return tempUploadedVideoPathStorage;
@@ -46,6 +53,12 @@ public class UploadVideoTempStorage {
     public void afterVideoProcessing() {
         try {
             Files.deleteIfExists(tempUploadedVideoPathStorage);
+            if (tempThumbnail != null){
+                File tempThumbnailFile = new File(tempThumbnail);
+                if (!tempThumbnailFile.delete()) {
+                    LOGGER.error("Temporary thumbnail file was not deleted: " + tempThumbnailFile.getAbsolutePath());
+                }
+            }
         } catch (IOException e) {
             LOGGER.warn("Can't remove temp file: " + tempUploadedVideoPathStorage, e);
         }

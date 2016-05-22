@@ -46,7 +46,7 @@ public class User implements Serializable {
         super();
     }
 
-    public User(String name, String surname, String login, String email, Company company, String avatar, String role,
+    public User(String name, String surname, String login, String email, Company company, String role,
             String password) {
         super();
         this.name = name;
@@ -54,7 +54,6 @@ public class User implements Serializable {
         this.login = login;
         this.email = email;
         this.userCompany = company;
-        this.avatar = avatar;
         this.role = role;
         this.password = password;
     }

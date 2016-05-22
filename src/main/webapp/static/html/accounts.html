@@ -22,14 +22,10 @@
 		</div>
 		<div class="form-group">
 			<label>Email</label> <input type="text" class="form-control"
-				ng-model="currentUser.email">
+				ng-model="currentUser.email" ng-blur="uploadAvatar()">
 		</div>
 		<div class="form-group">
-			<label>Avatar</label> <input type="file" ngf-select name="file"
-				accept="image/*" ng-model="avatar">
-			<button class="btn btn-primary" ng-click="uploadAvatar()"
-				ng-disabled="!(!!avatar)" ng-click="uploadAvatar()">Upload
-				new avatar</button>
+			<label>Avatar</label> 
 			<img ng-src="{{currentUser.avatar}}"></img>
 		</div>
 		<div class="form-group">

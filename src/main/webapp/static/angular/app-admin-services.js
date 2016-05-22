@@ -30,9 +30,7 @@ angular.module('app-admin-services', ['ngResource'])
 		},
 		uploadAvatar : function (){
 			return $resource('/admin/avatar', {}, {upload: {
-				method: 'POST',
-	            transformRequest: angular.identity,
-	            headers: {'Content-Type': undefined}
+				method: 'POST'
 	        }});
 		},
 		addUser : function (){

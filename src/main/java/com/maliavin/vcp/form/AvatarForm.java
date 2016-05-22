@@ -1,7 +1,5 @@
 package com.maliavin.vcp.form;
 
-import org.springframework.web.multipart.MultipartFile;
-
 /**
  * Stores required data for uploading avatar.
  * 
@@ -9,23 +7,24 @@ import org.springframework.web.multipart.MultipartFile;
  * @since 0.0.1
  */
 public class AvatarForm {
-    private MultipartFile file;
+    private String email;
 
     public AvatarForm() {
         super();
     }
 
-    public AvatarForm(MultipartFile file) {
+    public AvatarForm(String email) {
         super();
-        this.file = file;
+        this.email = email;
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public String getEmail() {
+        return email;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
 
 }

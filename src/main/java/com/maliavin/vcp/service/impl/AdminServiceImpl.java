@@ -1,6 +1,5 @@
 package com.maliavin.vcp.service.impl;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,13 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
-import com.maliavin.vcp.exception.CantProcessMediaContentException;
 import com.maliavin.vcp.form.AvatarForm;
 import com.maliavin.vcp.repository.storage.CompanyRepository;
 import com.maliavin.vcp.repository.storage.UserRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.AdminService;
-import com.maliavin.vcp.service.ImageService;
+import com.maliavin.vcp.service.AvatarService;
 
 /**
  * Service for administrators.
@@ -44,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private ImageService imageService;
+    private AvatarService avatarService;
 
     @Override
     public Page<User> getAccounts(Pageable pageable) {
@@ -129,14 +127,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Map<String, String> uploadAvatar(AvatarForm avatarForm) {
-        String avatarUrl = null;
-        try {
-            avatarUrl = imageService.saveImageData(avatarForm.getFile().getBytes());
-        } catch (CantProcessMediaContentException e) {
-            throw new ApplicationContextException("Error in upload avatar");
-        } catch (IOException e) {
-            throw new ApplicationContextException("Error in upload avatar");
-        }
+        String avatarUrl = avatarService.generateAvatarUrl(avatarForm.getEmail());
         Map<String, String> map = new HashMap<>();
         map.put("avatarUrl", avatarUrl);
         return map;

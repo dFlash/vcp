@@ -14,6 +14,7 @@ import org.jcodec.api.JCodecException;
 import org.jcodec.common.FileChannelWrapper;
 import org.jcodec.common.model.Picture;
 import org.jcodec.scale.AWTUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
@@ -25,8 +26,11 @@ import com.maliavin.vcp.service.ThumbnailService;
  * @author DMaliavin
  * @since 0.0.1
  */
-@Service
+@Service("jCodecThumbnailService")
 public class JCodecThumbnailService implements ThumbnailService {
+
+    @Value("${thumbnail.seconds.range}")
+    private String secondsRange;
 
     @Override
     public byte[] createThumbnail(Path videoFilePath) {
@@ -39,7 +43,8 @@ public class JCodecThumbnailService implements ThumbnailService {
 
     private byte[] createThumbnailInternal(Path videoFilePath) throws IOException, JCodecException {
         Random random = new Random();
-        Picture nativeFrame = getVideoFrameBySecondPrecise(videoFilePath, random.nextInt(15));
+        Picture nativeFrame = getVideoFrameBySecondPrecise(videoFilePath,
+                random.nextInt(Integer.parseInt(secondsRange)));
         if (nativeFrame == null) {
             throw new CantProcessMediaContentException(
                     "First video frame not found for video file: " + videoFilePath.getFileName());
