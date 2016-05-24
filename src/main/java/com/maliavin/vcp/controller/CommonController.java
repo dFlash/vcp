@@ -1,10 +1,13 @@
 package com.maliavin.vcp.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.ChangePasswordForm;
 import com.maliavin.vcp.form.UsernameForm;
+import com.maliavin.vcp.security.CurrentUser;
 import com.maliavin.vcp.service.CommonService;
 
 /**
@@ -39,8 +43,9 @@ public class CommonController {
     }
 
     @RequestMapping(value = "/video/{videoId}", method = RequestMethod.GET)
-    public @ResponseBody Video getVideo(@PathVariable String videoId) {
-        Video video = commonService.getVideo(videoId);
+    public @ResponseBody Video getVideo(@PathVariable String videoId, @AuthenticationPrincipal CurrentUser currentUser,
+            HttpServletRequest request) {
+        Video video = commonService.getVideo(videoId, currentUser, request);
         return video;
     }
 

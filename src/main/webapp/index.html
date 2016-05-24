@@ -33,6 +33,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<li ng-show="principal.role==user"><a ng-href="#/user-videos?page=0">My videos</a><p>For registered users</p></li>
 					<li ng-show="principal.role==admin"><a ng-href="#/admin/accounts?page=0">Accounts</a><p>For registered admins</p></li>
 					<li ng-show="principal.role==admin"><a ng-href="#/admin/companies?page=0">Companies</a><p>For registered admins</p></li>
+					<li ng-show="principal.role==admin"><a ng-href="#/admin/statistics?page=0">Statistics</a><p>For registered admins</p></li>
 					<li ng-show="!principal.auth"><a ng-href="#/login">Sign in</a><p>For registered users</p></li>
 					<li ng-show="principal.auth"><a ng-href="#/logout">Logout</a><p>For registered users</p></li>
 				</ul>

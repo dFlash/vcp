@@ -8,6 +8,10 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
     	templateUrl: 'static/html/accounts.html',
         controller:'accountsController' 
     });
+    $routeProvider.when('/admin/statistics', {
+    	templateUrl: 'static/html/statistics.html',
+        controller:'statisticsController' 
+    });
 })
 .controller('companiesController', ['$scope', 'adminService', '$location', '$route', function($scope, adminService, $location, $route){
 	if ($location.search().page == null) {
@@ -160,4 +164,15 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 			alert("User was not deleted");
 		})
 	}
+}])
+.controller("statisticsController", ['$scope', 'adminService', '$location',
+                                     function($scope, adminService, $location){
+	if ($location.search().page == null) {
+		$scope.currentPage = 0;
+	}
+	else {
+		$scope.currentPage = $location.search().page;
+	}
+	$scope.path = $location.path() + "?";
+	$scope.statistics = adminService.statistics();
 }]);

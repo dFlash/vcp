@@ -50,6 +50,10 @@ angular.module('app-admin-services', ['ngResource'])
 		deleteUser : function (id, success, error){
 			var url = '/admin/accounts/' + id;
 			return $resource(url).remove(success, error);
+		},
+		statistics : function (pageNum){
+			var url = '/admin/statistics?page=' + pageNum;
+			return $resource(url).get();
 		}
 	}
 }]);

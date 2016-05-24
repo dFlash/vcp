@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.maliavin.vcp.domain.Company;
+import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.form.AvatarForm;
 import com.maliavin.vcp.repository.storage.CompanyRepository;
@@ -19,6 +20,7 @@ import com.maliavin.vcp.repository.storage.UserRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.AdminService;
 import com.maliavin.vcp.service.AvatarService;
+import com.maliavin.vcp.service.StatisticsService;
 
 /**
  * Service for administrators.
@@ -43,6 +45,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AvatarService avatarService;
+
+    @Autowired
+    private StatisticsService statisticsService;
 
     @Override
     public Page<User> getAccounts(Pageable pageable) {
@@ -131,6 +136,12 @@ public class AdminServiceImpl implements AdminService {
         Map<String, String> map = new HashMap<>();
         map.put("avatarUrl", avatarUrl);
         return map;
+    }
+
+    @Override
+    public List<Statistics> statistics() {
+        List<Statistics> statistics = statisticsService.list();
+        return statistics;
     }
 
 }
