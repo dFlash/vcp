@@ -7,37 +7,26 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
+import com.maliavin.vcp.domain.Statistics;
+
 @Configuration
 @EnableRedisRepositories("com.maliavin.vcp.repository.statistics")
 public class RedisConfig {
 
-//    @Bean
-//    public JedisConnectionFactory connectionFactory() {
-//        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-//        jedisConnectionFactory.setUsePool(true);
-//        jedisConnectionFactory.setHostName("localhost");
-//        jedisConnectionFactory.setPort(6379);
-//        jedisConnectionFactory.setPassword("");
-//        return jedisConnectionFactory;
-//    }
-//    
-//    @Bean 
-//    public RedisTemplate<?, ?> redisTemplate()
-//    {
-//        RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
-//        template.setConnectionFactory(connectionFactory());
-//        return template;
-//    }
-    
     @Bean
     public RedisConnectionFactory connectionFactory() {
-      return new JedisConnectionFactory();
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+        jedisConnectionFactory.setHostName("localhost");
+        jedisConnectionFactory.setPort(6379);
+        jedisConnectionFactory.setUsePool(true);
+        
+        return jedisConnectionFactory;
     }
 
     @Bean
-    public RedisTemplate<?, ?> redisTemplate() {
+    public RedisTemplate<Statistics, String> redisTemplate() {
 
-      RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
+      RedisTemplate<Statistics, String> template = new RedisTemplate<Statistics, String>();
       template.setConnectionFactory(connectionFactory());
       return template;
     }

@@ -1,56 +1,50 @@
 package com.maliavin.vcp.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 @RedisHash("statistics")
 public class Statistics {
 
     @Id
-    private String id;
+    private String statisticsId;
 
-    private String userName;
-    
+    @Indexed
     private String videoName;
 
-    private String time;
+    @Indexed
+    private String date;
 
-    private String address;
+    private Integer viewsCount;
+
+    private Set<String> userName = new HashSet<>();
 
     public Statistics() {
         super();
     }
-
-    public Statistics(String userName, String time, String address, String videoName) {
+    
+    public Statistics(String statisticsId) {
         super();
-        this.userName = userName;
-        this.time = time;
-        this.address = address;
+        this.statisticsId = statisticsId;
+    }
+
+    public Statistics(String videoName, String date, Integer viewsCount) {
+        super();
         this.videoName = videoName;
+        this.date = date;
+        this.viewsCount = viewsCount;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getStatisticsId() {
+        return statisticsId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStatisticsId(String statisticsId) {
+        this.statisticsId = statisticsId;
     }
 
     public String getVideoName() {
@@ -61,12 +55,28 @@ public class Statistics {
         this.videoName = videoName;
     }
 
-    @Override
-    public String toString() {
-        return "Statistics [id=" + id + ", userName=" + userName + ", videoName=" + videoName + ", time=" + time
-                + ", address=" + address + "]";
+    public String getDate() {
+        return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
 
+    public Integer getViewsCount() {
+        return viewsCount;
+    }
+
+    public void setViewsCount(Integer viewsCount) {
+        this.viewsCount = viewsCount;
+    }
+
+    public Set<String> getUserName() {
+        return userName;
+    }
+
+    public void setUserName(Set<String> userName) {
+        this.userName = userName;
+    }
 
 }

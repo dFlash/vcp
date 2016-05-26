@@ -13,4 +13,6 @@ public interface StatisticsService {
     @Nonnull
     List<Statistics> list();
 
+    Statistics get(String videoName, String date);
+
 }
