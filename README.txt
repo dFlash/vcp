@@ -3,9 +3,9 @@ Application address:
 http://52.38.173.113:8080/
 
 Admin:
-login: Admin
+login: admin
 password: 111
 
 User:
-login: Tim
+login: tim
 password: 123
