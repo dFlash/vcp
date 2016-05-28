@@ -23,6 +23,8 @@ public class Statistics {
 
     private Set<String> userName = new HashSet<>();
 
+    private Set<String> addresses = new HashSet<>();
+
     public Statistics() {
         super();
     }
@@ -77,6 +79,14 @@ public class Statistics {
 
     public void setUserName(Set<String> userName) {
         this.userName = userName;
+    }
+
+    public Set<String> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<String> addresses) {
+        this.addresses = addresses;
     }
 
 }

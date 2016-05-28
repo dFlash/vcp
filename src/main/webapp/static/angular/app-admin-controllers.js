@@ -165,14 +165,7 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 		})
 	}
 }])
-.controller("statisticsController", ['$scope', 'adminService', '$location',
-                                     function($scope, adminService, $location){
-	if ($location.search().page == null) {
-		$scope.currentPage = 0;
-	}
-	else {
-		$scope.currentPage = $location.search().page;
-	}
-	$scope.path = $location.path() + "?";
+.controller("statisticsController", ['$scope', 'adminService', 
+                                     function($scope, adminService){
 	$scope.statistics = adminService.statistics();
 }]);

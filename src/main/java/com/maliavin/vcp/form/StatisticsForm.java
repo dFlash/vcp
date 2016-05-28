@@ -2,8 +2,6 @@ package com.maliavin.vcp.form;
 
 import java.util.List;
 
-import com.maliavin.vcp.domain.Statistics;
-
 /**
  * Stores required data for statistics list response.
  * 
@@ -11,22 +9,22 @@ import com.maliavin.vcp.domain.Statistics;
  * @since 0.0.1
  */
 public class StatisticsForm {
-    private List<Statistics> content;
+    private List<StatisticRowForm> content;
 
     public StatisticsForm() {
         super();
     }
 
-    public StatisticsForm(List<Statistics> content) {
+    public StatisticsForm(List<StatisticRowForm> content) {
         super();
         this.content = content;
     }
 
-    public List<Statistics> getContent() {
+    public List<StatisticRowForm> getContent() {
         return content;
     }
 
-    public void setContent(List<Statistics> content) {
+    public void setContent(List<StatisticRowForm> content) {
         this.content = content;
     }
 

@@ -17,8 +17,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                         <showWarnings>true</showWarnings>
                         <showDeprecation>true</showDeprecation>
                         <debug>true</debug>
@@ -98,8 +98,11 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
-            <version>1.7.1.RELEASE</version>
+            <version>1.7.0.RELEASE</version>
         </dependency>
+
+
+
 
         <dependency>
             <groupId>org.springframework</groupId>

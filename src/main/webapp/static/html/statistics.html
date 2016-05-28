@@ -4,19 +4,19 @@
 		<thead>
 			<tr class="well">
 				<th><strong>#</strong></th>
-				<th><strong>UserName</strong></th>
 				<th><strong>VideoName</strong></th>
-				<th><strong>Time</strong></th>
-				<th><strong>Address</strong></strong></th>
+				<th><strong>Total views</strong></th>
+				<th><strong>Total different users</strong></th>
+				<th><strong>Total different addresses</strong></strong></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="statistics in statistics.content">
 				<td>{{$index + 1}}</td>
-				<td>{{statistics.userName}}</td>
 				<td>{{statistics.videoName}}</td>
-				<td>{{statistics.time}}</td>
-				<td>{{statistics.address}}</td>
+				<td>{{statistics.viewCount}}</td>
+				<td>{{statistics.users}}</td>
+				<td>{{statistics.addresses}}</td>
 			</tr>
 		</tbody>
 	</table>

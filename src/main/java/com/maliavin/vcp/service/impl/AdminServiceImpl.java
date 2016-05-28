@@ -3,6 +3,7 @@ package com.maliavin.vcp.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContextException;
@@ -15,6 +16,8 @@ import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.form.AvatarForm;
+import com.maliavin.vcp.form.StatisticRowForm;
+import com.maliavin.vcp.form.StatisticsForm;
 import com.maliavin.vcp.repository.storage.CompanyRepository;
 import com.maliavin.vcp.repository.storage.UserRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
@@ -139,9 +142,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Statistics> statistics() {
+    public StatisticsForm statistics() {
         List<Statistics> statistics = statisticsService.list();
-        return statistics;
+        List<StatisticRowForm> rowForms = statistics.stream().map(stat -> {
+            StatisticRowForm row = new StatisticRowForm();
+            row.setAddresses(stat.getAddresses().size());
+            row.setUsers(stat.getUserName().size());
+            row.setVideoName(stat.getVideoName());
+            row.setViewCount(stat.getViewsCount());
+            return row;}).collect(Collectors.toList());
+        StatisticsForm statisticsForm = new StatisticsForm();
+        statisticsForm.setContent(rowForms);
+        return statisticsForm;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.maliavin.vcp.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -9,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.maliavin.vcp.domain.Company;
-import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.form.AvatarForm;
+import com.maliavin.vcp.form.StatisticsForm;
 
 /**
  * Admin service interface which specify operations for administrators.
@@ -49,6 +48,6 @@ public interface AdminService {
     Map<String, String> uploadAvatar(AvatarForm avatarForm);
 
     @Nonnull
-    List<Statistics> statistics();
+    StatisticsForm statistics();
 
 }

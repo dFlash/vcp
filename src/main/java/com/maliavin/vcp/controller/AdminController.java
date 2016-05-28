@@ -1,6 +1,5 @@
 package com.maliavin.vcp.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maliavin.vcp.domain.Company;
-import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.form.AvatarForm;
 import com.maliavin.vcp.form.CompanyForm;
@@ -99,8 +97,7 @@ public class AdminController {
     
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public @ResponseBody StatisticsForm getStatistics() {
-        List<Statistics> statistics = adminService.statistics();
-        StatisticsForm form = new StatisticsForm(statistics);
+        StatisticsForm form = adminService.statistics();
         return form;
     }
 

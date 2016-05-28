@@ -10,4 +10,6 @@ public interface StatisticsRepository extends CrudRepository<Statistics, String>
 
     List<Statistics> findByVideoNameAndDate(String videoName, String date);
 
+    List<Statistics> findByDate(String date);
+
 }

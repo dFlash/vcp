@@ -1,10 +1,5 @@
 package com.maliavin.vcp.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,14 +18,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.support.collections.DefaultRedisList;
-import org.springframework.data.redis.support.collections.DefaultRedisSet;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.maliavin.vcp.DateUtils;
 import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
@@ -89,7 +82,7 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public Video getVideo(String id, CurrentUser currentUser, HttpServletRequest request) {
         Video video = videoRepository.findOne(id);
-        executorService.submit(new StatisticsItem(currentUser, request, video));
+        executorService.submit(new StatisticsItem(currentUser, request.getRemoteAddr(), video));
         return video;
     }
 
@@ -153,15 +146,16 @@ public class CommonServiceImpl implements CommonService {
     private class StatisticsItem implements Runnable
     {
 
+        private static final String UNKNOWN_USER = "Unknown";
         private CurrentUser currentUser;
         
-        private HttpServletRequest request;
+        private String addr;
         
         private Video video;
         
-        public StatisticsItem(CurrentUser currentUser, HttpServletRequest request, Video video) {
+        public StatisticsItem(CurrentUser currentUser, String addr, Video video) {
             this.currentUser = currentUser;
-            this.request = request;
+            this.addr = addr;
             this.video = video;
         }
         @Override
@@ -171,30 +165,22 @@ public class CommonServiceImpl implements CommonService {
         }
 
         private Statistics createStatistics(){
-            String date = getDate();
+            String date = DateUtils.getCurrentDate();
             Statistics statistics = statisticsService.get(video.getTitle(), date);
 
             if (statistics == null){
                 statistics = new Statistics(video.getTitle(), date, 0);
-                statistics.setStatisticsId("1");
             }
 
-            String userName = "Unknown";
+            String userName = UNKNOWN_USER;
             if (currentUser != null){
                 userName = currentUser.getUser().getName() + " " + currentUser.getUser().getSurname();
             }
             statistics.getUserName().add(userName);
+            statistics.getAddresses().add(addr);
             statistics.setViewsCount(statistics.getViewsCount() + 1);
             return statistics;
         }
-
-        private String getDate(){
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            Date date = new Date();
-            String currentDate = dateFormat.format(date);
-            return currentDate;
-        }
-        
     }
 
 }
