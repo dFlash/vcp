@@ -14,9 +14,11 @@ import com.maliavin.vcp.domain.User;
  */
 public interface UserRepository extends PagingAndSortingRepository<User, String> {
 
-    User findByName(String name);
+    User findByLogin(String login);
 
     List<User> removeByUserCompanyId(String userCompanyId);
 
     User findByIdAndHash(String id, String hash);
+
+    List<User> findByLoginOrEmail(String login, String email);
 }

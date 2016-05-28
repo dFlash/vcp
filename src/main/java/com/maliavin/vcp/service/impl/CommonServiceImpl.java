@@ -102,7 +102,7 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public void sendMail(UsernameForm usernameForm) {
-        User user = userRepository.findByName(usernameForm.getUsername());
+        User user = userRepository.findByLogin(usernameForm.getUsername());
         if (user == null) {
             throw new ApplicationContextException("User does not exist");
         }

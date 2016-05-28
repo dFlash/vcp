@@ -23,6 +23,9 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
     $routeProvider.when('/403', {
     	templateUrl: 'static/html/403.html'
     });
+    $routeProvider.when('/serverError', {
+    	templateUrl: 'static/html/500.html'
+    });
     $routeProvider.otherwise({redirectTo:'/videos'});
 })
 

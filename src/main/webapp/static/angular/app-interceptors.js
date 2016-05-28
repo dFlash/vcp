@@ -1,5 +1,6 @@
 angular.module('app-interceptors', [])
-.factory('authHttpResponseInterceptor',['$q', '$location', '$rootScope', function($q, $location, $rootScope){
+.factory('authHttpResponseInterceptor',['$q', '$location', '$rootScope',
+                                        function($q, $location, $rootScope){
     return {
         responseError: function(rejection) {
             if (rejection.status === 401) {
@@ -11,6 +12,14 @@ angular.module('app-interceptors', [])
             }
             if (rejection.status === 403) {
                 $location.path('/403');
+            }
+            if (rejection.status === 500) {
+            	if (rejection.data.hasOwnProperty("addError") && rejection.data.addError == true){
+            		alert(rejection.data.message);
+            	}
+            	else{
+            		$location.path('/serverError');
+            	}
             }
             return $q.reject(rejection);
         },
