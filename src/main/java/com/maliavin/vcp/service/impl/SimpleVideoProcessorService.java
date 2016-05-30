@@ -19,21 +19,21 @@ import com.maliavin.vcp.service.VideoService;
 @Service("simpleVideoProcessorService")
 public class SimpleVideoProcessorService implements VideoProcessorService {
 
-	@Autowired
-	private VideoService videoService;
+    @Autowired
+    private VideoService videoService;
 
-	@Autowired
-	@Qualifier("ffmpegThumbnailService")
-	private ThumbnailService thumbnailService;
+    @Autowired
+    @Qualifier("ffmpegThumbnailService")
+    private ThumbnailService thumbnailService;
 
-	@Autowired
-	private ImageService imageService;
-	
-	@Autowired
-	private UploadVideoTempStorage uploadVideoTempStorage;
-	
-	@Override
-	public Video processVideo(UploadForm uploadForm, User user) {
+    @Autowired
+    private ImageService imageService;
+    
+    @Autowired
+    private UploadVideoTempStorage uploadVideoTempStorage;
+    
+    @Override
+    public Video processVideo(UploadForm uploadForm, User user) {
         Path tempUploadedVideoPath = uploadVideoTempStorage.getTempUploadedVideoPath();
         String videoUrl = videoService.saveVideo(tempUploadedVideoPath);
         byte[] thumbnailImageData = thumbnailService.createThumbnail(tempUploadedVideoPath);
@@ -42,5 +42,5 @@ public class SimpleVideoProcessorService implements VideoProcessorService {
         String description = uploadForm.getDescription();
         Video video = new Video(title, description, user, thumbnailImageUrl, videoUrl);
         return video;
-	}
+    }
 }
