@@ -71,6 +71,42 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <version>1.7.4</version>
+                <executions>
+                    <execution>
+                        <id>default-minify</id>
+                        <phase>package</phase><!-- When omitted defaults to 'process-resources' -->
+                        <configuration>
+                            <charset>UTF-8</charset>
+                            <cssSourceDir>static/css</cssSourceDir>
+                            <cssSourceFiles>
+                                <cssSourceFile>style.css</cssSourceFile>
+                            </cssSourceFiles>
+                            <cssFinalFile>style.css</cssFinalFile>
+                            <jsSourceDir>static/angular</jsSourceDir>
+                            <jsSourceFiles>
+                                <jsSourceFile>app-admin-controllers.js</jsSourceFile>
+                                <jsSourceFile>app-admin-services.js</jsSourceFile>
+                                <jsSourceFile>app-constants.js</jsSourceFile>
+                                <jsSourceFile>app-controllers.js</jsSourceFile>
+                                <jsSourceFile>app-filters.js</jsSourceFile>
+                                <jsSourceFile>app-interceptors.js</jsSourceFile>
+                                <jsSourceFile>app-services.js</jsSourceFile>
+                                <jsSourceFile>app-user-controllers.js</jsSourceFile>
+                                <jsSourceFile>app-user-services.js</jsSourceFile>
+                            </jsSourceFiles>
+                            <jsFinalFile>script.js</jsFinalFile>
+                            <jsEngine>CLOSURE</jsEngine>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -143,8 +179,9 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.7</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.jcodec</groupId>
@@ -190,6 +227,28 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.2.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+        </dependency>
+
+
+
 
     </dependencies>
 </project>

@@ -24,10 +24,10 @@ public class MongoConfig {
     private String mongoHost;
 
     @Value("${mongo.port}")
-    private int mongoPort;
+    private String mongoPort;
 
     public @Bean MongoClient mongoClient() throws UnknownHostException {
-        return new MongoClient("localhost", mongoPort);
+        return new MongoClient(mongoHost, Integer.parseInt(mongoPort));
     }
 
     public @Bean MongoTemplate mongoTemplate(@Value("${mongo.db}") String mongoDb) throws Exception {

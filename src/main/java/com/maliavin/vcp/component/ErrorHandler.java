@@ -38,7 +38,7 @@ public class ErrorHandler extends DefaultHandlerExceptionResolver {
             if (ex instanceof SavingException) {
                 response.getWriter().write(addErrorMsg);
             } else {
-                response.getWriter().write("{ \"message\":\"internal server error\"}");
+                response.getWriter().write("{ \"message\":\"" + ex.getMessage() + "\"}");
             }
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         } catch (IOException e) {
