@@ -21,7 +21,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
  * @since 0.0.1
  */
 @Configuration
-@ComponentScan({ "com.maliavin.vcp.service.impl", "com.maliavin.vcp.component" })
+@ComponentScan({ "com.maliavin.vcp.service.impl", "com.maliavin.vcp.component", "com.maliavin.vcp.filter" })
 @EnableAspectJAutoProxy
 public class ServiceConfig {
 

@@ -97,6 +97,7 @@
                                 <jsSourceFile>app-services.js</jsSourceFile>
                                 <jsSourceFile>app-user-controllers.js</jsSourceFile>
                                 <jsSourceFile>app-user-services.js</jsSourceFile>
+                                <jsSourceFile>app.js</jsSourceFile>
                             </jsSourceFiles>
                             <jsFinalFile>script.js</jsFinalFile>
                             <jsEngine>CLOSURE</jsEngine>

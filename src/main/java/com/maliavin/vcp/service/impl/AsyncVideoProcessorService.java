@@ -15,13 +15,14 @@ import org.springframework.stereotype.Service;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.repository.search.VideoSearchRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.VideoProcessorService;
 
 @Service("asyncVideoProcessorService")
 public class AsyncVideoProcessorService implements VideoProcessorService {
 
-    private static final String STUB_IMG = "ajax-loader.gif";
+    private static final String STUB_IMG = "Reload.png";
     private ExecutorService executorService;
 
     @Value("${image.dir}")
@@ -33,6 +34,9 @@ public class AsyncVideoProcessorService implements VideoProcessorService {
 
     @Autowired
     private VideoRepository videoRepository;
+
+    @Autowired
+    private VideoSearchRepository videoSearchRepository;
 
     @PostConstruct
     private void postConstruct() {
@@ -73,6 +77,7 @@ public class AsyncVideoProcessorService implements VideoProcessorService {
             video.setVideoUrl(processedVideo.getVideoUrl());
             video.setThumbnail(processedVideo.getThumbnail());
             videoRepository.save(video);
+            videoSearchRepository.save(video);
         }
     }
 }

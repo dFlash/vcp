@@ -11,8 +11,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -23,10 +25,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.maliavin.vcp.domain.Company;
+import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.exception.ApplicationException;
@@ -54,6 +58,9 @@ public class CreateTestDataService {
 
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
+
+    @Autowired
+    private RedisTemplate<Statistics, String> redisTemplate;
 
     @Autowired
     private AvatarService avatarService;
@@ -121,6 +128,20 @@ public class CreateTestDataService {
         mongoTemplate.remove(new Query(), Video.class);
         mongoTemplate.remove(new Query(), User.class);
         mongoTemplate.remove(new Query(), Company.class);
+
+        clearRedisStorage();
+    }
+
+    private void clearRedisStorage() {
+        Set<byte[]> keys = redisTemplate.getConnectionFactory().getConnection().keys("*".getBytes());
+        Iterator<byte[]> it = keys.iterator();
+
+        while (it.hasNext()) {
+
+            byte[] data = (byte[]) it.next();
+
+            System.out.println(new String(data, 0, data.length));
+        }
     }
 
     private List<Company> buildCompanies() {
@@ -136,14 +157,15 @@ public class CreateTestDataService {
 
     private List<User> buildUsers(List<Company> companies) {
         List<User> users = Arrays.asList(
-                new User("Tim", "Roberts", "tim", "vaks60021@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
+                new User("Tim", "Roberts", "tim", "vaks60021@gmail.com",
+                        companies.get(RANDOM.nextInt(companies.size())), "User",
+                        "$2a$10$uUGLVw.OTwXVRuwxdSN7TuKfHot8i5nMWSMSsEBAKTOiGFjXr53La"),
+                new User("Max", "Pane", "max", "dima_91@ukr.net", companies.get(RANDOM.nextInt(companies.size())), "User",
+                        "$2a$10$uUGLVw.OTwXVRuwxdSN7TuKfHot8i5nMWSMSsEBAKTOiGFjXr53La"),
+                new User("Robert", "Dann", "rob", "tron78_22@mail.ru", companies.get(RANDOM.nextInt(companies.size())),
                         "User", "$2a$10$uUGLVw.OTwXVRuwxdSN7TuKfHot8i5nMWSMSsEBAKTOiGFjXr53La"),
-                new User("Max", "Pane", "max", "max@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                         "User", "$2a$10$uUGLVw.OTwXVRuwxdSN7TuKfHot8i5nMWSMSsEBAKTOiGFjXr53La"),
-                new User("Robert", "Dann", "rob", "robert@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                         "User", "$2a$10$uUGLVw.OTwXVRuwxdSN7TuKfHot8i5nMWSMSsEBAKTOiGFjXr53La"),
                 new User("Admin", "Admin", "admin", "admin@gmail.com", companies.get(RANDOM.nextInt(companies.size())),
-                         "Admin", "$2a$10$QMlM1WTQdVw.F4Sp2jf6kOWt9RUeSgHAhOVT8ThXiaqOMs.idVIVa"));
+                        "Admin", "$2a$10$QMlM1WTQdVw.F4Sp2jf6kOWt9RUeSgHAhOVT8ThXiaqOMs.idVIVa"));
         for (User user : users) {
             String avatar = avatarService.generateAvatarUrl(user.getEmail());
             user.setAvatar(avatar);

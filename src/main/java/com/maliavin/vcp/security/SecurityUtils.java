@@ -32,8 +32,8 @@ public class SecurityUtils {
     public static void addPrincipalHeaders(HttpServletResponse resp) {
         User account = SecurityUtils.getCurrentUser();
         if (account != null) {
-            resp.setHeader("PrincipalName", account.getName());
-            resp.setHeader("PrincipalRole", account.getRole());
+            resp.addHeader("PrincipalName", account.getName());
+            resp.addHeader("PrincipalRole", account.getRole());
         }
     }
 }

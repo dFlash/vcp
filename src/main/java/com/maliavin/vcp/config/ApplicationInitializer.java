@@ -47,14 +47,15 @@ public class ApplicationInitializer implements WebApplicationInitializer {
     private void registerFilters(ServletContext container, WebApplicationContext ctx) {
         registerFilter(container, new CharacterEncodingFilter("UTF-8", true));
         registerFilter(container, new RequestContextFilter());
+        registerFilter(container, new DelegatingFilterProxy("customProductionFilter"), "customProductionFilter");
         registerFilter(container, new DelegatingFilterProxy("springSecurityFilterChain"), "springSecurityFilterChain");
+        
     }
-    
+
     private void registerFilter(ServletContext container, Filter filter, String... filterNames) {
         String filterName = filterNames.length > 0 ? filterNames[0] : filter.getClass().getSimpleName();
         container.addFilter(filterName, filter).addMappingForUrlPatterns(null, true, "/*");
     }
-
 
     private void registerDispatcherServlet(ServletContext container, WebApplicationContext ctx) {
         ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));

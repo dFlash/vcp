@@ -89,7 +89,8 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public Page<Video> listVideosBySearchQuery(String searchQuery, Pageable pageable) {
         SearchQuery query = createSearchQuery(searchQuery, pageable);
-        return videoSearchRepository.search(query);
+        Page<Video> videos = videoSearchRepository.search(query);
+        return videos;
     }
 
     private SearchQuery createSearchQuery(String searchQuery, Pageable pageable) {

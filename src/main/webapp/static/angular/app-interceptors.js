@@ -24,7 +24,8 @@ angular.module('app-interceptors', [])
             return $q.reject(rejection);
         },
         response: function(response) {
-        	
+        	var production = response.headers('production');
+        	$rootScope.production = production;
         	var name = response.headers('PrincipalName');
         	var role = response.headers('PrincipalRole');
         	if(name != undefined && role != undefined) {

@@ -1,11 +1,15 @@
 package com.maliavin.vcp.service.impl;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.exception.ApplicationException;
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
 import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UploadForm;
@@ -31,6 +36,12 @@ import com.maliavin.vcp.service.VideoProcessorService;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Value("${thumbnails.dir}")
+    private String thumbnailsDir;
+
+    @Value("${videos.dir}")
+    private String videosDir;
+
     @Autowired
     @Qualifier("asyncVideoProcessorService")
     private VideoProcessorService videoProcessorService;
@@ -40,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private VideoRepository videoRepository;
-    
+
     @Autowired
     private VideoSearchRepository videoSearchRepository;
 
@@ -73,7 +84,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteVideo(String id) {
-        videoRepository.delete(id);
+        Video v = videoRepository.findOne(id);
+        try {
+            clearVideoResources(v);
+        } catch (IOException e) {
+            throw new ApplicationException("Couldn't delete video file from FS", e);
+        }
+        finally {
+            videoRepository.delete(v);
+        }
+    }
+
+    private void clearVideoResources(Video v) throws IOException {
+        String thumbnailName = getThumbnailImg(v.getThumbnail());
+        String thumbnailFileName = FilenameUtils.concat(thumbnailsDir, thumbnailName);
+        File thumbnailFile = new File(thumbnailFileName);
+        Files.deleteIfExists(thumbnailFile.toPath());
+
+        String videoName = getThumbnailImg(v.getVideoUrl());
+        String videoFileName = FilenameUtils.concat(videosDir, videoName);
+        File videoFile = new File(videoFileName);
+        Files.deleteIfExists(videoFile.toPath());
+
+    }
+
+    private String getThumbnailImg(String thumbnailUrl) {
+        if (thumbnailUrl.lastIndexOf('\\') > -1) {
+            String thumbnailImg = thumbnailUrl.substring(thumbnailUrl.lastIndexOf('\\') + 1);
+            return thumbnailImg;
+        } else {
+            String thumbnailImg = thumbnailUrl.substring(thumbnailUrl.lastIndexOf('/') + 1);
+            return thumbnailImg;
+        }
     }
 
     @Override
