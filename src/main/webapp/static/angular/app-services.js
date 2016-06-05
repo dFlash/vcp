@@ -6,11 +6,11 @@ angular.module('app-services', ['ngResource'])
 			return $resource(url).get();
 		},
 		getVideo : function (videoId){
-			var url = '/video/'+videoId;
+			var url = '/my-account/video/'+videoId;
 			return $resource(url).get();
 		},
 		listBySearchQuery : function(pageNum, query) {
-			return $resource('/videos/search?query=:queryParam&page=:pageParam',{queryParam:query, pageParam:pageNum}).get();
+			return $resource('/my-account/videos/search?query=:queryParam&page=:pageParam',{queryParam:query, pageParam:pageNum}).get();
 		}
 	}
 }])

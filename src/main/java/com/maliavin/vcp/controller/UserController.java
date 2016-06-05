@@ -2,6 +2,8 @@ package com.maliavin.vcp.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +22,7 @@ import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UploadForm;
 import com.maliavin.vcp.security.CurrentUser;
+import com.maliavin.vcp.service.CommonService;
 import com.maliavin.vcp.service.UserService;
 
 /**
@@ -35,6 +39,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommonService commonService;
 
     @RequestMapping(value = "/videos", method = RequestMethod.POST)
     public @ResponseBody Video uploadVideo(@AuthenticationPrincipal CurrentUser currentUser,
@@ -62,5 +69,19 @@ public class UserController {
     @RequestMapping(value = "/videos/{id}", method = RequestMethod.DELETE)
     public void deleteVideo(@PathVariable("id") String id) {
         userService.deleteVideo(id);
+    }
+    
+    @RequestMapping(value = "/video/{videoId}", method = RequestMethod.GET)
+    public @ResponseBody Video getVideo(@PathVariable String videoId, @AuthenticationPrincipal CurrentUser currentUser,
+            HttpServletRequest request) {
+        Video video = commonService.getVideo(videoId, currentUser, request);
+        return video;
+    }
+
+    @RequestMapping(value = "/videos/search", method = RequestMethod.GET)
+    public @ResponseBody Page<Video> findVideos(@RequestParam("query") String query,
+            @PageableDefault(size = ELEMENT_PER_PAGE) Pageable pageable) {
+        Page<Video> videos = commonService.listVideosBySearchQuery(query, pageable);
+        return videos;
     }
 }
