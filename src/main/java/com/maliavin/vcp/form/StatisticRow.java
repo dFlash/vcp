@@ -1,6 +1,6 @@
 package com.maliavin.vcp.form;
 
-public class StatisticRowForm {
+public class StatisticRow {
     
     private String videoName;
     
@@ -10,12 +10,12 @@ public class StatisticRowForm {
     
     private Integer addresses;
 
-    public StatisticRowForm() {
+    public StatisticRow() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    public StatisticRowForm(String videoName, Integer viewCount, Integer users, Integer addresses) {
+    public StatisticRow(String videoName, Integer viewCount, Integer users, Integer addresses) {
         super();
         this.videoName = videoName;
         this.viewCount = viewCount;

@@ -20,15 +20,15 @@ public class Company implements Serializable{
     @Id
     private String id;
 
-    @Indexed(unique = true, name = "name")
+    @Indexed(unique = true)
     private String name;
 
     private String address;
 
-    @Indexed(unique = true, name = "contactEmail")
+    @Indexed(unique = true)
     private String contactEmail;
 
-    @Indexed(unique = true, name = "phone")
+    @Indexed(unique = true)
     private String phone;
 
     public Company() {

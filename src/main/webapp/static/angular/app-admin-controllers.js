@@ -26,11 +26,6 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	$scope.reset = function() {
 		$scope.isNewCompany = true;
 		$scope.currentCompany = {};
-		
-		$scope.currentCompany.name = '';
-		$scope.currentCompany.address = '';
-		$scope.currentCompany.contactEmail = '';
-		$scope.currentCompany.phone = '';
 	};
 	$scope.reset();
 
@@ -56,7 +51,7 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	};
 	
 	$scope.saveCompany = function() {
-		adminService.updateCompany($scope.currentCompany.id, $scope.currentCompany, function() {
+		adminService.updateCompany($scope.currentCompany, function() {
 			alert('Company was updated');
 			$route.reload();
 		}, function() {
@@ -65,12 +60,14 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	};
 	
 	$scope.deleteCompany = function(id){
-		adminService.deleteCompany(id, function() {
-			alert('Company was deleted');
-			$route.reload();
-		}, function() {
+		if (confirm('Are you sure you want to delete company')){
+			adminService.deleteCompany(id, function() {
+				alert('Company was deleted');
+				$route.reload();
+			}, function() {
 			alert('Company was not deleted');
-		})
+			})
+		}
 	};
 }
 ])
@@ -84,22 +81,13 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	}
 	$scope.path = $location.path() + "?";
 	$scope.accountsPage = adminService.listAccounts($scope.currentPage);
+	$scope.companies = adminService.listAllCompanies();
+	
+	$scope.roles = ['User', 'Admin'];
 	
 	$scope.reset = function() {
 		$scope.isNewUser = true;
 		$scope.currentUser = {};
-		$scope.companies = adminService.listAllCompanies();
-		$scope.currentUser.company = {};
-		
-		$scope.roles = ['User', 'Admin'];
-		$scope.currentUser.role = $scope.roles[0];
-		
-		$scope.currentUser.name = '';
-		$scope.currentUser.surname = '';
-		$scope.currentUser.login = '';
-		$scope.currentUser.email = '';
-		$scope.currentUser.avatar = DefaultAvatar;
-		$scope.currentUser.password = '';
 	};
 	$scope.reset();
 	
@@ -113,6 +101,7 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 				break;
 			}
 		}
+		$scope.repeatPassword = '';
 	};
 	
 	$scope.uploadAvatar = function() {
@@ -144,7 +133,7 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	};
 	
 	$scope.saveUser = function() {
-		var service = adminService.updateUser($scope.currentUser.id);
+		var service = adminService.updateUser();
 		service.update({}, $scope.currentUser, 
 		function(response) {
 			alert("User saved successfully");
@@ -156,13 +145,15 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	};
 	
 	$scope.deleteUser = function(id){
-		adminService.deleteUser(id, function() {
-			alert("Deleted successfully");
-			$route.reload();
-		},
-		function() {
-			alert("User was not deleted");
-		})
+		if (confirm('Are you sure you want to delete company')){
+			adminService.deleteUser(id, function() {
+				alert("Deleted successfully");
+				$route.reload();
+			},
+			function() {
+				alert("User was not deleted");
+			})
+		}
 	}
 }])
 .controller("statisticsController", ['$scope', 'adminService', 

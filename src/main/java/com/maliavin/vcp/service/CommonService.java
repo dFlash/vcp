@@ -1,6 +1,7 @@
 package com.maliavin.vcp.service;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ public interface CommonService {
 
     void sendMail(@Nonnull UsernameForm usernameForm);
 
-    User findUser(String id, String hash);
+    @Nullable User findUser(String id, String hash);
 
     ResponseEntity<String> changePassword(@Nonnull ChangePasswordForm changePasswordForm);
 

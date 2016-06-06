@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations;
 import com.maliavin.vcp.component.UploadVideoTempStorage;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
-import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.service.ImageService;
 import com.maliavin.vcp.service.ThumbnailService;
 import com.maliavin.vcp.service.VideoProcessorService;
@@ -55,7 +55,7 @@ public class SimpleVideoProcessorServiceTest {
 
         String title = "title";
         String desc = "desc";
-        UploadForm uf = new UploadForm(title, desc, null);
+        UploadVideoForm uf = new UploadVideoForm(title, desc, null);
         User user = new User();
         Video actualVideo = videoProcessorService.processVideo(uf, user);
 

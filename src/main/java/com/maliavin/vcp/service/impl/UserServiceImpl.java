@@ -20,7 +20,7 @@ import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.exception.ApplicationException;
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
 import com.maliavin.vcp.form.ThumbnailForm;
-import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.repository.search.VideoSearchRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.ImageService;
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     private VideoSearchRepository videoSearchRepository;
 
     @Override
-    public Video uploadVideo(User currentUser, UploadForm form) {
+    public Video uploadVideo(User currentUser, UploadVideoForm form) {
         Video video = videoProcessorService.processVideo(form, currentUser);
         videoRepository.save(video);
         videoSearchRepository.save(video);
@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService {
         currentVideo.setTitle(video.getTitle());
         currentVideo.setDescription(video.getDescription());
         videoRepository.save(currentVideo);
+        videoSearchRepository.save(currentVideo);
     }
 
     @Override
@@ -92,6 +93,7 @@ public class UserServiceImpl implements UserService {
         }
         finally {
             videoRepository.delete(v);
+            videoSearchRepository.delete(v);
         }
     }
 

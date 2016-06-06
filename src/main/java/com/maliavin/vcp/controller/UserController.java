@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.ThumbnailForm;
-import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.security.CurrentUser;
 import com.maliavin.vcp.service.CommonService;
 import com.maliavin.vcp.service.UserService;
@@ -45,7 +45,7 @@ public class UserController {
 
     @RequestMapping(value = "/videos", method = RequestMethod.POST)
     public @ResponseBody Video uploadVideo(@AuthenticationPrincipal CurrentUser currentUser,
-            @ModelAttribute UploadForm uploadForm) {
+            @ModelAttribute UploadVideoForm uploadForm) {
         return userService.uploadVideo(currentUser.getUser(), uploadForm);
     }
 

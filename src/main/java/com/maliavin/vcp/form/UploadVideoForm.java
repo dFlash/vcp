@@ -8,16 +8,16 @@ import org.springframework.web.multipart.MultipartFile;
  * @author DMaliavin
  * @since 0.0.1
  */
-public class UploadForm {
+public class UploadVideoForm {
     private String title;
     private String description;
     private MultipartFile file;
 
-    public UploadForm() {
+    public UploadVideoForm() {
         super();
     }
 
-    public UploadForm(String title, String description, MultipartFile file) {
+    public UploadVideoForm(String title, String description, MultipartFile file) {
         super();
         this.title = title;
         this.description = description;

@@ -1,5 +1,7 @@
 package com.maliavin.vcp.service;
 
+import javax.annotation.Nonnull;
+
 import com.maliavin.vcp.domain.User;
 
 /**
@@ -10,5 +12,5 @@ import com.maliavin.vcp.domain.User;
  */
 public interface NotificationService {
 
-    void sendRestoreAccessLink(User profile, String restoreLink);
+    void sendRestoreAccessLink(@Nonnull User profile, @Nonnull String restoreLink);
 }

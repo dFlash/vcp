@@ -3,6 +3,7 @@ package com.maliavin.vcp.service;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,26 +27,18 @@ public interface AdminService {
     @Nonnull
     Iterable<Company> listCompanies();
 
-    void addUser(@Nonnull User user);
-
-    void saveUser(@Nonnull String id, @Nonnull User user);
-
-    User gerUser(@Nonnull String userId);
+    void saveUser(@Nonnull User user);
 
     void deleteUser(@Nonnull String id);
 
     @Nonnull
     Page<Company> listCompanies(@Nonnull Pageable pageable);
 
-    void addCompany(@Nonnull Company company);
-
     void deleteCompany(@Nonnull String id);
 
-    Company getCompany(String id);
+    void saveCompany(@Nullable Company company);
 
-    void saveCompany(@Nonnull String id, Company company);
-
-    Map<String, String> uploadAvatar(AvatarForm avatarForm);
+    @Nonnull Map<String, String> uploadAvatar(AvatarForm avatarForm);
 
     @Nonnull
     StatisticsForm statistics();

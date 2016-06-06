@@ -17,7 +17,7 @@
 						{{errorFile.size / 1000000|number:1}}MB: max 20M</span>
 				</div>
 				<div style="padding-top:2%;">
-				<button class="btn btn-default navbar-btn" ng-disabled="!uploadForm.$valid" 
+				<button class="btn btn-default navbar-btn" ng-disabled="!uploadForm.$valid || disabled" 
 					ng-click="uploadVideo()">Upload</button>
 				</div>
 		</div>

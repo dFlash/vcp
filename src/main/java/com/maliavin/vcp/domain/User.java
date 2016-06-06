@@ -25,10 +25,10 @@ public class User implements Serializable {
 
     private String surname;
 
-    @Indexed(unique = true, name = "login")
+    @Indexed(unique = true)
     private String login;
 
-    @Indexed(unique = true, name = "email")
+    @Indexed(unique = true)
     private String email;
 
     @DBRef(lazy = true)

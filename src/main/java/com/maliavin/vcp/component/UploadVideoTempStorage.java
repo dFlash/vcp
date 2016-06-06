@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
-import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.form.UploadVideoForm;
 
 /**
  * Aspect for temporary saving video file on file system.
@@ -40,7 +40,7 @@ public class UploadVideoTempStorage {
 
     @Before("execution(* com.maliavin.vcp.service.impl.AsyncVideoProcessorService.processVideo(..))")
     public void advice(JoinPoint jp) throws Throwable {
-        UploadForm form = (UploadForm) jp.getArgs()[0];
+        UploadVideoForm form = (UploadVideoForm) jp.getArgs()[0];
         try {
             tempUploadedVideoPathStorage = Files.createTempFile("upload", ".video");
             form.getFile().transferTo(tempUploadedVideoPathStorage.toFile());

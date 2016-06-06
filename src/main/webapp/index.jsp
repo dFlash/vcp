@@ -15,8 +15,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<link ng-if="production=='false'" href="static/css/style.css" rel="stylesheet" type="text/css"  media="all" />
 		<link ng-if="production=='false'" href="static/css/bootstrap.css" rel="stylesheet" type="text/css"  media="all" />
 		<link ng-if="production=='false'" href="static/css/bootstrap-theme.css" rel="stylesheet" type="text/css"  media="all" />
-		<meta name="keywords" content="Videostube iphone web template, Andriod web template, Smartphone web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
-		<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+		<meta name="keywords" content="Video, portal" />
 	</head>
 	<body>
 	<!----start-wrap---->

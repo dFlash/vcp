@@ -13,8 +13,8 @@ angular.module('app-admin-services', ['ngResource'])
 			var url = '/admin/companies/' + id;
 			return $resource(url).remove(success, error);
 		},
-		updateCompany : function (id, putData, success, error){
-			var url = '/admin/companies/' + id;
+		updateCompany : function (putData, success, error){
+			var url = '/admin/companies';
 			var service = $resource(url, null, {
 		        'update': { method:'PUT' }
 		    });
@@ -40,8 +40,8 @@ angular.module('app-admin-services', ['ngResource'])
 	            headers: {'Content-Type': 'application/json'}
 	        }});
 		},
-		updateUser : function (id){
-			var url = '/admin/accounts/' + id;
+		updateUser : function (){
+			var url = '/admin/accounts';
 			return $resource(url, {}, {update: {
 				method: 'PUT',
 	            headers: {'Content-Type': 'application/json'}

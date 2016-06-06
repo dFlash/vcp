@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.ThumbnailForm;
-import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.repository.search.VideoSearchRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
 import com.maliavin.vcp.service.ImageService;
@@ -51,7 +51,7 @@ public class UserServiceImplTest {
     @Test
     public void uploadVideoTest() {
         User currentUser = new User();
-        UploadForm form = new UploadForm();
+        UploadVideoForm form = new UploadVideoForm();
         Video expected = new Video("videoUrl", "thumbnail");
         Mockito.when(videoProcessorService.processVideo(form, currentUser)).thenReturn(expected);
         Mockito.when(videoRepository.save(expected)).thenReturn(null);

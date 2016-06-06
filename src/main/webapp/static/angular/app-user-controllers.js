@@ -18,7 +18,9 @@ angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
     });
 })
 .controller('videoUploadController', ['$scope', 'userService', '$location', function ($scope, userService, $location) {
+	$scope.disabled = false;
     $scope.uploadVideo = function() {
+    	$scope.disabled = true;
     	var uploadForm = new FormData();
     	uploadForm.append('title', $scope.title);
     	uploadForm.append('description', $scope.description);
@@ -81,12 +83,16 @@ angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
 ])
 .controller('deleteVideoController', ['userService', '$routeParams', '$location',
     function(userService, $routeParams, $location){
-	userService.deleteVideo($routeParams.videoId, function(){
-		alert('Deleted successfully');
+	if (confirm('Are you sure you want to delete video')){
+		userService.deleteVideo($routeParams.videoId, function(){
+			alert('Deleted successfully');
+			$location.path('/user-videos');
+		},
+		function() {
+			alert("Video was not deleted");
+		})
+	} else {
 		$location.path('/user-videos');
-	},
-	function() {
-		alert("Video was not deleted");
-	})
+	}
 }
 ]);

@@ -3,7 +3,6 @@ package com.maliavin.vcp.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -55,15 +54,12 @@ public class AdminController {
 
     @RequestMapping(value = "/accounts", method = RequestMethod.POST)
     public void addAccount(@RequestBody User user) {
-        if (user == null) {
-            throw new ApplicationContextException("Error in adding user - user is empty");
-        }
-        adminService.addUser(user);
+        adminService.saveUser(user);
     }
 
-    @RequestMapping(value = "/accounts/{id}", method = RequestMethod.PUT)
-    public void updateAccount(@PathVariable("id") String id, @RequestBody User user){
-        adminService.saveUser(id, user);
+    @RequestMapping(value = "/accounts", method = RequestMethod.PUT)
+    public void updateAccount(@RequestBody User user){
+        adminService.saveUser(user);
     }
 
     @RequestMapping(value = "/accounts/{id}", method = RequestMethod.DELETE)
@@ -79,10 +75,7 @@ public class AdminController {
 
     @RequestMapping(value = "/companies", method = RequestMethod.POST)
     public void addCompany(@RequestBody Company company) {
-        if (company == null) {
-            throw new ApplicationContextException("Error in adding company - company is empty");
-        }
-        adminService.addCompany(company);
+        adminService.saveCompany(company);
     }
 
     @RequestMapping(value = "/companies/{id}", method = RequestMethod.DELETE)
@@ -90,9 +83,9 @@ public class AdminController {
         adminService.deleteCompany(id);
     }
     
-    @RequestMapping(value = "/companies/{id}", method = RequestMethod.PUT)
-    public void updateCompany(@PathVariable("id") String id, @RequestBody Company company){
-        adminService.saveCompany(id, company);
+    @RequestMapping(value = "/companies", method = RequestMethod.PUT)
+    public void updateCompany(@RequestBody Company company){
+        adminService.saveCompany(company);
     }
     
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)

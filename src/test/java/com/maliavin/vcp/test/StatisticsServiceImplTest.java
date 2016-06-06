@@ -44,35 +44,4 @@ public class StatisticsServiceImplTest {
         Assert.assertEquals(stats, actualStats);
     }
 
-    @Test
-    public void getNullTest() {
-        String date = DateUtils.getCurrentDate();
-        List<Statistics> stats = new ArrayList<>();
-        String videoName = "videoName";
-        Mockito.when(statisticsRepository.findByVideoNameAndDate(videoName, date)).thenReturn(stats);
-
-        Statistics actual = statisticsService.get(videoName, date);
-
-        Assert.assertTrue(actual == null);
-
-    }
-
-    @Test
-    public void getNotNullTest() {
-        String date = DateUtils.getCurrentDate();
-        List<Statistics> stats = new ArrayList<>();
-        String videoName = "videoName";
-        Integer viewsCount = 10;
-
-        Statistics expected = new Statistics(videoName, date, viewsCount);
-
-        stats.add(expected);
-        Mockito.when(statisticsRepository.findByVideoNameAndDate(videoName, date)).thenReturn(stats);
-
-        Statistics actual = statisticsService.get(videoName, date);
-
-        Assert.assertEquals(expected, actual);
-
-    }
-
 }

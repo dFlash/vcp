@@ -80,17 +80,6 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void getCompanyTest() {
-        String id = "id";
-        Company expectedCompany = new Company("test1", "test1", "test1", "test1");
-        Mockito.when(companyRepository.findOne(id)).thenReturn(expectedCompany);
-
-        Company actuaCompany = adminService.getCompany(id);
-
-        Assert.assertEquals(expectedCompany, actuaCompany);
-    }
-
-    @Test
     public void getAccountsTest() {
         Pageable pageable = new PageRequest(1, 1);
         List<User> returnList = new ArrayList<>();
@@ -104,18 +93,6 @@ public class AdminServiceTest {
         Page<User> expectedPage = new PageImpl<>(returnList);
 
         Assert.assertEquals(expectedPage, actuaPage);
-    }
-
-    @Test
-    public void getUserTest() {
-        String id = "id";
-        Company expectedCompany = new Company("test1", "test1", "test1", "test1");
-        User expectedUser = new User("name", "surname", "login", "email", expectedCompany, "role", "password");
-        Mockito.when(userRepository.findOne(id)).thenReturn(expectedUser);
-
-        User actuaUser = adminService.gerUser(id);
-
-        Assert.assertEquals(expectedUser, actuaUser);
     }
 
     @Test

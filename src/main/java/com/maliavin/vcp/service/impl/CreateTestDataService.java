@@ -34,7 +34,7 @@ import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.exception.ApplicationException;
-import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.service.AvatarService;
 import com.maliavin.vcp.service.UserService;
 
@@ -105,6 +105,8 @@ public class CreateTestDataService {
 
         clearCollections();
 
+        clearElasticSearchIndexes();
+
         List<Company> companies = buildCompanies();
 
         List<User> users = buildUsers(companies);
@@ -174,16 +176,19 @@ public class CreateTestDataService {
         LOGGER.info("Created {} test users", users.size());
         return users;
     }
+    
+    private void clearElasticSearchIndexes(){
+        elasticsearchOperations.deleteIndex(Video.class);
+    }
 
     private void buildVideos(List<User> users) {
-        elasticsearchOperations.deleteIndex(Video.class);
         List<String> videoLinks = getVideoLinks();
         List<Video> videos = new ArrayList<Video>();
         int index = 1;
         for (String videoLink : videoLinks) {
             User user = users.get(RANDOM.nextInt(users.size()));
             Video video = userService.uploadVideo(user,
-                    new UploadForm("Video" + index, null, new URLMultipartFile(videoLink)));
+                    new UploadVideoForm("Video" + index, null, new URLMultipartFile(videoLink)));
             videos.add(video);
             LOGGER.info("Video {} processed", index++);
         }

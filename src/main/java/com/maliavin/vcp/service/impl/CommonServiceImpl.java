@@ -23,8 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.maliavin.vcp.DateUtils;
-import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.ChangePasswordForm;
@@ -134,7 +132,7 @@ public class CommonServiceImpl implements CommonService {
         String newPassword = changePasswordForm.getNewPassword();
         String repeatPassword = changePasswordForm.getRepeatPassword();
         if (StringUtils.isEmpty(newPassword) || !newPassword.equals(repeatPassword)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new ApplicationContextException("Passwords are empty or not equals");
         }
         String id = changePasswordForm.getUserId();
         User user = userRepository.findOne(id);
@@ -146,8 +144,6 @@ public class CommonServiceImpl implements CommonService {
     
     private class StatisticsItem implements Runnable
     {
-
-        private static final String UNKNOWN_USER = "Unknown";
         private CurrentUser currentUser;
         
         private String addr;
@@ -161,26 +157,7 @@ public class CommonServiceImpl implements CommonService {
         }
         @Override
         public void run() {
-            Statistics statistics = createStatistics();
-            statisticsService.save(statistics);
-        }
-
-        private Statistics createStatistics(){
-            String date = DateUtils.getCurrentDate();
-            Statistics statistics = statisticsService.get(video.getTitle(), date);
-
-            if (statistics == null){
-                statistics = new Statistics(video.getTitle(), date, 0);
-            }
-
-            String userName = UNKNOWN_USER;
-            if (currentUser != null){
-                userName = currentUser.getUser().getName() + " " + currentUser.getUser().getSurname();
-            }
-            statistics.getUserName().add(userName);
-            statistics.getAddresses().add(addr);
-            statistics.setViewsCount(statistics.getViewsCount() + 1);
-            return statistics;
+            statisticsService.save(video.getTitle(), currentUser, addr);
         }
     }
 

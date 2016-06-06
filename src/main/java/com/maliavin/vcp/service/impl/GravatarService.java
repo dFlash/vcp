@@ -25,7 +25,8 @@ public class GravatarService implements AvatarService {
 
     @Override
     public String generateAvatarUrl(String email) {
-        String hash = md5Hex(email);
+        email = email.trim().toLowerCase();
+        final String hash = md5Hex(email);
         String url = createUrl(hash);
         return url;
     }
@@ -48,7 +49,7 @@ public class GravatarService implements AvatarService {
         return sb.toString();
     }
 
-    private String createUrl(String hash) {
+    private String createUrl(final String hash) {
         String url = gravatarUrl + 
                      hash + DEFAULT_EXTENSION +
                      "?size=" + Integer.parseInt(avatarSizeString) +

@@ -4,6 +4,6 @@ import javax.annotation.Nonnull;
 
 public interface AvatarService {
     
-    @Nonnull String generateAvatarUrl(String email);
+    @Nonnull String generateAvatarUrl(@Nonnull String email);
 
 }

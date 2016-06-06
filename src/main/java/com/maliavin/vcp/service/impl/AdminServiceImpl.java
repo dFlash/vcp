@@ -16,7 +16,7 @@ import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.form.AvatarForm;
-import com.maliavin.vcp.form.StatisticRowForm;
+import com.maliavin.vcp.form.StatisticRow;
 import com.maliavin.vcp.form.StatisticsForm;
 import com.maliavin.vcp.repository.storage.CompanyRepository;
 import com.maliavin.vcp.repository.storage.UserRepository;
@@ -54,7 +54,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<User> getAccounts(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        Page<User> users = userRepository.findAll(pageable);
+        for (User user : users){
+            user.setPassword("");
+        }
+        return users;
     }
 
     @Override
@@ -63,31 +67,20 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void addUser(User user) {
+    public void saveUser(User user) {
+        if (user == null){
+            throw new ApplicationContextException("User is empty");
+        }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        user.setAvatar(user.getAvatar());
+        user.setCompany(user.getCompany());
+        user.setEmail(user.getEmail());
+        user.setLogin(user.getLogin());
+        user.setName(user.getName());
+        user.setRole(user.getRole());
+        user.setSurname(user.getSurname());
         userRepository.save(user);
-    }
-
-    @Override
-    public void saveUser(String id, User user) {
-        User currentUser = gerUser(id);
-        if (currentUser == null){
-            throw new ApplicationContextException("User does not exist");
-        }
-        currentUser.setAvatar(user.getAvatar());
-        currentUser.setCompany(user.getCompany());
-        currentUser.setEmail(user.getEmail());
-        currentUser.setLogin(user.getLogin());
-        currentUser.setName(user.getName());
-        currentUser.setRole(user.getRole());
-        currentUser.setSurname(user.getSurname());
-        userRepository.save(currentUser);
-    }
-
-    @Override
-    public User gerUser(String userId) {
-        return userRepository.findOne(userId);
     }
 
     @Override
@@ -102,11 +95,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void addCompany(Company company) {
-        companyRepository.save(company);
-    }
-
-    @Override
     public void deleteCompany(String id) {
         List<User> removedUsers = userRepository.removeByUserCompanyId(id);
         for (User user : removedUsers){
@@ -116,21 +104,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Company getCompany(String id) {
-        return companyRepository.findOne(id);
-    }
-
-    @Override
-    public void saveCompany(String id, Company company) {
-        Company currentCompany = getCompany(id);
-        if (currentCompany == null) {
+    public void saveCompany(Company company) {
+        if (company == null) {
             throw new ApplicationContextException("Error in saving company - company is empty");
         }
-        currentCompany.setAddress(company.getAddress());
-        currentCompany.setContactEmail(company.getContactEmail());
-        currentCompany.setName(company.getName());
-        currentCompany.setPhone(company.getPhone());
-        companyRepository.save(currentCompany);
+        company.setAddress(company.getAddress());
+        company.setContactEmail(company.getContactEmail());
+        company.setName(company.getName());
+        company.setPhone(company.getPhone());
+        companyRepository.save(company);
     }
 
     @Override
@@ -144,8 +126,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public StatisticsForm statistics() {
         List<Statistics> statistics = statisticsService.list();
-        List<StatisticRowForm> rowForms = statistics.stream().map(stat -> {
-            StatisticRowForm row = new StatisticRowForm();
+        List<StatisticRow> rowForms = statistics.stream().map(stat -> {
+            StatisticRow row = new StatisticRow();
             row.setAddresses(stat.getAddresses().size());
             row.setUsers(stat.getUserName().size());
             row.setVideoName(stat.getVideoName());

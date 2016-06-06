@@ -9,22 +9,22 @@ import java.util.List;
  * @since 0.0.1
  */
 public class StatisticsForm {
-    private List<StatisticRowForm> content;
+    private List<StatisticRow> content;
 
     public StatisticsForm() {
         super();
     }
 
-    public StatisticsForm(List<StatisticRowForm> content) {
+    public StatisticsForm(List<StatisticRow> content) {
         super();
         this.content = content;
     }
 
-    public List<StatisticRowForm> getContent() {
+    public List<StatisticRow> getContent() {
         return content;
     }
 
-    public void setContent(List<StatisticRowForm> content) {
+    public void setContent(List<StatisticRow> content) {
         this.content = content;
     }
 

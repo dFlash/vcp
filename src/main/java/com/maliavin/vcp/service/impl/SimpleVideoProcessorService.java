@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.maliavin.vcp.component.UploadVideoTempStorage;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
-import com.maliavin.vcp.form.UploadForm;
+import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.service.ImageService;
 import com.maliavin.vcp.service.ThumbnailService;
 import com.maliavin.vcp.service.VideoProcessorService;
@@ -33,7 +33,7 @@ public class SimpleVideoProcessorService implements VideoProcessorService {
     private UploadVideoTempStorage uploadVideoTempStorage;
     
     @Override
-    public Video processVideo(UploadForm uploadForm, User user) {
+    public Video processVideo(UploadVideoForm uploadForm, User user) {
         Path tempUploadedVideoPath = uploadVideoTempStorage.getTempUploadedVideoPath();
         String videoUrl = videoService.saveVideo(tempUploadedVideoPath);
         byte[] thumbnailImageData = thumbnailService.createThumbnail(tempUploadedVideoPath);
