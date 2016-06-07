@@ -1,7 +1,5 @@
 package com.maliavin.vcp.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.form.RestResponse;
 import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.security.CurrentUser;
@@ -56,9 +55,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/thumbnail", method = RequestMethod.POST)
-    public @ResponseBody Map<String, String> uploadThumbnail(@ModelAttribute ThumbnailForm thumbnailForm){
-        Map<String, String> map = userService.uploadThumbnail(thumbnailForm);
-        return map;
+    public @ResponseBody RestResponse uploadThumbnail(@ModelAttribute ThumbnailForm thumbnailForm){
+        RestResponse response = userService.uploadThumbnail(thumbnailForm);
+        return response;
     }
 
     @RequestMapping(value = "/videos/{id}", method = RequestMethod.PUT)

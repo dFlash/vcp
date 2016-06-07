@@ -6,7 +6,6 @@ import org.mockito.Mockito;
 import org.springframework.context.ApplicationContextException;
 
 import com.maliavin.vcp.component.InputDataValidation;
-import com.maliavin.vcp.form.AvatarForm;
 import com.maliavin.vcp.form.ChangePasswordForm;
 import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UsernameForm;
@@ -16,20 +15,10 @@ public class InputDataValidationTest {
     private InputDataValidation inputDataValidation = new InputDataValidation();
 
     @Test(expected = ApplicationContextException.class)
-    public void checkUploadAvatarFormNullTest() {
-        AvatarForm avatarForm = null;
+    public void checkUploadAvatarNullEmailTest() {
+        String email = null;
         Object[] objects = new Object[1];
-        objects[0] = avatarForm;
-        JoinPoint jp = Mockito.mock(JoinPoint.class);
-        Mockito.when(jp.getArgs()).thenReturn(objects);
-        inputDataValidation.checkUploadAvatarForm(jp);
-    }
-
-    @Test(expected = ApplicationContextException.class)
-    public void checkUploadAvatarFormNullEmailTest() {
-        AvatarForm avatarForm = new AvatarForm(null);
-        Object[] objects = new Object[1];
-        objects[0] = avatarForm;
+        objects[0] = email;
         JoinPoint jp = Mockito.mock(JoinPoint.class);
         Mockito.when(jp.getArgs()).thenReturn(objects);
         inputDataValidation.checkUploadAvatarForm(jp);

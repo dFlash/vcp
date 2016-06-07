@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.exception.ApplicationException;
 import com.maliavin.vcp.form.ChangePasswordForm;
 import com.maliavin.vcp.form.UsernameForm;
 import com.maliavin.vcp.repository.search.VideoSearchRepository;
@@ -132,7 +133,7 @@ public class CommonServiceImpl implements CommonService {
         String newPassword = changePasswordForm.getNewPassword();
         String repeatPassword = changePasswordForm.getRepeatPassword();
         if (StringUtils.isEmpty(newPassword) || !newPassword.equals(repeatPassword)) {
-            throw new ApplicationContextException("Passwords are empty or not equals");
+            throw new ApplicationException("Passwords are empty or not equals");
         }
         String id = changePasswordForm.getUserId();
         User user = userRepository.findOne(id);

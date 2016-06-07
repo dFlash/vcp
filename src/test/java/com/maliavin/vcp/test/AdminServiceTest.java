@@ -1,9 +1,7 @@
 package com.maliavin.vcp.test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
-import com.maliavin.vcp.form.AvatarForm;
+import com.maliavin.vcp.form.RestResponse;
 import com.maliavin.vcp.repository.storage.CompanyRepository;
 import com.maliavin.vcp.repository.storage.UserRepository;
 import com.maliavin.vcp.service.AdminService;
@@ -98,17 +96,14 @@ public class AdminServiceTest {
     @Test
     public void uploadAvatarTest() {
         String expectedUrl = "testUrl";
-        Map<String, String> expectedMap = new HashMap<>();
-        expectedMap.put("avatarUrl", expectedUrl);
+        RestResponse expected = new RestResponse(expectedUrl);
 
         String email = "email";
         Mockito.when(avatarService.generateAvatarUrl(email)).thenReturn(expectedUrl);
 
-        AvatarForm avatarForm = new AvatarForm(email);
+        RestResponse actual = adminService.uploadAvatar(email);
 
-        Map<String, String> actualMap = adminService.uploadAvatar(avatarForm);
-
-        Assert.assertEquals(expectedMap, actualMap);
+        Assert.assertEquals(expected, actual);
     }
 
 }

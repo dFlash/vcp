@@ -1,7 +1,5 @@
 package com.maliavin.vcp.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,14 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
-import com.maliavin.vcp.form.AvatarForm;
-import com.maliavin.vcp.form.CompanyForm;
-import com.maliavin.vcp.form.StatisticsForm;
+import com.maliavin.vcp.form.RestResponse;
 import com.maliavin.vcp.service.AdminService;
 
 /**
@@ -42,14 +39,14 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/companies/all", method = RequestMethod.GET)
-    public @ResponseBody CompanyForm getAllCompanies() {
-        return new CompanyForm(adminService.listCompanies());
+    public @ResponseBody RestResponse getAllCompanies() {
+        return new RestResponse(adminService.listCompanies());
     }
 
     @RequestMapping(value = "/avatar", method = RequestMethod.POST)
-    public @ResponseBody Map<String, String> uploadAvatar(@RequestBody AvatarForm avatarForm) {
-        Map<String, String> map = adminService.uploadAvatar(avatarForm);
-        return map;
+    public @ResponseBody RestResponse uploadAvatar(@RequestParam("email") final String email) {
+        RestResponse response = adminService.uploadAvatar(email);
+        return response;
     }
 
     @RequestMapping(value = "/accounts", method = RequestMethod.POST)
@@ -89,9 +86,9 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
-    public @ResponseBody StatisticsForm getStatistics() {
-        StatisticsForm form = adminService.statistics();
-        return form;
+    public @ResponseBody RestResponse getStatistics() {
+        RestResponse response = adminService.statistics();
+        return response;
     }
 
 }

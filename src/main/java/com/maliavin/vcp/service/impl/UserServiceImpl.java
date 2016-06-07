@@ -3,8 +3,6 @@ package com.maliavin.vcp.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.exception.ApplicationException;
 import com.maliavin.vcp.exception.CantProcessMediaContentException;
+import com.maliavin.vcp.form.RestResponse;
 import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.repository.search.VideoSearchRepository;
@@ -76,7 +75,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateVideo(String id, Video video) {
         Video currentVideo = getVideo(id);
-        currentVideo.setThumbnail(video.getThumbnail());
+        String currThumbnail = currentVideo.getThumbnail();
+        String newThumbnail = video.getThumbnail();
+        if (!currThumbnail.equals(newThumbnail))
+        {
+            try {
+                deleteThumbnailFile(currentVideo);
+            } catch (IOException e) {
+                throw new ApplicationException("Couldn't delete Thumbnail file from FS", e);
+            }
+            currentVideo.setThumbnail(newThumbnail);
+        }
+        
         currentVideo.setTitle(video.getTitle());
         currentVideo.setDescription(video.getDescription());
         videoRepository.save(currentVideo);
@@ -98,19 +108,25 @@ public class UserServiceImpl implements UserService {
     }
 
     private void clearVideoResources(Video v) throws IOException {
-        String thumbnailName = getThumbnailImg(v.getThumbnail());
+        deleteThumbnailFile(v);
+        deleteVideoFile(v);
+    }
+
+    private void deleteThumbnailFile(Video v) throws IOException {
+        String thumbnailName = getResourceName(v.getThumbnail());
         String thumbnailFileName = FilenameUtils.concat(thumbnailsDir, thumbnailName);
         File thumbnailFile = new File(thumbnailFileName);
         Files.deleteIfExists(thumbnailFile.toPath());
+    }
 
-        String videoName = getThumbnailImg(v.getVideoUrl());
+    private void deleteVideoFile(Video v) throws IOException {
+        String videoName = getResourceName(v.getVideoUrl());
         String videoFileName = FilenameUtils.concat(videosDir, videoName);
         File videoFile = new File(videoFileName);
         Files.deleteIfExists(videoFile.toPath());
-
     }
 
-    private String getThumbnailImg(String thumbnailUrl) {
+    private String getResourceName(String thumbnailUrl) {
         if (thumbnailUrl.lastIndexOf('\\') > -1) {
             String thumbnailImg = thumbnailUrl.substring(thumbnailUrl.lastIndexOf('\\') + 1);
             return thumbnailImg;
@@ -121,7 +137,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> uploadThumbnail(ThumbnailForm thumbnailForm) {
+    public RestResponse uploadThumbnail(ThumbnailForm thumbnailForm) {
         String thumbnailUrl = null;
         try {
             thumbnailUrl = imageService.saveImageData(thumbnailForm.getFile().getBytes());
@@ -130,8 +146,7 @@ public class UserServiceImpl implements UserService {
         } catch (IOException e) {
             throw new ApplicationContextException("Could not upload thumbnail");
         }
-        Map<String, String> map = new HashMap<>();
-        map.put("thumbnailUrl", thumbnailUrl);
-        return map;
+        RestResponse response = new RestResponse(thumbnailUrl);
+        return response;
     }
 }

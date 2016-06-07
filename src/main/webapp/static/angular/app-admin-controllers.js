@@ -106,11 +106,10 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 	
 	$scope.uploadAvatar = function() {
 		if ($scope.currentUser.email){
-			var postData = {email: $scope.currentUser.email};
-			var service = adminService.uploadAvatar();
-			service.upload({}, postData, 
+			var service = adminService.uploadAvatar($scope.currentUser.email);
+			service.upload({}, {}, 
 					function(response) {
-						$scope.currentUser.avatar = response.avatarUrl;
+						$scope.currentUser.avatar = response.content;
 					},
 					function(response) {
 						alert("Upload avatar error");

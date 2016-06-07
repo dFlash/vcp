@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.User;
+import com.maliavin.vcp.exception.ApplicationException;
 import com.maliavin.vcp.form.ChangePasswordForm;
 import com.maliavin.vcp.repository.storage.UserRepository;
 import com.maliavin.vcp.service.CommonService;
@@ -46,7 +47,7 @@ public class CommonServiceTest {
         Assert.assertEquals(expectedUser, actualUser);
     }
 
-    @Test
+    @Test(expected=ApplicationException.class)
     public void changePasswordEmptyTest() {
         User u = new User();
         String newPassword = "";
@@ -57,14 +58,10 @@ public class CommonServiceTest {
         Mockito.when(userRepository.findOne(id)).thenReturn(u);
         Mockito.when(userRepository.save(u)).thenReturn(null);
 
-        ResponseEntity<String> expected = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        ResponseEntity<String> actual = commonService.changePassword(changePasswordForm);
-
-        Assert.assertEquals(expected, actual);
+        commonService.changePassword(changePasswordForm);
     }
 
-    @Test
+    @Test(expected=ApplicationException.class)
     public void changePasswordDifferentTest() {
         User u = new User();
         String newPassword = "newPassword";
@@ -75,11 +72,7 @@ public class CommonServiceTest {
         Mockito.when(userRepository.findOne(id)).thenReturn(u);
         Mockito.when(userRepository.save(u)).thenReturn(null);
 
-        ResponseEntity<String> expected = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        ResponseEntity<String> actual = commonService.changePassword(changePasswordForm);
-
-        Assert.assertEquals(expected, actual);
+        commonService.changePassword(changePasswordForm);
     }
 
     @Test

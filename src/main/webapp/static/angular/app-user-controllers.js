@@ -60,7 +60,7 @@ angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
 			service.upload({}, uploadForm, 
 		    		function(response) {
 						alert("Upload completed successfully");
-						$scope.video.thumbnail = response.thumbnailUrl;
+						$scope.video.thumbnail = response.content;
 					},
 					function() {
 						alert("Upload error");

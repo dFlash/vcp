@@ -6,7 +6,6 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.stereotype.Component;
 
-import com.maliavin.vcp.form.AvatarForm;
 import com.maliavin.vcp.form.ChangePasswordForm;
 import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UsernameForm;
@@ -23,8 +22,8 @@ public class InputDataValidation {
 
     @Before("execution(* com.maliavin.vcp.service.impl.AdminServiceImpl.uploadAvatar(..))")
     public void checkUploadAvatarForm(JoinPoint jp) {
-        AvatarForm avatarForm = (AvatarForm) jp.getArgs()[0];
-        if (avatarForm == null || avatarForm.getEmail() == null) {
+        String email = (String) jp.getArgs()[0];
+        if (email == null) {
             throw new ApplicationContextException("Data for avatar is incorrect");
         }
     }

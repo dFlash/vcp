@@ -28,8 +28,9 @@ angular.module('app-admin-services', ['ngResource'])
 			var url = '/admin/companies/all';
 			return $resource(url).get();
 		},
-		uploadAvatar : function (){
-			return $resource('/admin/avatar', {}, {upload: {
+		uploadAvatar : function (email){
+			var url='/admin/avatar?email='+email;
+			return $resource(url, {}, {upload: {
 				method: 'POST'
 	        }});
 		},

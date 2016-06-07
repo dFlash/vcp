@@ -3,8 +3,6 @@ package com.maliavin.vcp.test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
+import com.maliavin.vcp.form.RestResponse;
 import com.maliavin.vcp.form.ThumbnailForm;
 import com.maliavin.vcp.form.UploadVideoForm;
 import com.maliavin.vcp.repository.search.VideoSearchRepository;
@@ -80,11 +79,10 @@ public class UserServiceImplTest {
 
         Mockito.when(imageService.saveImageData(bytes)).thenReturn(thumbnailUrl);
 
-        Map<String, String> expected = new HashMap<>();
-        expected.put("thumbnailUrl", thumbnailUrl);
+        RestResponse expected = new RestResponse(thumbnailUrl);
 
         ThumbnailForm thumbnailForm = new ThumbnailForm(new TestMultipartFile());
-        Map<String, String> actual = userService.uploadThumbnail(thumbnailForm);
+        RestResponse actual = userService.uploadThumbnail(thumbnailForm);
 
         Assert.assertEquals(expected, actual);
     }

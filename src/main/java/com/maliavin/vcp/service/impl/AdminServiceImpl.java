@@ -1,8 +1,6 @@
 package com.maliavin.vcp.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +13,8 @@ import org.springframework.stereotype.Service;
 import com.maliavin.vcp.domain.Company;
 import com.maliavin.vcp.domain.Statistics;
 import com.maliavin.vcp.domain.User;
-import com.maliavin.vcp.form.AvatarForm;
+import com.maliavin.vcp.form.RestResponse;
 import com.maliavin.vcp.form.StatisticRow;
-import com.maliavin.vcp.form.StatisticsForm;
 import com.maliavin.vcp.repository.storage.CompanyRepository;
 import com.maliavin.vcp.repository.storage.UserRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
@@ -116,15 +113,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Map<String, String> uploadAvatar(AvatarForm avatarForm) {
-        String avatarUrl = avatarService.generateAvatarUrl(avatarForm.getEmail());
-        Map<String, String> map = new HashMap<>();
-        map.put("avatarUrl", avatarUrl);
+    public RestResponse uploadAvatar(String email) {
+        String avatarUrl = avatarService.generateAvatarUrl(email);
+        RestResponse map = new RestResponse(avatarUrl);
         return map;
     }
 
     @Override
-    public StatisticsForm statistics() {
+    public RestResponse statistics() {
         List<Statistics> statistics = statisticsService.list();
         List<StatisticRow> rowForms = statistics.stream().map(stat -> {
             StatisticRow row = new StatisticRow();
@@ -133,9 +129,8 @@ public class AdminServiceImpl implements AdminService {
             row.setVideoName(stat.getVideoName());
             row.setViewCount(stat.getViewsCount());
             return row;}).collect(Collectors.toList());
-        StatisticsForm statisticsForm = new StatisticsForm();
-        statisticsForm.setContent(rowForms);
-        return statisticsForm;
+        RestResponse response = new RestResponse(rowForms);
+        return response;
     }
 
 }
