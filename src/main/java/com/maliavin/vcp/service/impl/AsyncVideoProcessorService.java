@@ -52,7 +52,7 @@ public class AsyncVideoProcessorService implements VideoProcessorService {
     public Video processVideo(UploadVideoForm uploadForm, User user) {
         String title = uploadForm.getTitle();
         String description = uploadForm.getDescription();
-        String stubImgPath = FilenameUtils.concat(imgDir, STUB_IMG);
+        String stubImgPath = FilenameUtils.concat("/static/img/", STUB_IMG);
         Video video = new Video(title, description, user, stubImgPath, null);
         executorService.submit(new VideoItem(uploadForm, video, user));
         return video;

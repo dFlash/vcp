@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.maliavin.vcp.form.ChangePasswordForm;
 import com.maliavin.vcp.form.ThumbnailForm;
-import com.maliavin.vcp.form.UsernameForm;
 
 /**
  * Aspect for input form validation (duplicate client validation)
@@ -39,8 +38,8 @@ public class InputDataValidation {
 
     @Before("execution(* com.maliavin.vcp.service.impl.CommonServiceImpl.sendMail(..))")
     public void checkUserExistingForEmailSending(JoinPoint jp) {
-        UsernameForm usernameForm = (UsernameForm) jp.getArgs()[0];
-        if (usernameForm == null || usernameForm.getUsername() == null) {
+        String username = (String) jp.getArgs()[0];
+        if (username == null) {
             throw new ApplicationContextException("User data for sending email is incorrect");
         }
     }

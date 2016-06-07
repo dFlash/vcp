@@ -21,24 +21,15 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 		$scope.currentPage = $location.search().page;
 	}
 	$scope.path = $location.path() + "?";
-	$scope.companiesPage = adminService.listCompanies($scope.currentPage);
+	$scope.dataPage = adminService.listCompanies($scope.currentPage);
 	
 	$scope.reset = function() {
-		$scope.isNewCompany = true;
 		$scope.currentCompany = {};
 	};
 	$scope.reset();
 
-	$scope.editCompany = function(id) {
-		for (i=0; i < $scope.companiesPage.content.length; i++)
-		{
-			if ($scope.companiesPage.content[i].id == id)
-			{
-				$scope.currentCompany = $scope.companiesPage.content[i];
-				$scope.isNewCompany = false;
-				break;
-			}
-		}
+	$scope.editCompany = function(company) {
+		$scope.currentCompany = company;
 	};
 	
 	$scope.addCompany = function () {
@@ -80,27 +71,18 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
 		$scope.currentPage = $location.search().page;
 	}
 	$scope.path = $location.path() + "?";
-	$scope.accountsPage = adminService.listAccounts($scope.currentPage);
+	$scope.dataPage = adminService.listAccounts($scope.currentPage);
 	$scope.companies = adminService.listAllCompanies();
 	
 	$scope.roles = ['User', 'Admin'];
 	
 	$scope.reset = function() {
-		$scope.isNewUser = true;
 		$scope.currentUser = {};
 	};
 	$scope.reset();
 	
-	$scope.editUser = function(id) {
-		for (i=0; i < $scope.accountsPage.content.length; i++)
-		{
-			if ($scope.accountsPage.content[i].id == id)
-			{
-				$scope.currentUser = $scope.accountsPage.content[i];
-				$scope.isNewUser = false;
-				break;
-			}
-		}
+	$scope.editUser = function(account) {
+		$scope.currentUser = account;
 		$scope.repeatPassword = '';
 	};
 	

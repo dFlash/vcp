@@ -22,9 +22,9 @@ angular.module('app-services', ['ngResource'])
 		logout : function(success) {
 			$http.post("/logout").success(success);
 		},
-		sendMail : function(postData, success, error) {
-			var url = '/send-mail';
-			$resource(url).save({},postData, success, error);
+		sendMail : function(name, success, error) {
+			var url = '/send-mail?username='+name;
+			$resource(url).save({},{}, success, error);
 		}
 	}
 	

@@ -1,6 +1,6 @@
 
 <div class="box">
-	<div class="grid" ng-repeat="video in videosPage.content">
+	<div class="grid" ng-repeat="video in dataPage.content">
 		<h3>{{video.title}}</h3>
 		<a ng-href="#/video/{{video.id}}" role="button"><img ng-src="{{video.thumbnail}}"></img></a>
 		<div class="grid-info">
@@ -23,9 +23,5 @@
 	<div class="clear"></div>
 </div>
 <div class="clear"></div>
-<ul class="dc_pagination dc_paginationA dc_paginationA03">
-	<li ng-repeat="ind in [] | range:videosPage.totalPages">
-		<a href="#{{path}}page={{ind}}" ng-class="{ current: $index == currentPage }">{{ind+1}}</a>
-	</li>
-</ul>
+<div ng-include="'static/html/pagination.html'"></div>
 <div class="clear"></div>

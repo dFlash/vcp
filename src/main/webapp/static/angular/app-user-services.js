@@ -1,12 +1,13 @@
 angular.module('app-user-services', ['ngResource'])
 .service("userService", ['$resource', function($resource) {
 	return {
-		uploadVideo : function (){
-			return $resource('/my-account/videos', {}, {upload: {
+		uploadVideo : function (uploadForm, success, error){
+			var Resource = $resource('/my-account/videos', {}, {upload: {
 				method: 'POST',
 	            transformRequest: angular.identity,
 	            headers: {'Content-Type': undefined}
 	        }});
+			Resource.upload({}, uploadForm, success, error);
 		},
 		updateVideo : function (id){
 			var url = '/my-account/videos/' + id;
@@ -15,12 +16,13 @@ angular.module('app-user-services', ['ngResource'])
 	            headers: {'Content-Type': 'application/json'}
 	        }});
 		},
-		uploadThumbnail : function (){
-			return $resource('/my-account/thumbnail', {}, {upload: {
+		uploadThumbnail : function (uploadForm, success, error){
+			var Resource = $resource('/my-account/thumbnail', {}, {upload: {
 				method: 'POST',
 	            transformRequest: angular.identity,
 	            headers: {'Content-Type': undefined}
 	        }});
+			Resource.upload({}, uploadForm, success, error);
 		},
 		deleteVideo : function (id, success, error){
 			var url = '/my-account/videos/' + id;

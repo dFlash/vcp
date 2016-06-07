@@ -1,0 +1,5 @@
+	<ul class="dc_pagination dc_paginationA dc_paginationA03">
+		<li ng-repeat="ind in [] | range:dataPage.totalPages"><a
+			href="#{{path}}page={{ind}}"
+			ng-class="{ current: $index == currentPage }">{{ind+1}}</a></li>
+	</ul>

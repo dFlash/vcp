@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContextException;
 import com.maliavin.vcp.component.InputDataValidation;
 import com.maliavin.vcp.form.ChangePasswordForm;
 import com.maliavin.vcp.form.ThumbnailForm;
-import com.maliavin.vcp.form.UsernameForm;
 
 public class InputDataValidationTest {
 
@@ -50,19 +49,9 @@ public class InputDataValidationTest {
 
     @Test(expected = ApplicationContextException.class)
     public void checkUserExistingForEmailSendingFormNullTest() {
-        UsernameForm usernameForm = null;
+        String username = null;
         Object[] objects = new Object[1];
-        objects[0] = usernameForm;
-        JoinPoint jp = Mockito.mock(JoinPoint.class);
-        Mockito.when(jp.getArgs()).thenReturn(objects);
-        inputDataValidation.checkUserExistingForEmailSending(jp);
-    }
-
-    @Test(expected = ApplicationContextException.class)
-    public void checkUserExistingForEmailSendingUsernameNullTest() {
-        UsernameForm usernameForm = new UsernameForm(null);
-        Object[] objects = new Object[1];
-        objects[0] = usernameForm;
+        objects[0] = username;
         JoinPoint jp = Mockito.mock(JoinPoint.class);
         Mockito.when(jp.getArgs()).thenReturn(objects);
         inputDataValidation.checkUserExistingForEmailSending(jp);

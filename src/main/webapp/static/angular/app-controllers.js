@@ -37,7 +37,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 		$scope.currentPage = $location.search().page;
 	}
 	$scope.path = $location.path() + "?";
-	$scope.videosPage = videoService.listAll($scope.currentPage);
+	$scope.dataPage = videoService.listAll($scope.currentPage);
 	}
 ])
 .controller('videoController', ['$scope', 'videoService', '$routeParams', '$route',
@@ -91,8 +91,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	};
 	
 	$scope.sendHash = function() {
-		var postData = {username: $scope.name};
-		loginService.sendMail(postData,
+		loginService.sendMail($scope.name,
 				function() {
 					alert('Check your email');
 				}, function(){

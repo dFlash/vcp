@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.ChangePasswordForm;
-import com.maliavin.vcp.form.UsernameForm;
 import com.maliavin.vcp.security.CurrentUser;
 
 /**
@@ -31,7 +30,7 @@ public interface CommonService {
     @Nonnull
     Page<Video> listVideosBySearchQuery(@Nonnull String query, @Nonnull Pageable pageable);
 
-    void sendMail(@Nonnull UsernameForm usernameForm);
+    void sendMail(@Nonnull String username);
 
     @Nullable User findUser(String id, String hash);
 

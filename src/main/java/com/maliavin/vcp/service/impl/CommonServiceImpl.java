@@ -27,7 +27,6 @@ import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.exception.ApplicationException;
 import com.maliavin.vcp.form.ChangePasswordForm;
-import com.maliavin.vcp.form.UsernameForm;
 import com.maliavin.vcp.repository.search.VideoSearchRepository;
 import com.maliavin.vcp.repository.storage.UserRepository;
 import com.maliavin.vcp.repository.storage.VideoRepository;
@@ -101,8 +100,8 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    public void sendMail(UsernameForm usernameForm) {
-        User user = userRepository.findByLogin(usernameForm.getUsername());
+    public void sendMail(String username) {
+        User user = userRepository.findByLogin(username);
         if (user == null) {
             throw new ApplicationContextException("User does not exist");
         }

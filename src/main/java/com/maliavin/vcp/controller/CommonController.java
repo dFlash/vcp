@@ -8,12 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.ChangePasswordForm;
-import com.maliavin.vcp.form.UsernameForm;
 import com.maliavin.vcp.service.CommonService;
 
 /**
@@ -37,8 +37,8 @@ public class CommonController {
     }
 
     @RequestMapping(value = "/send-mail", method = RequestMethod.POST)
-    public void sendEmail(@RequestBody UsernameForm usernameForm) {
-        commonService.sendMail(usernameForm);
+    public void sendEmail(@RequestParam("username") final String username) {
+        commonService.sendMail(username);
     }
     
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)

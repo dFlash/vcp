@@ -25,8 +25,7 @@ angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
     	uploadForm.append('title', $scope.title);
     	uploadForm.append('description', $scope.description);
     	uploadForm.append('file', $scope.videoFile);
-    	var service = userService.uploadVideo();
-    	service.upload({}, uploadForm, 
+    	var service = userService.uploadVideo(uploadForm, 
     		function(response) {
 				alert("Upload completed successfully");
 				var url = '/video/' + response.id;
@@ -34,8 +33,7 @@ angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
 			},
 			function() {
 				alert("Upload error");
-			}
-		)
+			});
      }
     }])
 .controller('userVideoListController', ['$scope', 'userService', '$location', function($scope, userService, $location){
@@ -45,7 +43,7 @@ angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
 	else {
 		$scope.currentPage = $location.search().page;
 	}
-	$scope.videosPage = userService.userListAll($scope.currentPage);
+	$scope.dataPage = userService.userListAll($scope.currentPage);
 	$scope.path = $location.path() + "?";
 	
 }])
@@ -56,16 +54,14 @@ angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
 		$scope.uploadThumbnail = function() {
 			var uploadForm = new FormData();
 			uploadForm.append('file', $scope.thumbnail);
-			var service = userService.uploadThumbnail();
-			service.upload({}, uploadForm, 
-		    		function(response) {
-						alert("Upload completed successfully");
-						$scope.video.thumbnail = response.content;
-					},
-					function() {
-						alert("Upload error");
-					}
-				)
+			var service = userService.uploadThumbnail(uploadForm, 
+		    	function(response) {
+					alert("Upload completed successfully");
+					$scope.video.thumbnail = response.content;
+				},
+				function() {
+					alert("Upload error");
+				});
 		};
 		
 		$scope.updateVideo = function(){
