@@ -12,8 +12,6 @@ public class ChangePasswordForm {
 
     private String repeatPassword;
 
-    private String userId;
-
     public ChangePasswordForm() {
         super();
     }
@@ -22,7 +20,6 @@ public class ChangePasswordForm {
         super();
         this.newPassword = newPassword;
         this.repeatPassword = repeatPassword;
-        this.userId = userId;
     }
 
     public String getNewPassword() {
@@ -39,14 +36,6 @@ public class ChangePasswordForm {
 
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
 }

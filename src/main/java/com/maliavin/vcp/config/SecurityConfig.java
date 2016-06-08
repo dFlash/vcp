@@ -44,8 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .antMatchers("/my-account/**").hasAuthority(Constants.Role.USER.name())
         .antMatchers("/admin/**").hasAuthority(Constants.Role.ADMIN.name())
+        .antMatchers("/change-password").hasAnyAuthority(Constants.Role.ADMIN.name(), Constants.Role.USER.name())
         .anyRequest().permitAll().and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
-        .addFilterAfter(new AddPrincipalHeadersFilter(), LogoutFilter.class);;
+        .addFilterAfter(new AddPrincipalHeadersFilter(), LogoutFilter.class);
 
         http.formLogin()
         .successHandler(new RestAuthenticationSuccessHandler())

@@ -26,6 +26,10 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
     $routeProvider.when('/serverError', {
     	templateUrl: 'static/html/500.html'
     });
+    $routeProvider.when('/change-password', {
+    	templateUrl: 'static/html/changePassword.html',
+        controller:'changePasswordController'
+    });
     $routeProvider.otherwise({redirectTo:'/videos'});
 })
 
@@ -114,7 +118,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 	$scope.changePwd = function(){
 		var success = function() {
 		  alert("Password changed successfully");
-		  $location.path("/login");
+		  $location.path("/videos");
 	  };
 	  
 	  var error = function() {
@@ -122,21 +126,9 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 		  $route.reload();
 	  };
 	  
-	  var getParameterByName = function(name, url) {
-		    name = name.replace(/[\[\]]/g, "\\$&");
-		    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-		        results = regex.exec(url);
-		    if (!results) return null;
-		    if (!results[2]) return '';
-		    return decodeURIComponent(results[2].replace(/\+/g, " "));
-		};
-		
-		var userId = getParameterByName('id',$location.absUrl());
-	  
 	  var postData = {
 			  newPassword : $scope.newPassword,
-	  		  repeatPassword : $scope.repeatPassword,
-	  		  userId: userId
+	  		  repeatPassword : $scope.repeatPassword
 	  };
 
 	  changePasswordService.sendNewPassword(postData, success, error);

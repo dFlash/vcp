@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.maliavin.vcp.domain.Video;
 import com.maliavin.vcp.form.ChangePasswordForm;
+import com.maliavin.vcp.security.CurrentUser;
 import com.maliavin.vcp.service.CommonService;
 
 /**
@@ -42,8 +44,9 @@ public class CommonController {
     }
     
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordForm changePasswordForm) {
-        return commonService.changePassword(changePasswordForm);
+    public ResponseEntity<String> changePassword(@AuthenticationPrincipal CurrentUser currentUser, 
+            @RequestBody ChangePasswordForm changePasswordForm) {
+        return commonService.changePassword(changePasswordForm, currentUser);
     }
 
 }

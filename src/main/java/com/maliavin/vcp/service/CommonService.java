@@ -32,8 +32,13 @@ public interface CommonService {
 
     void sendMail(@Nonnull String username);
 
-    @Nullable User findUser(String id, String hash);
+    @Nullable
+    User findUser(String id, String hash);
 
-    ResponseEntity<String> changePassword(@Nonnull ChangePasswordForm changePasswordForm);
+    ResponseEntity<String> changePassword(@Nonnull ChangePasswordForm changePasswordForm,
+            @Nonnull CurrentUser currentUser);
+    
+    @Nonnull
+    User findUserByHash(String id, String hash);
 
 }
