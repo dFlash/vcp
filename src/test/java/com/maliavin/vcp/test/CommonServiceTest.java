@@ -16,6 +16,7 @@ import com.maliavin.vcp.domain.User;
 import com.maliavin.vcp.exception.ApplicationException;
 import com.maliavin.vcp.form.ChangePasswordForm;
 import com.maliavin.vcp.repository.storage.UserRepository;
+import com.maliavin.vcp.security.CurrentUser;
 import com.maliavin.vcp.service.CommonService;
 import com.maliavin.vcp.service.impl.CommonServiceImpl;
 
@@ -53,12 +54,14 @@ public class CommonServiceTest {
         String newPassword = "";
         String repeatPassword = "";
         String id = "id";
+        User user = new User();
+        user.setId(id);
 
         ChangePasswordForm changePasswordForm = new ChangePasswordForm(newPassword, repeatPassword, id);
         Mockito.when(userRepository.findOne(id)).thenReturn(u);
         Mockito.when(userRepository.save(u)).thenReturn(null);
 
-        commonService.changePassword(changePasswordForm);
+        commonService.changePassword(changePasswordForm, new CurrentUser(user));
     }
 
     @Test(expected=ApplicationException.class)
@@ -67,12 +70,14 @@ public class CommonServiceTest {
         String newPassword = "newPassword";
         String repeatPassword = "repeatPassword";
         String id = "id";
+        User user = new User();
+        user.setId(id);
 
         ChangePasswordForm changePasswordForm = new ChangePasswordForm(newPassword, repeatPassword, id);
         Mockito.when(userRepository.findOne(id)).thenReturn(u);
         Mockito.when(userRepository.save(u)).thenReturn(null);
 
-        commonService.changePassword(changePasswordForm);
+        commonService.changePassword(changePasswordForm, new CurrentUser(user));
     }
 
     @Test
@@ -81,6 +86,8 @@ public class CommonServiceTest {
         String newPassword = "newPassword";
         String repeatPassword = "newPassword";
         String id = "id";
+        User user = new User();
+        user.setId(id);
 
         ChangePasswordForm changePasswordForm = new ChangePasswordForm(newPassword, repeatPassword, id);
         Mockito.when(userRepository.findOne(id)).thenReturn(u);
@@ -88,7 +95,7 @@ public class CommonServiceTest {
 
         ResponseEntity<String> expected = new ResponseEntity<>(HttpStatus.OK);
 
-        ResponseEntity<String> actual = commonService.changePassword(changePasswordForm);
+        ResponseEntity<String> actual = commonService.changePassword(changePasswordForm, new CurrentUser(user));
 
         Assert.assertEquals(expected, actual);
     }

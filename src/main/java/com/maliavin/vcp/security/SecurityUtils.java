@@ -3,7 +3,9 @@ package com.maliavin.vcp.security;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.maliavin.vcp.domain.User;
@@ -35,5 +37,13 @@ public class SecurityUtils {
             resp.addHeader("PrincipalName", account.getName());
             resp.addHeader("PrincipalRole", account.getRole());
         }
+    }
+
+    public static void authentificate(User user){
+        CurrentUser currentUser = new CurrentUser(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(currentUser, currentUser.getPassword(),
+                currentUser.getAuthorities());
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
     }
 }

@@ -48,7 +48,7 @@ public class InputDataValidation {
     public void checkUserNewPassword(JoinPoint jp) {
         ChangePasswordForm changePasswordForm = (ChangePasswordForm) jp.getArgs()[0];
         if (changePasswordForm == null || changePasswordForm.getNewPassword() == null
-                || changePasswordForm.getRepeatPassword() == null || changePasswordForm.getUserId() == null) {
+                || changePasswordForm.getRepeatPassword() == null) {
             throw new ApplicationContextException("User data for changing password is incorrect");
         }
     }

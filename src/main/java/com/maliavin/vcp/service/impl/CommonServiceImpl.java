@@ -127,14 +127,14 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    public ResponseEntity<String> changePassword(ChangePasswordForm changePasswordForm) {
+    public ResponseEntity<String> changePassword(ChangePasswordForm changePasswordForm, CurrentUser currentUser) {
 
         String newPassword = changePasswordForm.getNewPassword();
         String repeatPassword = changePasswordForm.getRepeatPassword();
         if (StringUtils.isEmpty(newPassword) || !newPassword.equals(repeatPassword)) {
             throw new ApplicationException("Passwords are empty or not equals");
         }
-        String id = changePasswordForm.getUserId();
+        String id = currentUser.getUser().getId();
         User user = userRepository.findOne(id);
         String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedPassword);
@@ -159,6 +159,18 @@ public class CommonServiceImpl implements CommonService {
         public void run() {
             statisticsService.save(video.getTitle(), currentUser, addr);
         }
+    }
+
+    @Override
+    public User findUserByHash(String id, String hash) {
+        User user = findUser(id, hash);
+        if (user == null)
+        {
+            throw new ApplicationContextException("User is not authenticated");
+        }
+        user.setHash(null);
+        userRepository.save(user);
+        return user;
     }
 
 }
