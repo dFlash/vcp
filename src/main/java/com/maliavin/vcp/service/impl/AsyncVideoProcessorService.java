@@ -9,7 +9,6 @@ import javax.annotation.PreDestroy;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.maliavin.vcp.domain.User;
@@ -24,9 +23,6 @@ public class AsyncVideoProcessorService implements VideoProcessorService {
 
     private static final String STUB_IMG = "Reload.png";
     private ExecutorService executorService;
-
-    @Value("${image.dir}")
-    private String imgDir;
 
     @Autowired
     @Qualifier("simpleVideoProcessorService")

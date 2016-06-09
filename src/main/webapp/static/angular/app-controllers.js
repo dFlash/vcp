@@ -68,7 +68,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
 .controller('searchResultController', ['$scope', '$location', 'videoService', function($scope, $location, videoService){
 	$scope.currentPage = $location.search().page;
 	var query = $location.search().query;
-	$scope.videosPage = videoService.listBySearchQuery($scope.currentPage, query);
+	$scope.dataPage = videoService.listBySearchQuery($scope.currentPage, query);
 	$scope.path = $location.path() + "?" + "query=" + query + "&";
 }])
 .controller('loginController', ['$scope', 'loginService', '$location', '$rootScope', 'Roles',

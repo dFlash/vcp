@@ -21,8 +21,8 @@ import com.maliavin.vcp.service.ImageService;
 @Service
 public class FileStorageImageService implements ImageService {
 
-    @Value("${media.dir}")
-    private String mediaDir;
+    @Value("${thumbnails.dir}")
+    private String thumbnailsMediaDir;
 
     @Override
     public String saveImageData(byte[] imageBytes) {
@@ -35,7 +35,7 @@ public class FileStorageImageService implements ImageService {
 
     private String saveImageDataInternal(byte[] imageBytes) throws IOException {
         String uniquieThumbnailFileName = generateUniquieThumbnailFileName();
-        Path path = Paths.get(mediaDir + "/thumbnails/" + uniquieThumbnailFileName);
+        Path path = Paths.get(thumbnailsMediaDir + "/" + uniquieThumbnailFileName);
         Files.write(path, imageBytes);
         return "/media/thumbnails/" + uniquieThumbnailFileName;
     }

@@ -68,6 +68,12 @@ public class CreateTestDataService {
     @Value("${media.dir}")
     private String mediaDir;
 
+    @Value("${thumbnails.dir}")
+    private String thumbnailsDir;
+
+    @Value("${videos.dir}")
+    private String videosDir;
+
     @Value("${mongo.recreate.db}")
     private boolean mondoRecreateDb;
 
@@ -117,10 +123,10 @@ public class CreateTestDataService {
     }
 
     private void clearMediaSubFolders() {
-        for (File f : new File(mediaDir + "/thumbnails").listFiles()) {
+        for (File f : new File(thumbnailsDir).listFiles()) {
             f.delete();
         }
-        for (File f : new File(mediaDir + "/video").listFiles()) {
+        for (File f : new File(videosDir).listFiles()) {
             f.delete();
         }
         LOGGER.info("Media sub folders cleared");
