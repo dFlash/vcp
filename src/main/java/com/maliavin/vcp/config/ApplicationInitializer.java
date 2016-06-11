@@ -17,6 +17,8 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.filter.RequestContextFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import com.maliavin.vcp.component.ApplicationListener;
+
 /**
  * Servlet application initializer that uses instead of web.xml
  * 
@@ -31,6 +33,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
         container.setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
         container.addListener(new ContextLoaderListener(ctx));
+        container.addListener(ctx.getBean(ApplicationListener.class));
 
         registerFilters(container, ctx);
         registerDispatcherServlet(container, ctx);

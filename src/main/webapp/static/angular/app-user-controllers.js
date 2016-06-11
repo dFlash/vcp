@@ -1,5 +1,5 @@
 angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
-.config(function($routeProvider){
+.config(['$routeProvider',function($routeProvider){
     $routeProvider.when('/upload', {
         templateUrl: 'static/html/upload.html', 
         controller:'videoUploadController' 
@@ -16,7 +16,7 @@ angular.module('app-user-controllers', ['ngRoute', 'ngFileUpload'])
     	templateUrl: 'static/html/user-videos.html',
         controller:'deleteVideoController' 
     });
-})
+}])
 .controller('videoUploadController', ['$scope', 'userService', '$location', function ($scope, userService, $location) {
 	$scope.disabled = false;
     $scope.uploadVideo = function() {

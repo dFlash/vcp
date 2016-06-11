@@ -1,5 +1,5 @@
 angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
-.config(function($routeProvider){
+.config(['$routeProvider',function($routeProvider){
     $routeProvider.when('/admin/companies', {
         templateUrl: 'static/html/companies.html', 
         controller:'companiesController' 
@@ -12,7 +12,7 @@ angular.module('app-admin-controllers', ['ngRoute', 'ngFileUpload'])
     	templateUrl: 'static/html/statistics.html',
         controller:'statisticsController' 
     });
-})
+}])
 .controller('companiesController', ['$scope', 'adminService', '$location', '$route', function($scope, adminService, $location, $route){
 	if ($location.search().page == null) {
 		$scope.currentPage = 0;

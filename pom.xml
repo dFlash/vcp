@@ -86,20 +86,26 @@
                                 <cssSourceFile>style.css</cssSourceFile>
                             </cssSourceFiles>
                             <cssFinalFile>style.css</cssFinalFile>
-                            <jsSourceDir>static/angular</jsSourceDir>
+                            <jsSourceDir>static</jsSourceDir>
                             <jsSourceFiles>
-                                <jsSourceFile>app-admin-controllers.js</jsSourceFile>
-                                <jsSourceFile>app-admin-services.js</jsSourceFile>
-                                <jsSourceFile>app-constants.js</jsSourceFile>
-                                <jsSourceFile>app-controllers.js</jsSourceFile>
-                                <jsSourceFile>app-filters.js</jsSourceFile>
-                                <jsSourceFile>app-interceptors.js</jsSourceFile>
-                                <jsSourceFile>app-services.js</jsSourceFile>
-                                <jsSourceFile>app-user-controllers.js</jsSourceFile>
-                                <jsSourceFile>app-user-services.js</jsSourceFile>
-                                <jsSourceFile>app.js</jsSourceFile>
+                                <jsSourceFile>js/angular.js</jsSourceFile>
+                                <jsSourceFile>js/angular-route.js</jsSourceFile>
+                                <jsSourceFile>js/angular-resource.js</jsSourceFile>
+                                <jsSourceFile>js/bootstrap.js</jsSourceFile>
+                                <jsSourceFile>js/ng-file-upload.js</jsSourceFile>
+                                <jsSourceFile>js/ng-file-upload-shim.js</jsSourceFile>
+                                <jsSourceFile>angular/app.js</jsSourceFile>
+                                 <jsSourceFile>angular/app-admin-controllers.js</jsSourceFile>
+                                <jsSourceFile>angular/app-admin-services.js</jsSourceFile>
+                                <jsSourceFile>angular/app-constants.js</jsSourceFile>
+                                <jsSourceFile>angular/app-controllers.js</jsSourceFile>
+                                <jsSourceFile>angular/app-filters.js</jsSourceFile>
+                                <jsSourceFile>angular/app-interceptors.js</jsSourceFile>
+                                <jsSourceFile>angular/app-services.js</jsSourceFile>
+                                <jsSourceFile>angular/app-user-controllers.js</jsSourceFile>
+                                <jsSourceFile>angular/app-user-services.js</jsSourceFile>
                             </jsSourceFiles>
-                            <jsFinalFile>script.js</jsFinalFile>
+                            <jsFinalFile>angular/script.js</jsFinalFile>
                             <jsEngine>CLOSURE</jsEngine>
                         </configuration>
                         <goals>
@@ -112,6 +118,12 @@
     </build>
 
     <dependencies>
+
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>

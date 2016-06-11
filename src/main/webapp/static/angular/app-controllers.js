@@ -1,5 +1,5 @@
 angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
-.config(function($routeProvider){
+.config(['$routeProvider', function($routeProvider){
     $routeProvider.when('/videos', {
         templateUrl: 'static/html/videos.html', 
         controller:'videoListController' 
@@ -31,7 +31,7 @@ angular.module('app-controllers', ['ngRoute', 'ngFileUpload'])
         controller:'changePasswordController'
     });
     $routeProvider.otherwise({redirectTo:'/videos'});
-})
+}])
 
 .controller('videoListController', ['$scope', 'videoService', '$location', function($scope, videoService, $location){
 	if ($location.search().page == null) {
